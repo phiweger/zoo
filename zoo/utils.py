@@ -63,7 +63,7 @@ def parse_date(date):
     # {'d': '', 'm': 8, 'y': 2019}
     '''
     record = {'y': '', 'm': '', 'd': ''}
-    if date in ('NON', 'Unknown', 'unknown', ''):
+    if date in ('NON', 'Unknown', 'unknown', '', '-N/A-'):
         return record
     else:
         s = date.split('/')
@@ -329,6 +329,55 @@ def minhash_search(fp, name_query, name_sbt, k, threshold=0.08):
                     '>> ' + fp_out
                     ])
                 os.system(command)
+
+
+def get_id(collection, ids):
+    '''
+    In: a list of IDs and a mongoDB collection
+    Out: a cursor of documents corresponding to the IDs
+
+    q = get_id(collection, X_test)
+    q.count()  # 3105
+    len(X_test)  # 3105
+
+    # just for illustration, as this will consume the cursor
+    from collections import Counter
+    Counter(i['metadata']['host'] for i in q_test)
+    Counter({'Avian': 1035, 'Human': 1035, 'Swine': 1035})
+    '''
+    match = {'_id': {'$in': list(ids)}}
+    q = collection.find(match)
+    return q
+
+
+def random_draw(collection, match, n):
+    '''
+    In: collection, match dictionary (i.e. the filter), sample size n
+    Out: documents of samples as database cursor (i.e. generator)
+
+    Usage:
+    from pymongo import MongoClient
+
+    client = MongoClient("localhost:27017")
+    db = client["zoo"]
+    collection = db.get_collection('influenza_a_virus')
+
+    match = {
+        'annotation.name': 'HA',
+        'metadata.host': 'Avian',
+        'metadata.date.y': {'$gte': 2000}
+    }
+
+    gen = random_draw(collection, match, n)
+    next(gen)
+    # GQ377055
+    '''
+    sample = {'size': n}
+    pipeline = [{'$match': match}, {'$sample': sample}]
+    query = collection.aggregate(pipeline)
+    return query
+
+
 
 # def select_taxonomy(id):
 #     '''
