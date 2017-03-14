@@ -1,6 +1,6 @@
 ## zoo
 
-A distributed viral database for rapid prototyping of scientific ideas. 
+A distributable viral database for rapid prototyping of scientific ideas. 
 
 ### (un)install
 
@@ -8,3 +8,15 @@ A distributed viral database for rapid prototyping of scientific ideas.
 pip install git+https://github.com/viehwegerlib/zoo.git@master
 pip uninstall zoo
 ```
+
+## test
+
+Some [guidance]() on how to integrate pytest in package. Now package tests can be run by:
+
+```
+python setup.py test
+```
+
+## License
+
+BSD-3-Clause

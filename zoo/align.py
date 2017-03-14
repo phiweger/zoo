@@ -45,3 +45,33 @@ def msa_subset(msa, X, y):
 
     # return np.array(seq), np.array(ids), np.array(tag)
     return np.array(seq), np.array(ids), np.array(tag)
+
+
+def align_deopt(reference, query):
+    '''
+    Given a sequence from a Mafft MSA as reference (usually wilde type),
+    "align" a modified version of the reference (i.e. query), by putting
+    in the gaps introduced into the reference by the MSA.
+
+    We need this function to evaluate modified sequences with information
+    obtained from an MSA based analysis (e.g. entropy, feature importance).
+
+    Example:
+
+    - reference:        ACTG
+    - query:            AATG
+    - reference in MSA: A-C--TG
+
+    align_deopt(reference, query)
+    # A-A--TG
+    '''
+    s = ''
+    counter = 0
+    for i in range(len(reference)):
+        if reference[i] == '-':
+            s += '-'
+        else:
+            s += query[counter]
+            counter += 1
+    assert s.replace('-', '') == query  # True
+    return s

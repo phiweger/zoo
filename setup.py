@@ -9,6 +9,12 @@ setup(name='zoo',
       license='BSD 3-clause',
       packages=['zoo'],
       install_requires=[
-          'numpy'
+          'numpy',
+          'pandas'
       ],
-      zip_safe=False)
+      zip_safe=False,
+      setup_requires=['pytest-runner'],
+      tests_require=['pytest']
+      )
+
+
