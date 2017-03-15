@@ -131,8 +131,3 @@ def decode_gaps(seq, gapdict, uppercase=False):
     if uppercase is True:
         result = result.upper()
     return result
-
-
-
-
-
