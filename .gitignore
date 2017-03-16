@@ -1,5 +1,3 @@
-# directories which will get too large
-data/
 # don't commit unfinished work
 wip/
 
