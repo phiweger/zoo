@@ -1,6 +1,3 @@
-// Note: Each virus segment receives one document, because zoo is sequence 
-// centric.
-
 {
     "_id": null,
     "log": {},
