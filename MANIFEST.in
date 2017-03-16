@@ -1,0 +1,2 @@
+include zoo/data/*
+include zoo/schema/*.json
