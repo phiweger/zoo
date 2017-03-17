@@ -7,6 +7,9 @@ _ROOT = os.path.abspath(os.path.dirname(__file__))
 
 def get_data(path):
     '''
-    print(get_data('resource1/foo.txt'))
+    import zoo
+
+    print(zoo.get_data('schema/base.json'))
+    # prints (system) path to file
     '''
     return os.path.join(_ROOT, 'data', path)

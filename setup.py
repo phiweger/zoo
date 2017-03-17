@@ -8,6 +8,8 @@ setup(name='zoo',
       author_email='none',
       license='BSD 3-clause',
       packages=['zoo'],
+      package_dir={'zoo': 'zoo'},
+      package_data={'zoo': ['data/*', 'schema/*.json']},
       install_requires=[
           'numpy',
           'pandas'
@@ -18,3 +20,12 @@ setup(name='zoo',
       )
 
 
+'''
+> MANIFEST.in tells Distutils what files to include in the source distribution
+but it does not directly affect what files are installed. For that you need to
+include the appropriate files in the setup.py file, generally either as package
+data or as additional files. -- stackoverflow, 3596979
+
+https://docs.python.org/3/distutils/setupscript.html#installing-package-data
+https://docs.python.org/3/distutils/sourcedist.html#manifest
+'''
