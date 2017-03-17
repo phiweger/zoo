@@ -1,20 +1,6 @@
 import hashlib
 import numpy as np
-
-# DEPRECATED
-# def msa_subset(msa, ids):
-#     '''
-#     Returns the sequences whose id is in ids.
-
-#     Usage:
-#     a = msa_subset(msa, list(X_train))
-#     next(a)
-#     # 'ATGAAT...'
-
-#     '''
-#     for line in msa:
-#         if line.metadata['id'] in ids:
-#             yield str(line)
+import pkg_resources
 
 
 def msa_subset(msa, X, y):
@@ -149,11 +135,63 @@ def hash_seq(seq_iterator, method='md5'):
 
     hash_seq(['ACTG', 'AAAA']) == hash_seq(['AAAA', 'ACTG'])
     # True
+
+    from pyfaidx import Fasta
+    fp = 'msa.mafft.fa'
+    fa = (str(i).upper() for i in Fasta(fp))  # Mafft output is lowercase
+    hash_seq(fa)
+    # 'bba3a154dae681c96...'
     '''
     m = getattr(hashlib, method)()  # stackoverflow, 3061
     for i in sorted(seq_iterator):  # order does matter for md5
         m.update(i.encode('utf-8'))
     return m.hexdigest()
+
+
+# # think of msas accross multiple collections
+# def import_msa(collections, fp):
+#     '''
+#     we assume that the MSA has the form
+
+#     >UUID1
+#     act--atga--AAGcc...
+#     >UUID2
+#     more--se-quence-...
+
+#     Note that the case of the nucleotide seq is not touched by zoo. If it
+#     is stored in uppercase in zoo, it is exported that way to a format
+#     as input to some MSA algo. Hashing the MSA is case sensitive. Usually
+#     this should not matter, but if you experience any MSA ID discrepancy,
+#     this is a likely source.
+#     '''
+#     for c in collections:
+
+#         get schema
+
+
+#         c.update_one(
+#             {'_id': j}, 
+#             {'$set': {'derivative': parse_date(date)}}
+#             )
+
+
+# fp_schema = pkg_resources.resource_filename('zoo', 'schema/')
+# with open(fp_schema + 'derivative_msa.json') as infile:
+#     schema = json.load(infile)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
