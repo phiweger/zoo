@@ -12,7 +12,8 @@ setup(name='zoo',
       package_data={'zoo': ['data/*', 'schema/*.json']},
       install_requires=[
           'numpy',
-          'pandas'
+          'pandas',
+          'pyfaidx'
       ],
       zip_safe=False,
       setup_requires=['pytest-runner'],
