@@ -1,3 +1,4 @@
+import hashlib
 import numpy as np
 
 # DEPRECATED
@@ -131,3 +132,28 @@ def decode_gaps(seq, gapdict, uppercase=False):
     if uppercase is True:
         result = result.upper()
     return result
+
+
+def hash_seq(seq_iterator, method='md5'):
+    '''
+    Given any sequence iterator, calculate its hash with <method>. We use this
+    to hash an MSA to an ID as well as verify its integrity (think checksum).
+
+    Note that order does matter for most hashing methods, so internally the
+    sequence iterator is lexicographically sorted before fed to the hash func.
+
+    Examples:
+
+    hash_seq(['AAAA', 'ACTG'])
+    # '3b0d5a673fb29e5201e4587a35e2576d'
+
+    hash_seq(['ACTG', 'AAAA']) == hash_seq(['AAAA', 'ACTG'])
+    # True
+    '''
+    m = getattr(hashlib, method)()  # stackoverflow, 3061
+    for i in sorted(seq_iterator):  # order does matter for md5
+        m.update(i.encode('utf-8'))
+    return m.hexdigest()
+
+
+

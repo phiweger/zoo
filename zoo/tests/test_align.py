@@ -1,4 +1,4 @@
-from zoo.align import encode_gaps, decode_gaps
+from zoo.align import encode_gaps, decode_gaps, hash_seq
 
 
 def test_encode_gaps():
@@ -15,3 +15,9 @@ def test_decode_gaps():
     gapdict = {1: 2, 7: 3, 17: 1}
     result = decode_gaps(seq, gapdict, uppercase=False)
     assert result == 'A--cTGA---ggtAGGT-AA'
+
+
+def test_hash_seq(hash='md5'):
+    assert hash_seq(['AAAA', 'ACTG']) == '3b0d5a673fb29e5201e4587a35e2576d'
+    assert hash_seq(['ACTG', 'AAAA']) == hash_seq(['AAAA', 'ACTG'])
+
