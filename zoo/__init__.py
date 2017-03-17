@@ -13,3 +13,13 @@ def get_data(path):
     # prints (system) path to file
     '''
     return os.path.join(_ROOT, 'data', path)
+
+
+def get_schema(path):
+    '''
+    import zoo
+
+    print(zoo.get_data('schema/base.json'))
+    # prints (system) path to file
+    '''
+    return os.path.join(_ROOT, 'schema', path)
