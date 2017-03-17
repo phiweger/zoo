@@ -8,10 +8,8 @@ Note that the base schema is "assumed" by most of the zoo package functions, so 
 Access to the schemas:
 
 ```
-# stackoverflow, 779495
-import pkg_resources
-SCHEMA_PATH = pkg_resources.resource_filename('zoo', 'schema/')
-with open(SCHEMA_PATH + 'base.json') as infile:
+from zoo import get_schema
+with open(get_schema('base.json')) as infile:
     schema = json.load(infile)
 ```
 

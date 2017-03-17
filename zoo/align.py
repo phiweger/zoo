@@ -1,6 +1,8 @@
 import hashlib
+import json
 import numpy as np
-import pkg_resources
+from pyfaidx import Fasta
+from zoo import get_schema
 
 
 def msa_subset(msa, X, y):
@@ -148,36 +150,58 @@ def hash_seq(seq_iterator, method='md5'):
     return m.hexdigest()
 
 
-# # think of msas accross multiple collections
-# def import_msa(collections, fp):
-#     '''
-#     we assume that the MSA has the form
+# think of msas accross multiple collections
+def import_msa(db, fp, label=''):
+    ''' Import MSA members into respective docs, use gap notation.
 
-#     >UUID1
-#     act--atga--AAGcc...
-#     >UUID2
-#     more--se-quence-...
+    We want to preserve a given MSA while not storing it as a flat file
+    on disk (an forgetting after 2 days which sequences were in it etc.)
+    Thus, the gaps of each member sequence of the (unconstrained) MSA
+    are encoded end saved to the respective document under
+    "derivative.msa". The full MSA can be reconstructed from the MSA id.
+    Note that we can reconstruct a part of the MSA just as well by restricting
+    our MSA ID query to only a subset of the collections whose documents
+    went into the MSA.
 
-#     Note that the case of the nucleotide seq is not touched by zoo. If it
-#     is stored in uppercase in zoo, it is exported that way to a format
-#     as input to some MSA algo. Hashing the MSA is case sensitive. Usually
-#     this should not matter, but if you experience any MSA ID discrepancy,
-#     this is a likely source.
-#     '''
-#     for c in collections:
+    We assume that the MSA has the form:
 
-#         get schema
+    >UUID1|collectionA
+    act--atga--AAGcc...
+    >UUID2|collectionA
+    more--se-quence-...
+    >UUID3|collectionB
+    even--more------...
+
+    Note that the case of the nucleotide seq is not touched by zoo. If it
+    is stored in uppercase in zoo, it is exported that way to a format
+    as input to some MSA algo. Hashing the MSA is case sensitive. Usually
+    this should not matter, but if you experience any MSA ID discrepancy,
+    this is a likely source.
 
 
-#         c.update_one(
-#             {'_id': j}, 
-#             {'$set': {'derivative': parse_date(date)}}
-#             )
+    client = MongoClient("localhost:27017")
+    db = client["jmtv"]
+    '''
+    with open(get_schema('derivative_msa.json')) as infile:
+        schema = json.load(infile)
 
+    msa = Fasta(fp)
+    gen = (str(i).upper() for i in msa)
+    h = hash_seq(gen)
 
-# fp_schema = pkg_resources.resource_filename('zoo', 'schema/')
-# with open(fp_schema + 'derivative_msa.json') as infile:
-#     schema = json.load(infile)
+    for i in msa:
+        name, collection = i.name.split('|')
+        entry = schema.copy()  # copy() necessary here?
+        entry['id'] = h
+        entry['label'] = label
+        entry['gaps'] = encode_gaps(str(i))
+
+        c = db.get_collection(collection)
+        c.update_one(
+            {'_id': name},
+            {'$push': {'derivative.msa': entry}}
+            )
+
 
 
 

@@ -5,10 +5,14 @@ This data is meant to demonstrate some of the functionality of zoo. Albeit small
 Access to the package data:
 
 ```
-# stackoverflow, 779495
-import pkg_resources
-DATA_PATH = pkg_resources.resource_filename('zoo', 'data/')
-# do stuff
+
+get_schema('example.fa')
+# /returns/system/path/to/example.fa
+
+from zoo import get_data
+from pyfaidx import Fasta
+
+fa = Fasta(get_data('vanilla.fa'))
 ```
 
 ### Influenza A virus, fasta files
@@ -19,3 +23,7 @@ DATA_PATH = pkg_resources.resource_filename('zoo', 'data/')
 
 - source
 - use case
+
+### Ebola
+
+TODO
