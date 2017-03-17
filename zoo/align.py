@@ -172,6 +172,8 @@ def import_msa(db, fp, label=''):
     >UUID3|collectionB
     even--more------...
 
+    This can be achieved with zoo.utils.to_fasta().
+
     Note that the case of the nucleotide seq is not touched by zoo. If it
     is stored in uppercase in zoo, it is exported that way to a format
     as input to some MSA algo. Hashing the MSA is case sensitive. Usually
@@ -201,7 +203,11 @@ def import_msa(db, fp, label=''):
             {'_id': name},
             {'$push': {'derivative.msa': entry}}
             )
+        # https://docs.mongodb.com/manual/reference/operator/update/push/
 
+
+# def export_msa():
+#   pass
 
 
 

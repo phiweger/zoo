@@ -5,6 +5,9 @@ class SeqDoc:
 
     Example:
 
+    from pymongo import MongoClient
+    from zoo.objects import SeqDoc
+
     client = MongoClient("localhost:27017")
     db = client["zoo"]
     collection = db.get_collection('influenza_a_virus')
@@ -23,4 +26,24 @@ class SeqDoc:
             else:
                 self.__dict__[key] = value
 
+    def to_fasta():
+        '''
+        return string
+        ">la|le|lu\nACTAAGGT..."
 
+        Maybe use a json mask of some sort, would be elegant, i.e.
+        pass a nested json with desired keys and done.
+        '''
+        pass
+
+    def mask_seq():
+        '''
+        apply an annotation
+        '''
+        pass
+
+    def seq_apply(somefunc):
+        '''
+        takes the sequence and any function (e.g. decode gaps)
+        '''
+        pass

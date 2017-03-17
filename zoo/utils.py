@@ -77,7 +77,7 @@ def iter_seq(query, annotation=None, field_seq='sequence', header=[]):
 
     If no annotation is specified, the raw sequence is returned.
 
-    naming: name is constructed from header argument (a list), will
+    Naming: name is constructed from header argument (a list), will
     concatenate with "|", for this info the 'metadata' field is queried,
     and the '_id' field is appended as well, both hardcoded, deal
     '''
