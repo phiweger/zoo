@@ -11,7 +11,7 @@
         "int": [],
         "ext": []
     },
-    "relation": {
+    "relative": {
         "taxonomy": {},
         "phylogeny": {}
     }
