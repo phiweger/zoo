@@ -12,7 +12,7 @@ client = MongoClient('localhost:27017')
 db = client['mock']
 
 
-fp = '/Users/pi/data/reference/virus/viral.1.1.genomic.fna'
+fp = '/path/to/viral.1.1.genomic.fna'
 fa = Fasta(fp, key_function=lambda x: x.split('|')[1])
 
 
@@ -33,3 +33,4 @@ for i in fa:
     db.ref.insert_one(d.to_dict())
     count += 1
     bar.update(count)
+
