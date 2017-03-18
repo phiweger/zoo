@@ -35,7 +35,7 @@ class DotMap(MutableMapping, OrderedDict):
     dm.dset_attr('gh.kulh.a', [1, 23])  # or can it?
     # TODO: why does it work in one case and not in the other?
 
-    print(json.dumps(dm.toDict(), indent=4))
+    print(json.dumps(dm.to_dict(), indent=4))
     '''
     def __init__(self, *args, **kwargs):
         self._map = OrderedDict()
@@ -157,7 +157,7 @@ class DotMap(MutableMapping, OrderedDict):
     def __repr__(self):
         return str(self)
 
-    def toDict(self):
+    def to_dict(self):
         d = {}
         for k, v in self.items():
             if type(v) is DotMap:
@@ -165,13 +165,13 @@ class DotMap(MutableMapping, OrderedDict):
                 if id(v) == id(self):
                     v = d
                 else:
-                    v = v.toDict()
+                    v = v.to_dict()
             elif type(v) is list:
                 l = []
                 for i in v:
                     n = i
                     if type(i) is DotMap:
-                        n = i.toDict()
+                        n = i.to_dict()
                     l.append(n)
                 v = l
             d[k] = v
@@ -179,9 +179,9 @@ class DotMap(MutableMapping, OrderedDict):
 
     def pprint(self, pformat='dict'):
         if pformat == 'json':
-            print(dumps(self.toDict(), indent=4, sort_keys=True))
+            print(dumps(self.to_dict(), indent=4, sort_keys=True))
         else:
-            pprint(self.toDict())
+            pprint(self.to_dict())
 
     def empty(self):
         return (not any(self))

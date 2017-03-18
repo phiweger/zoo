@@ -4,7 +4,6 @@ Careful not to mix up methods between zoo and sourmash.
 TODO: iter_seq: customize name like _id|host|...
 '''
 
-import functools
 import hashlib
 import json
 import os
