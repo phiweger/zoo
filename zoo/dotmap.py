@@ -19,6 +19,24 @@ from inspect import ismethod
 
 
 class DotMap(MutableMapping, OrderedDict):
+    '''
+    Example:
+
+    import json
+    from zoo.dotmap import DotMap
+
+    d = {'a': {'b': [1, 2, 3], 'c': {
+            'd': 4}, 'd': [{'hello': 'A'}, {'hello': 'B'}]}, 'b': {}}
+    dm = DotMap(d)
+    dm.a.c.q = 5  # creates key if not present
+    dm.dget_attr('a.c.q')  # 5
+
+    dm.dset_attr('a.c.q', 6)  # method cannot create keys
+    dm.dset_attr('gh.kulh.a', [1, 23])  # or can it?
+    # TODO: why does it work in one case and not in the other?
+
+    print(json.dumps(dm.toDict(), indent=4))
+    '''
     def __init__(self, *args, **kwargs):
         self._map = OrderedDict()
         self._dynamic = True
@@ -45,37 +63,38 @@ class DotMap(MutableMapping, OrderedDict):
                 if k is not '_dynamic':
                     self._map[k] = v
 
-    def dget_attr(self, attr, default=object()):  # d .. document
-        '''
-        modelled after example: stackoverflow, 31174295, much reduced
+    # def dget_attr(self, attr, default=object()):  # d .. document
+    #     '''
+    #     modelled after example: stackoverflow, 31174295, much reduced
 
-        Example:
+    #     Example:
 
-        doc.dget_attr('a.d')  # same as doc.a.d
-        # [{'hello': 'A'}, {'hello': 'B'}]
-        [i['hello'] for i in doc.dget_attr('a.d')]
-        # ['A', 'B']
-        '''
+    #     doc.dget_attr('a.d')  # same as doc.a.d
+    #     # [{'hello': 'A'}, {'hello': 'B'}]
+    #     [i['hello'] for i in doc.dget_attr('a.d')]
+    #     # ['A', 'B']
+    #     '''
 
-        if default is object():
-            _getattr = getattr
-        else:
-            def _getattr(obj, name):
-                return getattr(obj, name, default)
-        return functools.reduce(getattr, [self] + attr.split('.'))
+    #     if default is object():
+    #         _getattr = getattr
+    #     else:
+    #         def _getattr(obj, name):
+    #             return getattr(obj, name, default)
+    #     return functools.reduce(getattr, [self] + attr.split('.'))
 
-    def dset_attr(self, attr, val):
-        '''
-        doc.dget_attr('a.c.d')
-        # 4
-        doc.dset_attr('a.c.d', 5)
-        doc.dget_attr('a.c.d')
-        # 5
-        '''
-        pre, _, post = attr.rpartition('.')
-        # 'a.c.d'.rpartition('.') == ('a.c', '.', 'd')
-        # .split() does not work for json depth > 2
-        return setattr(self.dget_attr(pre) if pre else self, post, val)
+    # def dset_attr(self, attr, val):
+    #     '''
+    #     doc.dget_attr('a.c.d')
+    #     # 4
+    #     doc.dset_attr('a.c.d', 5)
+    #     doc.dget_attr('a.c.d')
+    #     # 5
+
+    #     '''
+    #     pre, _, post = attr.rpartition('.')
+    #     # 'a.c.d'.rpartition('.') == ('a.c', '.', 'd')
+    #     # .split() does not work for json depth > 2
+    #     return setattr(self.dget_attr(pre) if pre else self, post, val)
 
     def __call_items(self, obj):
         if hasattr(obj, 'iteritems') and ismethod(getattr(obj, 'iteritems')):
