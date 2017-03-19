@@ -28,7 +28,7 @@ db = "nucleotide"  # "nuccore"
 # these are the same thing:
 # https://www.ncbi.nlm.nih.gov/nucleotide/X86657
 # https://www.ncbi.nlm.nih.gov/nuccore/X86657
-Entrez.email = "adrian.viehweger@gmail.com"
+Entrez.email = ""
 
 # post NCBI query
 try:

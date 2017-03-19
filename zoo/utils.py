@@ -4,6 +4,8 @@ Careful not to mix up methods between zoo and sourmash.
 TODO: iter_seq: customize name like _id|host|...
 '''
 
+
+from functools import reduce
 import hashlib
 import json
 import os
@@ -286,32 +288,27 @@ def get_id(collection, ids):
     return q
 
 
-def random_draw(collection, match, n):
-    '''
-    In: collection, match dictionary (i.e. the filter), sample size n
-    Out: documents of samples as database cursor (i.e. generator)
+def deep_get(obj, item, fallback=None):
+    """Steps through an item chain to get the ultimate value.
 
-    Usage:
-    from pymongo import MongoClient
+    # stackoverflow, 25833613
 
-    client = MongoClient("localhost:27017")
-    db = client["zoo"]
-    collection = db.get_collection('influenza_a_virus')
+    If ultimate value or path to value does not exist, does not raise
+    an exception and instead returns `fallback`.
 
-    match = {
-        'annotation.name': 'HA',
-        'metadata.host': 'Avian',
-        'metadata.date.y': {'$gte': 2000}
-    }
+    >>> d = {'snl_final': {'about': {'_icsd': {'icsd_id': 1}}}}
+    >>> deepgetitem(d, 'snl_final.about._icsd.icsd_id')
+    1
+    >>> deepgetitem(d, 'snl_final.about._sandbox.sbx_id')
+    >>>
+    """
+    def getitem(obj, name):
+        try:
+            return obj[name]
+        except (KeyError, TypeError):
+            return fallback
 
-    gen = random_draw(collection, match, n)
-    next(gen)
-    # GQ377055
-    '''
-    sample = {'size': n}
-    pipeline = [{'$match': match}, {'$sample': sample}]
-    query = collection.aggregate(pipeline)
-    return query
+    return reduce(getitem, item.split('.'), obj)
 
 
 # def select_taxonomy(id):
