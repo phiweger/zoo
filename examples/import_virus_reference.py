@@ -57,6 +57,46 @@ deep_get(d, 'a.c.d.e.f.g', fallback='foo')
 # 'foo'
 
 
+'''
+get a number of docs, to SBT in tempfile or disk, query an interesting
+seq, save result in doc?
+
+sbt_index([cursor], fp='', temporary=True)
+sbt_combine([list, of, cursors], fp='', temporary=True)
+sbt_search(sbt, query)
+'''
+
+
+# https://github.com/luizirber/2016-sbt-minhash/blob/master/notebooks/SBT%20with%20MinHash%20leaves.ipynb
+# http://blog.luizirber.org/2016/12/28/soursigs-arch-1/
+from sourmash_lib import Estimators
+from sourmash_lib.sbt import SBT, GraphFactory
+from sourmash_lib.sbtmh import SigLeaf, search_minhashes
+from sourmash_lib.signature import SourmashSignature
+
+seq = db.ref.find_one()['sequence']  # 'ACTG...'
+e = Estimators(ksize=16, n=200)
+e.add_sequence(seq)  # e.get_hashes()
+s = SourmashSignature('foo', e, name='')
+factory = GraphFactory(ksize=16, starting_size=1e5, n_tables=4)
+# 4 .. nt?
+tree = SBT(factory)  # d .. see "n-ary " in notebook
+'''
+How does the internal nodes / total ratio affect query times? Test and
+put as section in master thesis.
+'''
+
+leaf = SigLeaf(metadata='bar', data=s)
+# SigLeaf(metadata, data, name=None)
+
+tree.add_node(node=leaf)
+tree.print()  # ignore pylint
+filtered = tree.find(search_minhashes, s, 0.1)
+
+matches = [(str(i.metadata), i.data.similarity(s)) for i in filtered]
+# seems to work
+# [('bar', 1.0)]
+
 
 
 
