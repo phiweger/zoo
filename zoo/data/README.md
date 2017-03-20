@@ -19,6 +19,10 @@ fa = Fasta(get_data('vanilla.fa'))
 
 [data source](ftp://ftp.ncbi.nih.gov/genomes/INFLUENZA/)
 
+### Testing minhash and SBT functions
+
+For generation of `mock_flu.fa` see `mock_flu.py.`
+ 
 ### Deformed wing virus, assembly graph 
 
 - source
@@ -27,3 +31,10 @@ fa = Fasta(get_data('vanilla.fa'))
 ### Ebola
 
 TODO
+
+### JMTV segmented virus
+
+[From](http://www.pnas.org/content/111/18/6744.full): Qin, X.-C. et al. A tick-borne segmented RNA virus contains genome segments
+derived from unsegmented viral ancestors. PNAS 111, 6744–6749 (2014).
+
+See `examples/segmented_virus.py` for data generation and use case.

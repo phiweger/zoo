@@ -61,7 +61,7 @@ for feature in s.features:
 
 
 # http://biopython.org/wiki/SeqIO
-with open("example.fasta", "w") as output_handle:
+with open("jmtv.fa", "w") as output_handle:
     SeqIO.write(l, output_handle, "fasta")
 
 
