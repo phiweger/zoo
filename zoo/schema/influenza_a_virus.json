@@ -14,7 +14,7 @@
             "lat": null
         },
         "location": "",
-        "host": "",
+        "host": ""
     },
     "sequence": "",
     "derivative": {
@@ -28,7 +28,7 @@
     },
     "relative": {
         "taxonomy": {
-            "nomenclature": "",
+            "nomenclature": ""
         },
         "phylogeny": {
             "id": ""
