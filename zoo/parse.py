@@ -1,7 +1,7 @@
 import re
 
 
-def parse_iav(isolate):
+def parse_nomenclature_iav(notation):
     '''
     parse the data from influenza name into dict
 
@@ -13,10 +13,10 @@ def parse_iav(isolate):
 
     # regexp structure check
 
-    feat = isolate.split('/')
-    assert feat[0] == 'A', 'Not Influenza A Virus.'
+    feat = notation.split('/')
+    assert feat[0] == 'A', 'Not an influenza virus of type "A".'
 
-    subtype = re.search(r'\((.*?)\)', isolate).group(1)
+    subtype = re.search(r'\((.*?)\)', notation).group(1)
     feat[-1] = feat[-1].split('(')[0]
     if len(feat) == 4:
         host = 'human'
@@ -26,10 +26,10 @@ def parse_iav(isolate):
         geo = feat[2]
 
     return({
-        'influenza': feat[0],
+        'type': feat[0],
         'host': host,
         'subtype': subtype,
-        'geolocation': geo
+        'location': geo
         })
 
 

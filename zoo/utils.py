@@ -289,19 +289,20 @@ def get_id(collection, ids):
 
 
 def deep_get(obj, item, fallback=None):
-    """Steps through an item chain to get the ultimate value.
+    '''Steps through an item chain to get the ultimate value.
 
-    # stackoverflow, 25833613
+    Implementation inspired by: stackoverflow, 25833613, alternative:
+    www.haykranen.nl/2016/02/13/handling-complex-nested-dicts-in-python/
 
     If ultimate value or path to value does not exist, does not raise
     an exception and instead returns `fallback`.
 
-    >>> d = {'snl_final': {'about': {'_icsd': {'icsd_id': 1}}}}
-    >>> deepgetitem(d, 'snl_final.about._icsd.icsd_id')
-    1
-    >>> deepgetitem(d, 'snl_final.about._sandbox.sbx_id')
-    >>>
-    """
+    d = {'snl_final': {'about': {'_icsd': {'icsd_id': 1}}}}
+    deep_get(d, 'snl_final.about._icsd.icsd_id')
+    # 1
+    deep_get(d, 'snl_final.about._sandbox.sbx_id')
+    # (None returned)
+    '''
     def getitem(obj, name):
         try:
             return obj[name]
@@ -309,6 +310,64 @@ def deep_get(obj, item, fallback=None):
             return fallback
 
     return reduce(getitem, item.split('.'), obj)
+
+
+def deep_set(d, key, value, force=False, replace=False):
+    '''Dynamically sets values deep in a dict.
+
+    TODO: see comment below, so far not possible to replace values for existing
+    keys.
+
+    - http://www.stat.washington.edu/~hoytak/code/treedict/api.html
+    - in
+        https://github.com/mahmoud/boltons
+      see
+        http://sedimental.org/remap.html
+    - looks promising: stackoverflow, 3797957
+    - stackoverflow, 3031219: from dotDict import dotdictify
+    - stackoverflow, 3232943: Alex Martelli answer
+    - stackoverflow, 11918852
+
+    If keys do not exist, they are created. Note the divergence from the
+    original implementation, bc/ did not see the point for line "dd = d" in
+    stackoverflow, 21297475.
+
+    Example:
+
+    d = {}
+    deep_set(d, 'a.b.c', 'X', force=True)
+    deep_set(d, 'a.b.d', 'Y', force=True)
+    deep_set(d, 'a.b.d', 'Y2')  # not allowed
+    deep_set(d, 'a.b.d', 'Y2', replace=True) # allowed
+    deep_set(d, 'a.b.d', {'foo': 'bar'})
+
+    # append to list, pop from dict etc.
+    deep_get(d, 'a.b.d').pop('foo')
+    # 'bar'
+    # Note: "get" not "set" is used here.
+    '''
+    keys = key.split('.')
+    latest = keys.pop()
+    key_exists = deep_get(d, key, fallback=None)
+
+    if key_exists:
+        if replace is False:
+            print('Existing keys are treated as immutable by default.')
+            print('Use "replace=True" to replace existing keys.')
+            return
+        else:
+            reduce(dict.__getitem__, keys, d)[latest] = value
+            # stackoverflow, 11918852
+
+    # Else, create a new key if force=True. Otherwise err out.
+    else:
+        if not force:
+            raise KeyError(
+                'Key not present. Use "force=True" to create key.')
+        else:
+            for k in keys:
+                d = d.setdefault(k, {})
+            d.setdefault(latest, value)
 
 
 # def select_taxonomy(id):
@@ -319,8 +378,6 @@ def deep_get(obj, item, fallback=None):
 #     Aim at some point is to build an RNA-virus SBT and query it.
 #     '''
 #     pass
-
-
 
 
 # def export_fasta(cursor):
