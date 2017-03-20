@@ -315,19 +315,6 @@ def deep_get(obj, item, fallback=None):
 def deep_set(d, key, value, force=False, replace=False):
     '''Dynamically sets values deep in a dict.
 
-    TODO: see comment below, so far not possible to replace values for existing
-    keys.
-
-    - http://www.stat.washington.edu/~hoytak/code/treedict/api.html
-    - in
-        https://github.com/mahmoud/boltons
-      see
-        http://sedimental.org/remap.html
-    - looks promising: stackoverflow, 3797957
-    - stackoverflow, 3031219: from dotDict import dotdictify
-    - stackoverflow, 3232943: Alex Martelli answer
-    - stackoverflow, 11918852
-
     If keys do not exist, they are created. Note the divergence from the
     original implementation, bc/ did not see the point for line "dd = d" in
     stackoverflow, 21297475.
@@ -345,6 +332,18 @@ def deep_set(d, key, value, force=False, replace=False):
     deep_get(d, 'a.b.d').pop('foo')
     # 'bar'
     # Note: "get" not "set" is used here.
+
+    This function took quite some time to figure out, so left here for
+    future reference:
+
+    - in
+        https://github.com/mahmoud/boltons
+      see
+        http://sedimental.org/remap.html
+    - looks promising: stackoverflow, 3797957
+    - stackoverflow, 3031219: from dotDict import dotdictify
+    - stackoverflow, 3232943: Alex Martelli answer
+    - stackoverflow, 11918852
     '''
     keys = key.split('.')
     latest = keys.pop()
