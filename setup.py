@@ -13,7 +13,8 @@ setup(name='zoo',
       install_requires=[
           'numpy',
           'pandas',
-          'pyfaidx'
+          'pyfaidx',
+          'biopython'
       ],
       zip_safe=False,
       setup_requires=['pytest-runner'],
