@@ -351,9 +351,8 @@ def deep_set(d, key, value, force=False, replace=False):
 
     if key_exists:
         if replace is False:
-            print('Existing keys are treated as immutable by default.')
-            print('Use "replace=True" to replace existing keys.')
-            return
+            raise TypeError(
+                'Key exists, item assignment not allowed w/ replace=False')
         else:
             reduce(dict.__getitem__, keys, d)[latest] = value
             # stackoverflow, 11918852
