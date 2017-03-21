@@ -60,10 +60,9 @@ def parse_date(date):
     # {'d': '', 'm': 8, 'y': 2019}
     '''
     record = {'y': None, 'm': None, 'd': None}
-    try:  # pandas nan is of type float and won't split
-        # s = date.split('/')
+    try:
         s = re.split('-|/', date)
-    except TypeError:
+    except TypeError:  # date(3.4) or pandas nan of type float
         return record
 
     for i in zip(range(3), 'y m d'.split(' ')):
