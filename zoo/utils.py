@@ -310,7 +310,9 @@ def deep_get(obj, item):  # , fallback=None  # see comment below
     # def getitem(obj, name):
     #     try:
     #         return obj[name]
-    #     except (KeyError, TypeError):  # When is TypeError raised?
+    #     except (KeyError, TypeError):
+    #         # KeyError: 'k' not present
+    #         # TypeError: 'k.a' not present, "not subscriptable"
     #         return fallback
 
     def getitem(obj, name):
@@ -354,8 +356,18 @@ def deep_set(d, key, value, force=False, replace=False):
     '''
     keys = key.split('.')
     latest = keys.pop()
-    key_exists = deep_get(d, key)  # , fallback=None  # see deep_get comments
 
+    # see deep_get comments on fallback changes
+    # key_exists = deep_get(d, key)  # , fallback=None
+    # if key_exists:
+
+    try:
+        _ = deep_get(d, key)
+        key_exists = True
+    except (KeyError, TypeError):
+        key_exists = False
+    # deep_get erring out means key not there, no error - key present,
+    # this can distinguish KeyError and {'key_present': None} in dict
     if key_exists:
         if replace is False:
             raise TypeError(
