@@ -1,6 +1,6 @@
 ## zoo
 
-A distributable viral database for rapid prototyping of scientific ideas. 
+A distributable viral database for rapid prototyping.
 
 ### (un)install
 
@@ -14,7 +14,6 @@ pip uninstall zoo
 Some [guidance]() on how to integrate pytest in package. Now package tests can be run by:
 
 ```
-# launch virtualenv if set up
 # cd into package directory
 python setup.py test
 ```
