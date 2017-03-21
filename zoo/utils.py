@@ -288,7 +288,7 @@ def get_id(collection, ids):
     return q
 
 
-def deep_get(obj, item, fallback=None):
+def deep_get(obj, item):  # , fallback=None  # see comment below
     '''Steps through an item chain to get the ultimate value.
 
     Implementation inspired by: stackoverflow, 25833613, alternative:
@@ -303,11 +303,18 @@ def deep_get(obj, item, fallback=None):
     deep_get(d, 'snl_final.about._sandbox.sbx_id')
     # (None returned)
     '''
+
+    # Use this when no error raising is desired. Can't distinguish
+    # btw/ KeyError and {'key_present': None}. This is ennoying when
+    # working with nested dicts, so commented out, for reference only.
+    # def getitem(obj, name):
+    #     try:
+    #         return obj[name]
+    #     except (KeyError, TypeError):  # When is TypeError raised?
+    #         return fallback
+
     def getitem(obj, name):
-        try:
-            return obj[name]
-        except (KeyError, TypeError):
-            return fallback
+        return obj[name]  # err out if key does not exist
 
     return reduce(getitem, item.split('.'), obj)
 
@@ -347,7 +354,7 @@ def deep_set(d, key, value, force=False, replace=False):
     '''
     keys = key.split('.')
     latest = keys.pop()
-    key_exists = deep_get(d, key, fallback=None)
+    key_exists = deep_get(d, key)  # , fallback=None  # see deep_get comments
 
     if key_exists:
         if replace is False:
