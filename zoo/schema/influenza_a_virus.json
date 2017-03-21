@@ -24,14 +24,7 @@
     "sequence": "",
     "derivative": {
         "minhash": {},
-        "annotation": [{
-            "id": null, 
-            "source": "",
-            "name": "",
-            "fuzzy": null,
-            "start": null,
-            "end": null
-        }]
+        "annotation": []
     },
     "relative": {
         "taxonomy": {
