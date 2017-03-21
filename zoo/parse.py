@@ -26,14 +26,19 @@ def parse_nomenclature_iav(notation):
             host = feat[1].lower()
             geo = feat[2]
 
-        return({
+        return {
             'type': feat[0],
             'host': host,
             'subtype': subtype,
             'location': geo
-            })
+            }
     except IndexError:
-        return None, None, None, None
+        return {
+            'type': None,
+            'host': None,
+            'subtype': None,
+            'location': None
+            }
 
 
 def parse_date(date):
@@ -52,11 +57,15 @@ def parse_date(date):
     parse_date('2019/08')
     # {'d': '', 'm': 8, 'y': 2019}
     '''
-    record = {'y': '', 'm': '', 'd': ''}
+    record = {'y': None, 'm': None, 'd': None}
     if date in ('NON', 'Unknown', 'unknown', '', '-N/A-'):
         return record
     else:
-        s = date.split('/')
+        try:  # pandas nan is of type float and won't split
+            s = date.split('/')
+        except AttributeError:
+            return record
+
         for i in zip(range(3), 'y m d'.split(' ')):
             j, tag = i
             try:
