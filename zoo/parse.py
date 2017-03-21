@@ -58,18 +58,15 @@ def parse_date(date):
     # {'d': '', 'm': 8, 'y': 2019}
     '''
     record = {'y': None, 'm': None, 'd': None}
-    if date in ('NON', 'Unknown', 'unknown', '', '-N/A-'):
+    try:  # pandas nan is of type float and won't split
+        s = date.split('/')
+    except AttributeError:
         return record
-    else:
-        try:  # pandas nan is of type float and won't split
-            s = date.split('/')
-        except AttributeError:
-            return record
 
-        for i in zip(range(3), 'y m d'.split(' ')):
-            j, tag = i
-            try:
-                record[tag] = int(s[j])
-            except IndexError:
-                continue
-        return record
+    for i in zip(range(3), 'y m d'.split(' ')):
+        j, tag = i
+        try:  # NON, -N/A-, ...
+            record[tag] = int(s[j])
+        except (IndexError, ValueError):
+            continue
+    return record
