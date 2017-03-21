@@ -14,7 +14,7 @@ setup(name='zoo',
           'biopython',
           'numpy',
           'pandas',
-          #'progressbar',
+          'progressbar2',
           'pyfaidx',
           'sourmash'
       ],
