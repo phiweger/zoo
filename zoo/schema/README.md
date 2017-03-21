@@ -7,10 +7,10 @@ zoo is a sequence centric data structure, which influences the database schema d
 - relative
 - derivative
 
-Sequence information is at the center of zoo's functionalities. It is defined as a string of an arbitrary alphabet, typically RNA, DNA or Protein. As a consequence, each genome segment of a segmented virus such as Influenza A receives its own document, and is linked to the other segments of a given sample.
-Metadata describe the way a sequence "came to be known". Where was it sampled from, who by, from which host, through which sample preparation and sequencing methods? 
-Relative information includes taxonomy, phylogeny and linked information. It addressed the question of how a given sequence string compares to others. Parts of phylogenetic trees or multiple sequence alignments are archived in this category. 
-Derived information summarizes or reexpresses the information contained in the sequence, including annotations, minhashes and alternative encodings. Derived information is usually heavily dependent on the original sequence. For example, the annotatation open reading frame (ORF) derives from the sequence's start and a stop codon position. By definition, derived sequence information  does not by itself make any sense without the underlying raw sequence information. 
+Sequence information is at the center of zoo's functionalities. It is defined as a string of an arbitrary alphabet, typically RNA, DNA or Protein. As a consequence, each genome segment of a segmented virus such as Influenza A receives its own document, and is linked to the other segments of a given sample.  
+Metadata describe the way a sequence "came to be known". Where was it sampled from, who by, from which host, through which sample preparation and sequencing methods?  
+Relative information includes taxonomy, phylogeny and linked information. It addressed the question of how a given sequence string compares to others. Parts of phylogenetic trees or multiple sequence alignments are archived in this category.  
+Derived information summarizes or reexpresses the information contained in the sequence, including annotations, minhashes and alternative encodings. Derived information is usually heavily dependent on the original sequence. For example, the annotatation open reading frame (ORF) derives from the sequence's start and a stop codon position. By definition, derived sequence information  does not by itself make any sense without the underlying raw sequence information.  
 Note that all categories interact, e.g. if we use minhash signatures (derivative) info to compare a sequence to other ones in the database, storing the top 5 closest sequence ids (relative).
 
 ## Workink with schemas
