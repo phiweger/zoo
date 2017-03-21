@@ -1,15 +1,14 @@
 {
     "_id": null,
     "metadata": {},
-    "annotation": {},
     "sequence": "",
-    "derivative": {},
-    "link": {
-        "int": [],
-        "ext": []
+    "derivative": {
+        "annotation": {},
+        "minhash": {}
     },
     "relative": {
         "taxonomy": {},
-        "phylogeny": {}
+        "phylogeny": {},
+        "link": {}
     }
 }
