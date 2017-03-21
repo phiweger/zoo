@@ -13,7 +13,7 @@ Relative information includes taxonomy, phylogeny and linked information. It add
 Derived information summarizes or reexpresses the information contained in the sequence, including annotations, minhashes and alternative encodings. Derived information is usually heavily dependent on the original sequence. For example, the annotation open reading frame (ORF) derives from the sequence's start and a stop codon position. By definition, derived sequence information  does not by itself make any sense without the underlying raw sequence information.  
 Note that all categories interact, e.g. we could use minhash signatures (derivative) to compare a sequence to other ones in the database, storing the top 5 closest sequence IDs (relative).
 
-## Workink with schemas
+## Working with schemas
 
 Since zoo is not restricted to any particular use case, some schemas are presented here to give an idea how data can be structured in zoo for different viruses and sets of sequences.
 
