@@ -16,21 +16,24 @@ def parse_nomenclature_iav(notation):
     feat = notation.split('/')
     assert feat[0] == 'A', 'Not an influenza virus of type "A".'
 
-    subtype = re.search(r'\((.*?)\)', notation).group(1)
-    feat[-1] = feat[-1].split('(')[0]
-    if len(feat) == 4:
-        host = 'human'
-        geo = feat[1]
-    else:
-        host = feat[1].lower()
-        geo = feat[2]
+    try:
+        subtype = re.search(r'\((.*?)\)', notation).group(1)
+        feat[-1] = feat[-1].split('(')[0]
+        if len(feat) == 4:
+            host = 'human'
+            geo = feat[1]
+        else:
+            host = feat[1].lower()
+            geo = feat[2]
 
-    return({
-        'type': feat[0],
-        'host': host,
-        'subtype': subtype,
-        'location': geo
-        })
+        return({
+            'type': feat[0],
+            'host': host,
+            'subtype': subtype,
+            'location': geo
+            })
+    except IndexError:
+        return None, None, None, None
 
 
 def parse_date(date):
