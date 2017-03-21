@@ -50,7 +50,9 @@ def parse_date(date):
     - 1976
     - 2011/01
     - 2011/01/27  # ymd
-    - ('NON', 'Unknown', '')
+    - ('NON', 'Unknown', '', ...)
+
+    Note that year, month, day order is assumed.
 
     Usage:
 
@@ -59,7 +61,8 @@ def parse_date(date):
     '''
     record = {'y': None, 'm': None, 'd': None}
     try:  # pandas nan is of type float and won't split
-        s = date.split('/')
+        # s = date.split('/')
+        s = re.split('-|/', date)
     except AttributeError:
         return record
 
