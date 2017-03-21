@@ -369,7 +369,9 @@ def deep_set(d, key, value, force=False, replace=False):
     # deep_get erring out means key not there, no error - key present,
     # this can distinguish KeyError and {'key_present': None} in dict
     if key_exists:
-        if replace is False:
+        if replace is False and not _:
+            # i.e. field not None, "", [], ...
+            # i.e. field is non-False and we don't want to replace it
             raise TypeError(
                 'Key exists, item assignment not allowed w/ replace=False')
         else:
