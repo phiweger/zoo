@@ -72,3 +72,19 @@ def parse_date(date):
         except (IndexError, ValueError):
             continue
     return record
+
+
+def parse_location(location, source='genbank'):
+    '''
+    Example:
+
+    parse_gb_location('1->1374')
+    # ('1', '1374', 1)  # start, end, fuzzy
+    '''
+    if source == 'genbank':
+        start, end = re.findall('\\d+', location)
+        fuzzy = int(any([i in location for i in ['>', '<']]))
+        return start, end, fuzzy
+    raise AttributeError('Unknown format.')
+
+
