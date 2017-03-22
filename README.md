@@ -25,3 +25,5 @@ python setup.py test
 ### License
 
 BSD-3-Clause
+
+[![DOI](https://zenodo.org/badge/84596868.svg)](https://zenodo.org/badge/latestdoi/84596868)
