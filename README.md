@@ -11,11 +11,11 @@ pip uninstall zoo
 
 ### Documentation
 
-Documentation about zoo's functions and API is available at [readthedocs]().
+Documentation about zoo's functions and API is available at [readthedocs](https://readthedocs.org/).
 
 ### Tests
 
-Some [guidance]() on how to integrate pytest in package. Now package tests can be run by:
+zoo adheres to pytest's package integration [guidance](http://doc.pytest.org/en/latest/goodpractices.html).
 
 ```
 # cd into package directory
