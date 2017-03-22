@@ -11,7 +11,7 @@ pip uninstall zoo
 
 ### Documentation
 
-Documentation about zoo's functions and API is available at [readthedocs](https://readthedocs.org/).
+For detailed information about zoo's added value, implementation, use cases and tutorials refer to the [wiki](https://github.com/viehwegerlib/zoo/wiki). Documentation about zoo's functions and API is available at [readthedocs](https://readthedocs.org/).
 
 ### Tests
 
