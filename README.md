@@ -1,3 +1,5 @@
+[[https://github.com/viehwegerlib/zoo/blob/master/zoo/img/drops.png|alt=main]]
+
 ## zoo
 
 A distributable viral database for rapid prototyping (still pre-alpha release).
