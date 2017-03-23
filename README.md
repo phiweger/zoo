@@ -37,6 +37,8 @@ zoo encode --one-hot-encoding example.mafft.fa -o example.mat
 zoo minhash -k 16,31 -n 200,400
 zoo sbt_index --collection "flavivirus,coronavirus" -o sbt_prefix
 zoo sbt_search --fastq metagenome.fastq --sbt sbt_prefix -o besthit.csv
+
+# Use ...
 ```
 
 ### Tests
@@ -52,4 +54,9 @@ python setup.py test
 
 BSD-3-Clause
 
+Copyright (c) 2016 Adrian Viehweger
+
 [![DOI](https://zenodo.org/badge/84596868.svg)](https://zenodo.org/badge/latestdoi/84596868)
+
+
+
