@@ -15,32 +15,40 @@ pip uninstall zoo
 
 zoo provides a command-line tool as well as a Python library. For detailed information about zoo's intention, implementation, use cases and tutorials refer to the [wiki](https://github.com/viehwegerlib/zoo/wiki). Documentation about zoo's functions and API is available at [readthedocs](https://readthedocs.org/).
 
-### Quick example
+### API teaser (under development)
 
 ```
-zoo import \
-    --dat "somelink7234hd8..." \
-    --dbname "mock" \
-    --client "localhost:27017"
+zoo load --json ...
+zoo load --ncbi ...
+zoo load --ebi ...
+zoo load --dat ...
 
-zoo sample \
-    --stratified "host" \
-    --train-test 30 --split 0.7 \
-    --fields "sequence" \
-    --fasta "fields,in,header" \
-    -o example.fa
+zoo dump --fasta file.fasta # dump entire db, default: only UUID exported to fasta header
+zoo dump --fields ... --ids ... --json file.json  # select fields and ids
+zoo dump --query q.json ...  # or pass a valid mongodb query directly
+zoo dump --pipeline pl.json ...  # same goes for pipelines
+dat share .  # to share
 
-zoo msa -i example.fa -o example.mafft.fa
-zoo encode --one-hot-encoding example.mafft.fa -o example.mat
-# go fire up sklearn
+zoo sample ... --fasta file.fasta  # code for --fasta, --query etc. recycled
 
-# Use sourmash library to search minhash signatures in a
-# sequence Bloom tree.
-zoo minhash -k 16,31 -n 200,400
-zoo sbt_index --collection "flavivirus,coronavirus" -o sbt_prefix
-zoo sbt_search --fastq metagenome.fastq --sbt sbt_prefix -o besthit.csv
+# do MSA using Mafft
+zoo msa --attach alignment.mafft.fa "derivative.msa"
+zoo msa --reconstruct "ID" --out alignment.mafft.fa
 
-# Use ...
+# or align against some reference
+zoo sam --attach alignment.sam "derivative.msa"  # note the acronym: sam, msa, + 1
+zoo sam --reconstruct "ID" --out alignment.sam
+
+# FastML, RAxML refinement
+zoo tree --attach tree.phylip
+zoo tree --reconstruct "ID" --out tree.phylip
+
+# minhash
+# select, sample to fasta
+sourmash compute ...
+zoo minhash --attach sourmash.sig
+zoo  minhash --sbt prefix --collections "list,of,collections"
+zoo  minhash --sbt prefix --query q.json
 ```
 
 ### Tests
