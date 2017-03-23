@@ -47,8 +47,8 @@ zoo tree --reconstruct "ID" --out tree.phylip
 # select, sample to fasta
 sourmash compute ...
 zoo minhash --attach sourmash.sig
-zoo  minhash --sbt prefix --collections "list,of,collections"
-zoo  minhash --sbt prefix --query q.json
+zoo minhash --sbt prefix --collections "list,of,collections"
+zoo minhash --sbt prefix --query q.json
 ```
 
 ### Tests
