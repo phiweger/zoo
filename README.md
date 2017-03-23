@@ -1,4 +1,4 @@
-[[https://github.com/viehwegerlib/zoo/blob/master/zoo/img/drops.png|alt=main]]
+![](https://github.com/viehwegerlib/zoo/blob/master/zoo/img/drops.png)
 
 ## zoo
 
