@@ -43,6 +43,6 @@ We will pretend we sampled a couple of samples to detect Zika virus.
 - data source: BioProject ID [PRJNA344504](http://www.ebi.ac.uk/ena/data/view/PRJNA344504&portal=sequence_update), downloaded manually as `survey.fa`, 2017-03-24
 - `survey.txt`: corresponding GenBank accession codes
 - `survey.json`: corresponding data cell (= database dump)
-- `survey.sig`: minhash signature of all sequences in data cell
+- `survey.sig`: minhash signature of all sequences in data cell (k-mer sizes of 16 nt and 31 nt, which are less and more specific, respectively) 
 - `survey.py`: see how the files were generated
 

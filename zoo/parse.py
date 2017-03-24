@@ -112,3 +112,23 @@ def location_tostr(loc):
         return
 
 
+def location_todict(loc):
+    '''Parse location to dict.
+
+    loc = ['[5:10](-)', '[20:>30](?)']
+    assert location_todict(loc)[1]['partial'] == True
+
+    '''
+    l = []
+    for i in loc:
+        start, end = re.search(r'\[(.*?):(.*?)\]', i).group(1, 2)
+        strand = re.search(r'\((.)\)', i).group(1)
+        partial = any(x in i for x in ['<', '>'])
+        l.append({
+            'start': start,
+            'end': end,
+            'strand': strand,
+            'partial': partial
+            })
+    return l
+
