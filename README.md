@@ -1,5 +1,3 @@
-![](https://github.com/viehwegerlib/zoo/blob/master/zoo/img/drops.png)
-
 ## zoo
 
 A distributable viral database for rapid prototyping (still pre-alpha release).
