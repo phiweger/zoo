@@ -5,10 +5,6 @@ This data is meant to demonstrate some of the functionality of zoo. Albeit small
 Access to the package data:
 
 ```
-
-get_schema('example.fa')
-# /returns/system/path/to/example.fa
-
 from zoo import get_data
 from pyfaidx import Fasta
 
@@ -38,3 +34,12 @@ TODO
 derived from unsegmented viral ancestors. PNAS 111, 6744–6749 (2014).
 
 See `examples/segmented_virus.py` for data generation and use case.
+
+### Zika
+
+We will pretend we sampled a couple of samples to detect Zika virus.
+
+- data source: BioProject ID [PRJNA344504](http://www.ebi.ac.uk/ena/data/view/PRJNA344504&portal=sequence_update)
+- `PRJNA344504.fa`: assembled sequences with UUID
+- `PRJNA344504.txt`: corresponding GenBank accession codes
+
