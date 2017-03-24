@@ -40,8 +40,8 @@ with open('survey.fa', 'w+') as outfile:
 # db.survey.count()
 # 33
 
-with open('PRJNA344504.json', 'w+') as outjson:
-    outjson.write(dumps(db.survey.find()))
+with open('survey.json', 'w+') as outjson:
+    outjson.write(dumps(db.survey.find(), indent=4))
 # fasta is 350 kb, JSON 359
 
 

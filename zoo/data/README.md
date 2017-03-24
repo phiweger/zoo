@@ -12,6 +12,10 @@ fa = Fasta(get_data('vanilla.fa'))
 fa = Fasta(get_data('zika/survey.fa'))
 ```
 
+### Virus references
+
+- [source](ftp://ftp.ncbi.nlm.nih.gov/refseq/release/viral/)
+
 ### Influenza A virus, fasta files
 
 [data source](ftp://ftp.ncbi.nih.gov/genomes/INFLUENZA/)
