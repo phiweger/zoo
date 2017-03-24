@@ -163,6 +163,17 @@ fp = '/Users/pi/data/virus/influenza_a/raw/ncbi/influenza.dat'
 with open(get_schema('annotation.json')) as infile:
     anno = json.load(infile)
 
+# schmema nor deprecated
+# {
+#     "end": null,
+#     "fuzzy": null,
+#     "id": null,
+#     "syn": "",
+#     "name": "",
+#     "source": "",
+#     "start": null
+# }
+
 # anno = '''
 # {
 #     "end": null,

@@ -1,9 +1,8 @@
 {
-    "end": null,
-    "fuzzy": null,
-    "id": null,
-    "syn": "",
+    "location": "",
+    "id": "",
     "name": "",
     "source": "",
-    "start": null
-}
+    "syn": [],
+    "type": ""  // CDS, ...
+    }

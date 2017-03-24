@@ -3,12 +3,12 @@
     "metadata": {},
     "sequence": "",
     "derivative": {
-        "annotation": {},
-        "minhash": {}
+        "annotation": [],
+        "minhash": []
     },
     "relative": {
         "taxonomy": {},
         "phylogeny": {},
-        "link": {}
+        "link": []
     }
 }
