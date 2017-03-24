@@ -9,6 +9,7 @@ from zoo import get_data
 from pyfaidx import Fasta
 
 fa = Fasta(get_data('vanilla.fa'))
+fa = Fasta(get_data('zika/survey.fa'))
 ```
 
 ### Influenza A virus, fasta files
@@ -39,7 +40,8 @@ See `examples/segmented_virus.py` for data generation and use case.
 
 We will pretend we sampled a couple of samples to detect Zika virus.
 
-- data source: BioProject ID [PRJNA344504](http://www.ebi.ac.uk/ena/data/view/PRJNA344504&portal=sequence_update)
-- `PRJNA344504.fa`: assembled sequences with UUID
-- `PRJNA344504.txt`: corresponding GenBank accession codes
+- data source: BioProject ID [PRJNA344504](http://www.ebi.ac.uk/ena/data/view/PRJNA344504&portal=sequence_update), downloaded manually as `survey.fa`, 2017-03-24
+- `survey.txt`: corresponding GenBank accession codes
+- `survey.json`: corresponding database dump
+- `survey.py`: see how the files were generated
 
