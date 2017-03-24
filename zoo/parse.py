@@ -1,4 +1,5 @@
 import re
+from Bio.SeqFeature import FeatureLocation, CompoundLocation
 
 
 def parse_nomenclature_iav(notation):
@@ -86,5 +87,28 @@ def parse_location(location, source='genbank'):
         fuzzy = int(any([i in location for i in ['>', '<']]))
         return start, end, fuzzy
     raise AttributeError('Unknown format.')
+
+
+def location_tostr(loc):
+    '''Parse FeatureLocation to list of str.
+    Example:
+
+    from Bio.SeqFeature import FeatureLocation, AfterPosition
+    # http://biopython.org/DIST/docs/api/Bio.SeqFeature.FeatureLocation-class.html
+
+    f1 = FeatureLocation(5, 10, strand=-1)
+    f2 = FeatureLocation(20, AfterPosition(30), strand=0)
+    combined = f1 + f2
+    location_tostr(combined)
+    # ['[5:10](-)', '[20:>30](?)']
+    '''
+    if isinstance(loc, (FeatureLocation, CompoundLocation)):
+        if len(loc.parts) == 1:
+            return [str(loc)]
+        else:
+            return [str(i) for i in loc.parts]
+    else:
+        print('Currently only supports FeatureLocation location type.')
+        return
 
 
