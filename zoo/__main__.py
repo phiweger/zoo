@@ -19,7 +19,7 @@ def load(input):
     click.echo('Loading the data cell.')
     for line in input:
         click.echo(
-            json.loads(line.readline().strip())
+            json.loads(line.strip())
             )
 
 
