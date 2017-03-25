@@ -11,6 +11,7 @@ from pymongo import MongoClient
 def cli():
     pass
 
+
 @click.command()
 @click.option('--client', default='localhost:27017')
 @click.option('--db', default='test')
@@ -21,7 +22,7 @@ def load(input, client, db, collection):
     c = MongoClient(client)[db][collection]
     for line in input:
         c.insert_one(json.loads(line.strip()))
-    click.echo('#entries:', c.count())
+    click.echo('# of entries written:', str(c.count()))
 
 
 
