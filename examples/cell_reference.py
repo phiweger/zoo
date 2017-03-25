@@ -95,7 +95,6 @@ deep_get(record, 'metadata.description')
 # 'Zika virus, complete genome'
 
 
-
 # TODO: do the search internally, i.e. not via commanline
 
 
