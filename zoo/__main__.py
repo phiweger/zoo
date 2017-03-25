@@ -12,18 +12,16 @@ def cli():
     pass
 
 
-@click.command()
-# @click.option('--count', default=1, help='Number of greetings.')
+@click.command('--client', default='localhost:27017')
+@click.command('--db', default='test')
+@click.command('--collection', default='test')
 @click.argument('input', type=click.File('r+'))
-def load(input):
+def load(input, client, db, collection):
     click.echo('Loading the data cell.')
+    c = MongoClient(client)[db][collection]
     for line in input:
-        click.echo(
-            json.loads(line.strip())
-            )
-
-
-
+        c.insert_one(json.loads(line.strip()))
+    click.echo('#entries:', c.count())
 
 
 
