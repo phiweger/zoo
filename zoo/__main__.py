@@ -11,10 +11,10 @@ from pymongo import MongoClient
 def cli():
     pass
 
-
-@click.command('--client', default='localhost:27017')
-@click.command('--db', default='test')
-@click.command('--collection', default='test')
+@click.command()
+@click.option('--client', default='localhost:27017')
+@click.option('--db', default='test')
+@click.option('--collection', default='test')
 @click.argument('input', type=click.File('r+'))
 def load(input, client, db, collection):
     click.echo('Loading the data cell.')
