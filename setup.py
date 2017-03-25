@@ -25,7 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             # 'zoo = zoo.__main__:main'
-            'load = zoo.commands:load'
+            'load = zoo.commands:cli'
         ]})
 
 
