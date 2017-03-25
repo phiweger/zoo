@@ -18,7 +18,7 @@ setup(
         'progressbar2',
         'pyfaidx',
         'sourmash',
-        'click'
+        'Click'
     ],
     zip_safe=False,
     setup_requires=['pytest-runner'],
