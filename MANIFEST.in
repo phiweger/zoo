@@ -1,2 +1,3 @@
 include zoo/data/*
+include zoo/data/zika/*
 include zoo/schema/*.json

@@ -4,6 +4,7 @@ zoo command line.
 
 import click
 import ijson
+from pymongo import MongoClient
 
 
 @click.group()
@@ -17,10 +18,16 @@ def cli():
 def load(input):
     click.echo('Loading the data cell.')
     click.echo(json.load(input))
-    # db[args.collection].insert(json.loads(line))
-    # http://trimc-db.blogspot.de/2015/01/using-python-driver-in-mongodb-for.html
+
+
+
+
 
 '''
+db[args.collection].insert(json.loads(line))
+http://trimc-db.blogspot.de/2015/01/using-python-driver-in-mongodb-for.html
+
+
 We have to assume JSON input is larger than memory. We'll use "ijson".
 - https://www.dataquest.io/blog/python-json-tutorial/
 - https://pypi.python.org/pypi/ijson/
@@ -31,12 +38,17 @@ with open(filename, 'r') as f:
     columns = list(objects)
 
 
+fn = 'ref.json'
+
 with open(fn, 'r+') as input:
     for item in islice(ijson.items(input, 'item'), 5):
     # mongodb dump is a list of JSON files
     # stackoverflow, 19996401
         print(item['metadata'])
-    
+
+client = MongoClient('localhost:27017')
+db = client['mock']
+
 
 '''
 

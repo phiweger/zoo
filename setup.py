@@ -10,11 +10,11 @@ setup(
     license='BSD 3-clause',
     packages=['zoo'],
     package_dir={'zoo': 'zoo'},
-    package_data={'zoo': ['data/*', 'schema/*.json']},
+    package_data={'zoo': ['data/*', 'data/zika/*', 'schema/*.json']},
     install_requires=[
         'biopython',
         'Click',
-        'ijson',
+        # 'ijson',  # likely not needed
         'numpy',
         'pandas',
         'progressbar2',

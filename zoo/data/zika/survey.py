@@ -15,6 +15,9 @@ db = client['zika']
 with open(zoo.get_schema('base.json')) as infile:
     base = json.load(infile)
 
+fa = Fasta(
+    zoo.get_data('zika/survey.fa'),
+    key_function=lambda x: x.split('|')[1])
 
 # load fasta
 # >ENA|KY014295|KY014295.2 Zika virus isolate Zika virus/H.s...
