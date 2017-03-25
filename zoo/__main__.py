@@ -1,5 +1,8 @@
+from .commands import load
+
+
 def main():
-    print('Wow')
+    load('bar.foo')
 
 # $ zoo
 # Wow
