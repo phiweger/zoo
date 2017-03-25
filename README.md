@@ -2,6 +2,8 @@
 
 A distributable viral database for rapid prototyping (still pre-alpha release).
 
+![](https://github.com/viehwegerlib/zoo/blob/master/zoo/img/cell.png)
+
 ### Install
 
 ```
