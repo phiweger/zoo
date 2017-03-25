@@ -1,6 +1,8 @@
 import click
 
 
-@click.option('--file', default='foo.bar', help='File to import.')
-def load(file):
-    print(file)
+@click.option('--count', default=3, help='File to import.')
+@click.option('--file', default='foo.bar', help='woof.')
+def load(count, file):
+    for i in range(count):
+        click.echo('Hello %s!' % file)
