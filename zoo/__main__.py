@@ -12,7 +12,7 @@ def cli():
 
 @click.command()
 @click.option('--count', default=1, help='Number of greetings.')
-def initdb():
+def initdb(count):
     click.echo('Initialized the database')
     for i in range(count):
         print('foo')
