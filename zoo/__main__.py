@@ -3,7 +3,7 @@ zoo command line.
 '''
 
 import click
-import ijson
+import json
 from pymongo import MongoClient
 
 
@@ -17,7 +17,11 @@ def cli():
 @click.argument('input', type=click.File('r+'))
 def load(input):
     click.echo('Loading the data cell.')
-    click.echo(json.load(input))
+    for line in input:
+        click.echo(
+            json.loads(line.readline().strip())
+            )
+
 
 
 
