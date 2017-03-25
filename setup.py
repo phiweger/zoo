@@ -13,12 +13,13 @@ setup(
     package_data={'zoo': ['data/*', 'schema/*.json']},
     install_requires=[
         'biopython',
+        'Click',
+        'ijson',
         'numpy',
         'pandas',
         'progressbar2',
         'pyfaidx',
-        'sourmash',
-        'Click'
+        'sourmash'
     ],
     zip_safe=False,
     setup_requires=['pytest-runner'],
