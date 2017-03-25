@@ -1,4 +1,3 @@
-from bson.json_util import dumps  # stackoverflow, 30333299
 from copy import deepcopy
 import json
 from pyfaidx import Fasta
@@ -6,6 +5,7 @@ from pymongo import MongoClient
 from sourmash_lib import Estimators, signature
 from uuid import uuid4
 import zoo
+from zoo.io import json_dump
 
 
 client = MongoClient('localhost:27017')
@@ -15,13 +15,12 @@ db = client['zika']
 with open(zoo.get_schema('base.json')) as infile:
     base = json.load(infile)
 
+# load fasta
+# >ENA|KY014295|KY014295.2 Zika virus isolate Zika virus/H.s...
 fa = Fasta(
     zoo.get_data('zika/survey.fa'),
     key_function=lambda x: x.split('|')[1])
 
-# load fasta
-# >ENA|KY014295|KY014295.2 Zika virus isolate Zika virus/H.s...
-fa = Fasta('survey.fa', key_function=lambda x: x.split('|')[1])
 
 # write keys to txt
 with open('survey.txt', 'w+') as outfile:
@@ -42,10 +41,7 @@ with open('survey.fa', 'w+') as outfile:
 
 # db.survey.count()
 # 33
-
-with open('survey.json', 'w+') as outjson:
-    outjson.write(dumps(db.survey.find(), indent=4))
-# fasta is 350 kb, JSON 359
+json_dump('survey.json', db.survey.find())
 
 
 # now create a minhash of the entire sequences to search
