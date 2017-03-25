@@ -17,7 +17,8 @@ setup(
         'pandas',
         'progressbar2',
         'pyfaidx',
-        'sourmash'
+        'sourmash',
+        'click'
     ],
     zip_safe=False,
     setup_requires=['pytest-runner'],
