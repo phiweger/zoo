@@ -51,6 +51,25 @@ zoo minhash --sbt prefix --collections "list,of,collections"
 zoo minhash --sbt prefix --query q.json
 ```
 
+### Sharing data
+
+Data cells are shared with the [dat protocol](https://github.com/datproject/dat). It couldn't be easier. Let's say you had a [data cell](https://github.com/viehwegerlib/zoo/wiki/Whitepaper) `zika.json` with some experimental Zika data.
+
+```
+dat share .../zika_survey/  # contains zika.json
+# Syncing Dat Archive: .../zika_survey
+# Link: dat://ff92ce30e1ff6ebd75edeb42f04239367243a58b7838f50706bd995e5dbc5d4c
+```
+
+We can send this link to a colleague or put it in the zoo registry for others to find.
+
+```
+# meanwhile in a faraway place
+dat clone ff92ce30e1ff6ebd75edeb42f04239367243a58b7838f50706bd995e5dbc5d4c
+ls
+# zika.json
+```
+
 ### Tests
 
 zoo adheres to pytest's package integration [guidance](http://doc.pytest.org/en/latest/goodpractices.html).
