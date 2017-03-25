@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='zoo',
-    version='0.1',
+    version='0.2',
     description='A distributed microbial database',
     url='https://github.com/viehwegerlib/zoo',
     author='Adrian Viehweger',
