@@ -7,8 +7,13 @@ A distributable viral database for rapid prototyping (still pre-alpha release).
 ### Install
 
 ```
+# to use
 pip install git+https://github.com/viehwegerlib/zoo.git@master
 pip uninstall zoo
+
+# to develop
+git clone https://github.com/viehwegerlib/zoo
+pip install -e zoo
 ```
 
 ### Documentation
