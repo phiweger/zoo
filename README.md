@@ -53,7 +53,7 @@ zoo minhash --sbt prefix --query q.json
 
 ### Sharing data
 
-[Data cell](https://github.com/viehwegerlib/zoo/wiki/Whitepaper) are shared with the [dat protocol](https://github.com/datproject/dat). It couldn't be easier. Let's say you had a file `zika.json` with some experimental Zika data.
+[Data cells](https://github.com/viehwegerlib/zoo/wiki/Whitepaper) are shared with the [dat protocol](https://github.com/datproject/dat). It couldn't be easier. Let's say you had a file `zika.json` with some experimental Zika data.
 
 ```
 dat share .../zika_survey/  # contains zika.json
