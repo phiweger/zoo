@@ -24,8 +24,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            # 'zoo = zoo.__main__:main'
-            'foo = zoo.commands:cli'
+            'zoo = zoo.__main__:cli'
         ]})
 
 

@@ -1,7 +1,3 @@
-'''
-zoo command line.
-'''
-
 import click
 
 
