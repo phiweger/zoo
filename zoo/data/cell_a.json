@@ -1,0 +1,3 @@
+{"_id": "1", "animal": "zebra", "legs": 7, "dangerous": true}
+{"_id": "2", "animal": "kitten", "legs": 4, "dangerous": "very"}
+{"_id": "3", "animal": "injured dog", "legs": 3.3, "dangerous": false}
