@@ -402,6 +402,21 @@ def ordered(obj):
         return obj
 
 
+def flatten(l):
+    '''
+    Given a nested list or tuple flatten (= "unnest") it.
+    '''
+    result = []
+    for item in l:
+        if isinstance(item, (list, tuple)):
+            # http://bit.ly/2biB44i
+            # http://bit.ly/2b3Nwa4
+            result.extend(flatten(item))
+        else:
+            result.append(item)
+    return result
+
+
 # def select_taxonomy(id):
 #     '''
 #     Given an id, return all entries from all collections associated
