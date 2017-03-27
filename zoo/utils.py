@@ -411,7 +411,7 @@ def flat(l):
         if isinstance(item, (list, tuple)):
             # http://bit.ly/2biB44i
             # http://bit.ly/2b3Nwa4
-            result.extend(flatten(item))
+            result.extend(flat(item))
         else:
             result.append(item)
     return result
