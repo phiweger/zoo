@@ -2,6 +2,7 @@ import click
 import json
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
+from zoo.hash import hash_dict
 
 
 @click.command()
@@ -31,14 +32,15 @@ def add(infile, client, db, cell):
 
 @click.command()
 @click.option('--client', default='localhost:27017')
-@click.option('--db', default='test')
-@click.option('--collection', default='test')
-@click.argument('outfile', type=click.File('w+'))
-def commit(outfile, client, db, collection):
+@click.option('--db', required=True)
+@click.option('--cell', required=True)
+@click.argument('file', type=click.File('w+'))
+def commit(file, client, db, cell):
     '''Dump a (mongodb) cursor to a data cell.
 
     For each document, start a new line in the output.
 
+    \b
     {"_id":"86853586-5e9...
     {"_id":"689e59b8-514...
     {"_id":"6d9bff35-aab...
@@ -52,12 +54,19 @@ def commit(outfile, client, db, collection):
     $ mongoimport --db foo --collection bar2 bar.json
     '''
     click.echo('Dumping data cell.')
-    c = MongoClient(client)[db][collection]
-    for i in c.find():
-        outfile.write(json.dumps(i) + '\n')  # same as zoo.io.dump_json
+    db = MongoClient(client)[db]
+    for d in db[cell].find():
+        del d['_id']  # Neither the primary key (because it is random) ...
+        try:
+            del d['md5']  # ... nor the checksum should figure in the checksum.
+        except KeyError:
+            pass
+        d['md5'] = hash_dict(d)
+        file.write(json.dumps(d) + '\n')  # same as zoo.io.dump_json
 
     # TODO: md5 hash all docs before leaving
     # _id, h_new = hash_document(json.loads(line))
+
 
 @click.command()
 def diff(outfile, client, db, collection):
