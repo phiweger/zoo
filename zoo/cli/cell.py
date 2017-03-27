@@ -5,30 +5,66 @@ from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
 from sourmash_lib import Estimators, signature, signature_json
 from zoo.hash import hash_dict
+from zoo.utils import deep_get
 
 
 @click.command()
 @click.option('--client', default='localhost:27017')
-@click.option('--db')
-@click.option('--cell')
+@click.option('--db', required=True)
+@click.option('--cell', required=True, help='Filename w/ extension.')
+@click.option(
+    '--primkey', default='_id',
+    help='What is the primary key to judge duplicates by? UUID, GenBank?')
 @click.argument('file', type=click.File('r+'))
-def add(file, client, db, cell):
+def add(file, client, db, cell, primkey):
     '''Load a data cell.
+
+    An alternative primary key can be specified to insert documents. This
+    is useful in the case where the data cell comes from a collaborator
+    who uses a different set of UUIDs as we do. In this case, these identifiers
+    do not reflect, whether an entry is a duplicate.
 
     Example:
 
-    zoo --client localhost:27017 --db zika --cell survey survey.json
-    zoo --client localhost:27017 --db zika --cell survey *
+    $ zoo add --client localhost:27017 --db zika --cell t5 zoo/data/cell_a.json
+    Loading data cell.
+    3 documents inserted in collection t5.
+    0 duplicates skipped.
+    Done.
+
+    $ zoo add --db zika --cell t5 --primkey genbank.a zoo/data/cell_b.json
+    Loading data cell.
+    Index created on field "genbank.a".
+    1 documents inserted in collection t5.
+    3 duplicates skipped.
+    Done.
     '''
     click.echo('Loading data cell.')
     c = MongoClient(client)[db][cell]
-    for line in file:
-        try:
-            c.insert_one(json.loads(line.strip()))
-        except DuplicateKeyError:
-            print('Duplicate key, loading aborted.')
-            return
-    print(c.count(), 'documents inserted in collection', cell + '.\nDone.')
+    duplicates = 0
+    if primkey == '_id':
+        for line in file:
+            try:
+                c.insert_one(json.loads(line.strip()))
+            except DuplicateKeyError:
+                duplicates += 1
+                pass
+    else:
+        # index primkey if it does not exists yet
+        if primkey not in c.index_information():
+            c.create_index(primkey, unique=True, name=primkey)
+            print('Index created on field', '"' + primkey + '".')
+        for line in file:
+            d = json.loads(line.strip())
+            if c.find_one({primkey: deep_get(d, primkey)}):  # no duplicate
+                duplicates += 1
+            else:
+                c.insert_one(d)
+
+    print(
+        c.count() - duplicates, 'documents inserted in collection', cell + '.')
+    if duplicates > 0:
+        print(duplicates, 'duplicates skipped.\nDone.')
 
 
 @click.command()
@@ -112,7 +148,13 @@ def diff(outfile, client, db, collection):
 
 @click.command()
 def pull():
-    # assume there is md5 from commit
+    '''
+    for each entry in pulled file:
+    1. calculate fresh md5
+    2. compare to existing
+    3. if != drop entry end replace with pulled one
+    4. we can assume primary keys same, because we pull changes from existing.
+    '''
     print('Trying.')
 
 
@@ -126,7 +168,9 @@ def destroy():  # drop database entirely
     print('Trying.')
 
 
-
+@click.command()
+def init():  # load json to mongodb and assign UUID
+    print('Trying.')
 
 
 

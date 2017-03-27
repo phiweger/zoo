@@ -3,7 +3,7 @@ zoo command line.
 '''
 
 import click
-from .cli.cell import add, commit, diff, pull, drop, destroy
+from .cli.cell import init, add, commit, diff, pull, drop, destroy
 
 
 @click.group()
@@ -11,6 +11,7 @@ def cli():
     pass
 
 
+cli.add_command(init)
 cli.add_command(add)
 cli.add_command(commit)
 cli.add_command(diff)
