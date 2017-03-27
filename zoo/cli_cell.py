@@ -6,8 +6,8 @@ from pymongo.errors import DuplicateKeyError
 
 @click.command()
 @click.option('--client', default='localhost:27017')
-@click.option('--db', default='test')
-@click.option('--cell', default='test')
+@click.option('--db')
+@click.option('--cell')
 @click.argument('infile', type=click.File('r+'), nargs=-1)
 def add(infile, client, db, cell):
     '''Load a data cell.
@@ -67,42 +67,14 @@ def pull():
     print('Trying.')
 
 
-
-from hashlib import md5
-import json
-
-with open(zoo.get_data('cell_a.json'), 'r+') as file:
-    hashmap = {}
-    for line in file:
-        d = json.loads(line)
-        _id = d.pop("_id")
-
-        # hash line (all but primary key)
-        h = md5()
-        h.update(json.dumps(d, sort_keys=True).encode('utf-8'))
-        value = h.hexdigest()
-        hashmap[_id] = value
-        # It is important that keys be sorted, as Python does not enforce this.
+@click.command()
+def drop():  # cell
+    print('Trying.')
 
 
-def hash_document(d):
-    '''md5 hash the JSON string representation of a dict w/o key "_id"'''
-    _id = d.pop('_id')
-    h = md5()
-    h.update(json.dumps(d, sort_keys=True).encode('utf-8'))
-    value = h.hexdigest()
-    return _id, value
-
-
-
-
-
-
-
-
-
-
-
+@click.command()
+def destroy():  # drop database entirely
+    pass
 
 
 
