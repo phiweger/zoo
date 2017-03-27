@@ -389,6 +389,19 @@ def deep_set(d, key, value, force=False, replace=False):
             d.setdefault(latest, value)
 
 
+def ordered(obj):
+    '''Sort a nested dict's keys AND values recursively.
+
+    stackoverflow, 25851183
+    '''
+    if isinstance(obj, dict):
+        return sorted((k, ordered(v)) for k, v in obj.items())
+    if isinstance(obj, list):
+        return sorted(ordered(x) for x in obj)
+    else:
+        return obj
+
+
 # def select_taxonomy(id):
 #     '''
 #     Given an id, return all entries from all collections associated

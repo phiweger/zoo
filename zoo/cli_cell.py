@@ -56,6 +56,8 @@ def commit(outfile, client, db, collection):
     for i in c.find():
         outfile.write(json.dumps(i) + '\n')  # same as zoo.io.dump_json
 
+    # TODO: md5 hash all docs before leaving
+    # _id, h_new = hash_document(json.loads(line))
 
 @click.command()
 def diff(outfile, client, db, collection):
@@ -64,6 +66,7 @@ def diff(outfile, client, db, collection):
 
 @click.command()
 def pull():
+    # assume there is md5 from commit
     print('Trying.')
 
 
