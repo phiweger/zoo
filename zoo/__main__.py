@@ -3,7 +3,7 @@ zoo command line.
 '''
 
 import click
-from .cli_cell import add, commit, diff, pull, drop, destroy
+from .cli.cell import add, commit, diff, pull, drop, destroy
 
 
 @click.group()
