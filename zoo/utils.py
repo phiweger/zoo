@@ -402,9 +402,9 @@ def ordered(obj):
         return obj
 
 
-def flatten(l):
+def flat(l):
     '''
-    Given a nested list or tuple flatten (= "unnest") it.
+    Given a nested list and/ or tuple flatten (= "unnest") it.
     '''
     result = []
     for item in l:
