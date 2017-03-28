@@ -4,6 +4,7 @@ from progressbar import ProgressBar, UnknownLength
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
 from sourmash_lib import Estimators, signature, signature_json
+from uuid import uuid4
 from zoo.hash import hash_dict
 from zoo.utils import deep_get
 
@@ -11,7 +12,7 @@ from zoo.utils import deep_get
 @click.command()
 @click.option('--client', default='localhost:27017')
 @click.option('--db', required=True)
-@click.option('--cell', required=True, help='Filename w/ extension.')
+@click.option('--cell', required=True, help='Cell name.')
 @click.option(
     '--primkey', default='_id',
     help='What is the primary key to judge duplicates by? UUID, GenBank?')
@@ -26,12 +27,14 @@ def add(file, client, db, cell, primkey):
 
     Example:
 
+    \b
     $ zoo add --client localhost:27017 --db zika --cell t5 zoo/data/cell_a.json
     Loading data cell.
     3 documents inserted in collection t5.
     0 duplicates skipped.
     Done.
 
+    \b
     $ zoo add --db zika --cell t5 --primkey genbank.a zoo/data/cell_b.json
     Loading data cell.
     Index created on field "genbank.a".
@@ -62,7 +65,7 @@ def add(file, client, db, cell, primkey):
                 c.insert_one(d)
 
     print(
-        c.count() - duplicates, 'documents inserted in collection', cell + '.')
+        c.count() - duplicates, 'documents inserted in cell', cell + '.')
     if duplicates > 0:
         print(duplicates, 'duplicates skipped.\nDone.')
 
@@ -72,16 +75,19 @@ def add(file, client, db, cell, primkey):
 @click.option('--db', required=True)
 @click.option(
     '--cell', required=True,
-    help='Filename w/o extension.')
+    help='Cell name.')
 @click.option(
     '--ksize', default='16,31',
     help='Comma separated list of k-mer sizes. Larger is more specific.')
 @click.option('--n', default=1000)
-@click.argument('file', type=click.Path())
+@click.argument(
+    'file', type=click.Path())
 def commit(file, client, db, cell, ksize, n):
     '''Dump a (mongodb) cursor to a data cell.
 
     For each document, start a new line in the output.
+
+    file argument: Filename prefix w/o extension.
 
     \b
     {"_id":"86853586-5e9...
@@ -92,9 +98,14 @@ def commit(file, client, db, cell, ksize, n):
     in memory, both on import and export. Note also that this is the same
     output format as ...
 
+    \b
     $ mongoexport --db foo --collection bar --out bar.json
     ... and can be reimported by
     $ mongoimport --db foo --collection bar2 bar.json
+
+    Example:
+
+    $ zoo commit --db zika --cell survey --n 5 surveytest
     '''
     click.echo('Dumping data cell.')
     db = MongoClient(client)[db]
@@ -168,9 +179,33 @@ def destroy():  # drop database entirely
     print('Trying.')
 
 
+@click.option('--client', default='localhost:27017')
+@click.option('--db', required=True)
+@click.option('--cell', required=True, help='Filename w/ extension.')
+@click.argument('file', type=click.Path())
 @click.command()
-def init():  # load json to mongodb and assign UUID
-    print('Trying.')
+def init(file, client, db, cell):  # load json to mongodb and assign UUID
+    '''
+    If we write, no file extension needed, if we read, needed to indicate file.
+    See also "zoo add ..." (read) vs. "zoo commit" (write).
+
+    Example:
+
+    \b
+    $ zoo init --db zika --cell animals zoo/data/cell_a.json
+    Initializing data cell.
+    Inserted 3 entries into "animals".
+    '''
+    click.echo('Initializing data cell.')
+    c = MongoClient(client)[db][cell]
+    with open(file, 'r+') as f:
+        for line in f:
+            d = json.loads(line.strip())
+            d['_id'] = str(uuid4())
+            c.insert_one(d)
+    print('Inserted', c.count(), 'entries into cell', '"' + cell + '".')
+
+
 
 
 
