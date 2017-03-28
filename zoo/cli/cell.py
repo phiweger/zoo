@@ -9,6 +9,22 @@ from zoo.hash import hash_dict
 from zoo.utils import deep_get
 
 
+'''
+Helper functions.
+'''
+
+
+def abort_if_false(ctx, param, value):
+    '''http://click.pocoo.org/5/options/#prompting'''
+    if not value:
+        ctx.abort()
+
+
+'''
+CLI
+'''
+
+
 @click.command()
 @click.option('--client', default='localhost:27017')
 @click.option('--db', required=True)
@@ -170,8 +186,43 @@ def pull():
 
 
 @click.command()
-def drop():  # cell
+def status():
+    '''
+    \b
+    - list cells, num_entries
+    - verbose: find_one() in each cell but truncate sequence field before print
+    - include .zoo metadata in the report in the future
+    '''
     print('Trying.')
+
+
+@click.option('--client', default='localhost:27017')
+@click.option('--db', required=True)
+@click.option('--cell', required=True, help='Cell name.')
+@click.option('--force', is_flag=True, callback=abort_if_false,
+              expose_value=False,
+              prompt='Are you sure you want to drop the db?')
+@click.command()
+def drop(client, db, cell):  # cell
+    '''Delete a cell.
+
+    If a cell did not exist, it is dropped nevertheless. Ask your favourite
+    philosopher what it means to delete something that did not exist.
+
+    Example:
+
+    \b
+    $ zoo drop --db zika --cell survey
+    Are you sure you want to drop the db? [y/N]: y
+    Dropped cell "animals" from database "zika".
+
+    \b
+    $ zoo drop --db zika --cell survey --force  # no confirmation
+    Dropped cell "animals" from database "zika".
+    '''
+    c = MongoClient(client)[db][cell]
+    c.drop()
+    print('Dropped cell', '"' + cell + '"', 'from database', '"' + db + '".')
 
 
 @click.command()
@@ -181,7 +232,7 @@ def destroy():  # drop database entirely
 
 @click.option('--client', default='localhost:27017')
 @click.option('--db', required=True)
-@click.option('--cell', required=True, help='Filename w/ extension.')
+@click.option('--cell', required=True, help='Cell name.')
 @click.argument('file', type=click.Path())
 @click.command()
 def init(file, client, db, cell):  # load json to mongodb and assign UUID
