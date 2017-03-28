@@ -171,21 +171,55 @@ def commit(file, client, db, cell, ksize, n):
     click.echo('\nDone.')
 
 
-@click.command()
-def diff(outfile, client, db, collection):
-    print('Trying.')
 
 
+
+
+
+
+
+
+
+@click.option('--client', default='localhost:27017')
+@click.option('--db', required=True)
+@click.option('--cell', required=True, help='Cell name.')
+@click.argument('file', type=click.File('r+'))
 @click.command()
-def pull():
+def pull(file, client, db, cell):
     '''
-    for each entry in pulled file:
+    for each entry in existing database:
     1. calculate fresh md5
-    2. compare to existing
-    3. if != drop entry end replace with pulled one
+    o need to calc new hash or pulled file as commit takes care of that
+    2. compare old vs. new, if != drop entry end replace with pulled one
     4. we can assume primary keys same, because we pull changes from existing.
     '''
-    print('Trying.')
+    print("Updating cell's md5 hashes.")
+    c = MongoClient(client)[db][cell]
+
+    bar = ProgressBar(max_value=UnknownLength)
+    counter = 0
+
+    for line in file:
+        d_new = json.loads(line.strip())
+
+        _id_new = d_new['_id']
+        md5_new = d_new['md5']
+
+        d_old = c.find_one({'_id': _id_new}, {'_id': 0, 'md5': 0})
+
+        if not d_old:  # new entry
+            print('\nInserting new entry.')
+            c.insert_one(d_new)
+        else:  # update and check md5
+            md5_old = hash_dict(d_old)
+
+            if md5_new == md5_old:  # no need to update
+                print('\nNo change.')
+                continue
+            else:
+                print('Replace.')
+                c.find_one_and_replace({'_id': _id_new}, d_new)
+        bar.update(counter)
 
 
 
@@ -193,22 +227,6 @@ def pull():
 
 
 
-
-
-
-
-
-
-
-@click.command()
-def status():
-    '''
-    \b
-    - list cells, num_entries
-    - verbose: find_one() in each cell but truncate sequence field before print
-    - include .zoo metadata in the report in the future
-    '''
-    print('Trying.')
 
 
 @click.option('--client', default='localhost:27017')
@@ -280,7 +298,20 @@ def init(file, client, db, cell):  # load json to mongodb and assign UUID
     print(inserted, 'entries inserted into cell', '"' + cell + '".')
 
 
+@click.command()
+def diff():
+    print('Trying.')
 
+
+@click.command()
+def status():
+    '''
+    \b
+    - list cells, num_entries
+    - verbose: find_one() in each cell but truncate sequence field before print
+    - include .zoo metadata in the report in the future
+    '''
+    print('Trying.')
 
 
 
