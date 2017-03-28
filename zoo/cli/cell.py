@@ -60,11 +60,13 @@ def add(file, client, db, cell, primkey):
     '''
     click.echo('Loading data cell.')
     c = MongoClient(client)[db][cell]
+    inserted = 0
     duplicates = 0
     if primkey == '_id':
         for line in file:
             try:
                 c.insert_one(json.loads(line.strip()))
+                inserted += 1
             except DuplicateKeyError:
                 duplicates += 1
                 pass
@@ -79,9 +81,10 @@ def add(file, client, db, cell, primkey):
                 duplicates += 1
             else:
                 c.insert_one(d)
+                inserted += 1
 
     print(
-        c.count() - duplicates, 'documents inserted in cell', cell + '.')
+        inserted, 'documents inserted in cell', '"' + cell + '".')
     if duplicates > 0:
         print(duplicates, 'duplicates skipped.\nDone.')
 
@@ -201,7 +204,7 @@ def status():
 @click.option('--cell', required=True, help='Cell name.')
 @click.option('--force', is_flag=True, callback=abort_if_false,
               expose_value=False,
-              prompt='Are you sure you want to drop the db?')
+              prompt='Sure to drop entire cell?')
 @click.command()
 def drop(client, db, cell):  # cell
     '''Delete a cell.
@@ -229,7 +232,7 @@ def drop(client, db, cell):  # cell
 @click.option('--db', required=True)
 @click.option('--force', is_flag=True, callback=abort_if_false,
               expose_value=False,
-              prompt='Are you sure you want to drop the db?')
+              prompt='Sure to drop entire zoo?')
 @click.command()
 def destroy(client, db):  # drop database entirely
     MongoClient(client).drop_database(db)
