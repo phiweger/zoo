@@ -25,6 +25,46 @@ CLI
 '''
 
 
+'''
+init
+'''
+
+
+@click.option('--client', default='localhost:27017')
+@click.option('--db', required=True)
+@click.option('--cell', required=True, help='Cell name.')
+@click.argument('file', type=click.Path())
+@click.command()
+def init(file, client, db, cell):  # load json to mongodb and assign UUID
+    '''
+    If we write, no file extension needed, if we read, needed to indicate file.
+    See also "zoo add ..." (read) vs. "zoo commit" (write).
+
+    Example:
+
+    \b
+    $ zoo init --db zika --cell animals zoo/data/cell_a.json
+    Initializing data cell.
+    Inserted 3 entries into "animals".
+    '''
+    click.echo('Initializing data cell.')
+    c = MongoClient(client)[db][cell]
+    inserted = 0
+    with open(file, 'r+') as f:
+        for line in f:
+            d = json.loads(line.strip())
+            d['_id'] = str(uuid4())
+            c.insert_one(d)
+            inserted += 1
+    print(inserted, 'entries inserted into cell', '"' + cell + '".')
+    print('Primary key assigned to field "_id".')
+
+
+'''
+add
+'''
+
+
 @click.command()
 @click.option('--client', default='localhost:27017')
 @click.option('--db', required=True)
@@ -87,6 +127,11 @@ def add(file, client, db, cell, primkey):
         inserted, 'documents inserted in cell', '"' + cell + '".')
     if duplicates > 0:
         print(duplicates, 'duplicates skipped.\nDone.')
+
+
+'''
+commit
+'''
 
 
 @click.command()
@@ -171,13 +216,9 @@ def commit(file, client, db, cell, ksize, n):
     click.echo('\nDone.')
 
 
-
-
-
-
-
-
-
+'''
+pull
+'''
 
 
 @click.option('--client', default='localhost:27017')
@@ -222,11 +263,9 @@ def pull(file, client, db, cell):
         bar.update(counter)
 
 
-
-
-
-
-
+'''
+drop
+'''
 
 
 @click.option('--client', default='localhost:27017')
@@ -258,6 +297,11 @@ def drop(client, db, cell):  # cell
     print('Dropped cell', '"' + cell + '"', 'from database', '"' + db + '".')
 
 
+'''
+destroy
+'''
+
+
 @click.option('--client', default='localhost:27017')
 @click.option('--db', required=True)
 @click.option('--force', is_flag=True, callback=abort_if_false,
@@ -269,38 +313,19 @@ def destroy(client, db):  # drop database entirely
     print('Dropped database', '"' + db + '".')
 
 
-@click.option('--client', default='localhost:27017')
-@click.option('--db', required=True)
-@click.option('--cell', required=True, help='Cell name.')
-@click.argument('file', type=click.Path())
-@click.command()
-def init(file, client, db, cell):  # load json to mongodb and assign UUID
-    '''
-    If we write, no file extension needed, if we read, needed to indicate file.
-    See also "zoo add ..." (read) vs. "zoo commit" (write).
-
-    Example:
-
-    \b
-    $ zoo init --db zika --cell animals zoo/data/cell_a.json
-    Initializing data cell.
-    Inserted 3 entries into "animals".
-    '''
-    click.echo('Initializing data cell.')
-    c = MongoClient(client)[db][cell]
-    inserted = 0
-    with open(file, 'r+') as f:
-        for line in f:
-            d = json.loads(line.strip())
-            d['_id'] = str(uuid4())
-            c.insert_one(d)
-            inserted += 1
-    print(inserted, 'entries inserted into cell', '"' + cell + '".')
+'''
+diff
+'''
 
 
 @click.command()
 def diff():
     print('Trying.')
+
+
+'''
+status
+'''
 
 
 @click.command()
@@ -312,14 +337,6 @@ def status():
     - include .zoo metadata in the report in the future
     '''
     print('Trying.')
-
-
-
-
-
-
-
-
 
 
 
