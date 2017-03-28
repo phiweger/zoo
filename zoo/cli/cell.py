@@ -188,6 +188,18 @@ def pull():
     print('Trying.')
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 @click.command()
 def status():
     '''
@@ -258,12 +270,14 @@ def init(file, client, db, cell):  # load json to mongodb and assign UUID
     '''
     click.echo('Initializing data cell.')
     c = MongoClient(client)[db][cell]
+    inserted = 0
     with open(file, 'r+') as f:
         for line in f:
             d = json.loads(line.strip())
             d['_id'] = str(uuid4())
             c.insert_one(d)
-    print('Inserted', c.count(), 'entries into cell', '"' + cell + '".')
+            inserted += 1
+    print(inserted, 'entries inserted into cell', '"' + cell + '".')
 
 
 
