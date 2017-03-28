@@ -1,3 +1,4 @@
 include zoo/data/*
 include zoo/data/zika/*
+include zoo/data/tests/*
 include zoo/schema/*.json

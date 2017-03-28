@@ -1,0 +1,3 @@
+{"_id": "1", "sequence": "ACTAACCTATA", "virus": "flavi", "alt_id": {"gb": "gb1"}}
+{"_id": "2", "sequence": "TTTAACCTATA", "virus": "corona", "alt_id": {"gb": "gb1"}}
+{"_id": "3", "sequence": "ACTANNNNATA", "virus": "bunya", "alt_id": {"gb": "gb1", "ebi": "ebi1"}}
