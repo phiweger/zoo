@@ -225,9 +225,15 @@ def drop(client, db, cell):  # cell
     print('Dropped cell', '"' + cell + '"', 'from database', '"' + db + '".')
 
 
+@click.option('--client', default='localhost:27017')
+@click.option('--db', required=True)
+@click.option('--force', is_flag=True, callback=abort_if_false,
+              expose_value=False,
+              prompt='Are you sure you want to drop the db?')
 @click.command()
-def destroy():  # drop database entirely
-    print('Trying.')
+def destroy(client, db):  # drop database entirely
+    MongoClient(client).drop_database(db)
+    print('Dropped database', '"' + db + '".')
 
 
 @click.option('--client', default='localhost:27017')
