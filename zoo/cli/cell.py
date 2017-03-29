@@ -238,7 +238,11 @@ def pull(file, client, db, cell):
     c = MongoClient(client)[db][cell]
 
     bar = ProgressBar(max_value=UnknownLength)
+
     counter = 0
+    nochange = 0
+    replaced = 0
+    inserted = 0
 
     for line in file:
         d_new = json.loads(line.strip())
@@ -249,18 +253,29 @@ def pull(file, client, db, cell):
         d_old = c.find_one({'_id': _id_new}, {'_id': 0, 'md5': 0})
 
         if not d_old:  # new entry
-            print('\nInserting new entry.')
             c.insert_one(d_new)
+            inserted += 1
+            counter += 1
         else:  # update and check md5
             md5_old = hash_dict(d_old)
 
             if md5_new == md5_old:  # no need to update
-                print('\nNo change.')
+                nochange += 1
+                counter += 1
                 continue
             else:
-                print('Replace.')
                 c.find_one_and_replace({'_id': _id_new}, d_new)
+                replaced += 1
+                counter += 1
         bar.update(counter)
+    print('\n')
+    for k, v in {
+            'unchanged': nochange,
+            'replaced': replaced,
+            'inserted': inserted
+            }.items():
+        if v > 0:
+            print(v, 'entries', k + '.')
 
 
 '''

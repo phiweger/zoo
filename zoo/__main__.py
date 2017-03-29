@@ -4,7 +4,7 @@ zoo command line.
 
 import click
 from .cli.cell import init, add, commit, diff, pull, status, drop, destroy
-from .cli.minhash import sbt_index
+from .cli.minhash import minhash, sbt_index
 
 
 @click.group()
@@ -23,6 +23,6 @@ cli.add_command(drop)       # TODO
 cli.add_command(destroy)    # TODO
 
 # minhash/ SBT related
+cli.add_command(minhash)
 cli.add_command(sbt_index)
-
 
