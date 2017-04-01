@@ -28,7 +28,22 @@ def sbt_index(client, db, cell, query, ksize, nsketch, key, file):
     --index {raw, minhash}
     input: all of cell or cursor
 
+    \b
+    $ zoo sbt_index --db ref --cell ref --ksize 16 --nsketch 1000 \
+    reference
+    Initialize SBT.
+    Compute minhash signatures for selected documents.
+    k-mer size: 16, sketch size: 1000
+    \ 9158 Elapsed Time: 0:01:45
+    Save SBT.
+    Done.
+    (lab3) tmp$ sourmash sbt_search --ksize 16 reference survey.fa.sig
+    # running sourmash subcommand: sbt_search
+    loaded query: survey.fa... (k=16, DNA)
+    0.11 0ef85591-d464-4953-915f-f673907b7e8e (Zika reference genome)
+
     TODO: add query
+    TODO: --key arg not working?
     '''
     c = MongoClient(client)[db][cell]
 
@@ -39,8 +54,8 @@ def sbt_index(client, db, cell, query, ksize, nsketch, key, file):
     tree = SBT(factory, d=2)  # d .. see "n-ary " in notebook
 
     print('Compute minhash signatures for selected documents.')
-    print(''.joint(
-        ['k-mer size: ', ksize, ', sketch size: ', nsketch]
+    print('{}{}{}{}'.format(
+        'k-mer size: ', ksize, ', sketch size: ', nsketch
         ))
     bar = ProgressBar(max_value=UnknownLength)
     counter = 0
@@ -49,7 +64,7 @@ def sbt_index(client, db, cell, query, ksize, nsketch, key, file):
         e = Estimators(ksize=ksize, n=nsketch)
         e.add_sequence(d['sequence'], force=True)
         s = SourmashSignature(email='', estimator=e, name=deep_get(d, key))
-        leaf = SigLeaf(metadata=key, data=s)
+        leaf = SigLeaf(metadata=deep_get(d, key), data=s)
         tree.add_node(node=leaf)
         bar.update(counter)
     print('\nSave SBT.')
@@ -72,12 +87,13 @@ def minhash(client, db, cell, query, ksize, nsketch, key, file):
     just plain old sigs for collection
     '''
     c = MongoClient(client)[db][cell]
+
     bar = ProgressBar(max_value=UnknownLength)
     counter = 0
     l = []
     print('Compute minhash signatures for selected documents.')
-    print(''.joint(
-        ['k-mer size: ', ksize, ', sketch size: ', nsketch]
+    print('{}{}{}{}'.format(
+        'k-mer size: ', ksize, ', sketch size: ', nsketch
         ))
     for d in c.find():
         counter += 1
