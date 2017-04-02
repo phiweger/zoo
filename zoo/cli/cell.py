@@ -354,4 +354,6 @@ def status():
     print('Trying.')
 
 
-
+@click.command()
+def validate():
+    print('Trying.')

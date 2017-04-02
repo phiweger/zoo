@@ -19,6 +19,7 @@ setup(
         'biopython',
         'Click',
         # 'ijson',  # likely not needed
+        'jsonschema',
         'numpy',
         'pandas',
         'progressbar2',

@@ -3,7 +3,7 @@ zoo command line.
 '''
 
 import click
-from .cli.cell import init, add, commit, diff, pull, status, drop, destroy
+from .cli.cell import init, add, commit, diff, pull, status, drop, destroy, validate
 from .cli.minhash import minhash, sbt_index
 from .cli.io import io
 from .cli.align import msa_encode, msa_decode, sam_encode, sam_decode
@@ -24,6 +24,7 @@ cli.add_command(pull)       # TODO
 cli.add_command(status)     # TODO
 cli.add_command(drop)       # TODO
 cli.add_command(destroy)    # TODO
+cli.add_command(validate)    # TODO
 
 # minhash/ SBT related
 cli.add_command(minhash)    # TODO
