@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Sequence",
+    "description": "The core sequence document.",
+    "type": "object",
+    "properties": {
+        "_id" : {"type" : "string"},
+        "sequence" : {"type" : "string"},
+        "annotation": {"$ref": "test_extension.json#"}
+    }
+}
