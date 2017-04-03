@@ -1,8 +1,11 @@
 import click
 
 
+@click.option('--encode', 'code', flag_value='encode',
+              default=True)
+@click.option('--decode', 'code', flag_value='decode')
 @click.command()
-def encode():
+def digest(code):
     '''
     \b
     options:
@@ -11,13 +14,19 @@ def encode():
     -- msa
     -- secondary
     overload this function and dispatch to call function from other file
-    '''
-    pass
 
+    \b
+    target interface:
+    zoo digest --encode tree.nexus
+    zoo digest --decode msa.mafft.fa --cell x --id superalignment2017
+    '''
+    def encode():
+        print('We encode.')
 
-@click.command()
-def decode():
-    '''
-    Reconstruct a phylogenetic tree from the database.
-    '''
-    pass
+    def decode():
+        print('We decode.')
+
+    if code == 'encode':
+        encode()
+    else:
+        decode()

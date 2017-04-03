@@ -7,7 +7,7 @@ from .cli.cell import init, add, commit, diff, pull, status, validate
 from .cli.cell import drop, destroy
 from .cli.minhash import minhash, sbt_index
 from .cli.io import io
-from .cli.digest import encode, decode
+from .cli.digest import digest
 
 
 @click.group()
@@ -34,5 +34,5 @@ cli.add_command(sbt_index)  # TODO
 cli.add_command(io)         # TODO
 
 # alignment, tree
-cli.add_command(encode)  # TODO
-cli.add_command(decode)  # TODO
+cli.add_command(digest)  # TODO
+

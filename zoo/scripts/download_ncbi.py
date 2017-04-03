@@ -12,8 +12,9 @@ $ python download_ncbi.py -i data/virome/rna_virome_shi2016.txt \
 
 import argparse
 import Bio.Entrez
-import sys
+from progressbar import ProgressBar, UnknownLength
 import os
+import sys
 
 
 RETMAX = 10**9
@@ -97,8 +98,13 @@ def main(argv):
     Bio.Entrez.email = args.email
     batchsize = args.batch
 
+    print('Batch size:', batchsize)
+    bar = ProgressBar(max_value=UnknownLength)
+    counter = 0
     for acc, record in accessions_to_gb(accessions, dbase, batchsize, RETMAX):
+        counter += 1
         write_record(op_dir, acc, record)
+        bar.update(counter)
 
 
 if __name__ == "__main__":
