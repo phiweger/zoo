@@ -20,6 +20,7 @@ setup(
     install_requires=[
         'biopython',
         'Click',
+        'deepdiff',
         # 'ijson',  # likely not needed
         'jsonschema',
         'numpy',

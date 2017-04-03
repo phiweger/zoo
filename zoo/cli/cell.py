@@ -1,4 +1,5 @@
 import click
+from deepdiff import DeepDiff
 import json
 from progressbar import ProgressBar, UnknownLength
 from pymongo import MongoClient
@@ -333,9 +334,39 @@ diff
 '''
 
 
+@click.option('--client', default='localhost:27017')
+@click.option('--db', required=True)
+@click.option('--cell', required=True, help='Cell name.')
+@click.option('--out', default='diff.json')
+@click.argument('file', type=click.File('r+'))
 @click.command()
-def diff():
-    print('Trying.')
+def diff(client, db, cell, out, file):
+    '''
+    Example:
+
+    \b
+    zoo add --db diff --cell mock tests/cell_a.json
+    zoo diff --db diff --cell mock --out diff.json tests/cell_b.json
+    cat diff.json
+    '''
+
+    c = MongoClient(client)[db][cell]
+
+    print('Writing diff.')
+    with open(out, 'w+') as outfile:
+        for line in file:
+            old = json.loads(line.strip())
+            _id = old['_id']
+            new = c.find_one({'_id': _id})
+            diff = DeepDiff(
+                new, old,  # note order of new, old
+                ignore_order=True,
+                verbose_level=2)
+            if diff:
+                diff['_id'] = _id
+                outfile.write(diff.json)
+                outfile.write('\n')
+    print('Done.')
 
 
 '''
