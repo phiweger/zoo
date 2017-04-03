@@ -1,11 +1,19 @@
 #! /usr/bin/env python3
-# https://www.biostars.org/p/66921/
+
+'''
+https://www.biostars.org/p/66921/
+
+Usage:
+
+$ python download_ncbi.py -i data/virome/rna_virome_shi2016.txt \
+-d nucleotide -o rna_virome_shi2016
+'''
+
 
 import argparse
+import Bio.Entrez
 import sys
 import os
-
-import Bio.Entrez
 
 
 RETMAX = 10**9
@@ -60,10 +68,14 @@ def accessions_to_gb(accessions, db, batchsize, retmax):
         # get GB files
         search_handle = Bio.Entrez.epost(db=db, id=",".join(gi_list))
         search_results = Bio.Entrez.read(search_handle)
-        webenv, query_key = search_results["WebEnv"], search_results["QueryKey"]
-        records_handle = Bio.Entrez.efetch(db=db, rettype="gb", retmax=batchsize,
-                                           webenv=webenv, query_key=query_key)
+        webenv = search_results["WebEnv"]
+        query_key = search_results["QueryKey"]
+
+        records_handle = Bio.Entrez.efetch(
+            db=db, rettype="gb", retmax=batchsize,
+            webenv=webenv, query_key=query_key)
         yield from extract_records(records_handle)
+        # yield from, stackoverflow, 9708902
 
     accession_batches = batch(accessions, batchsize)
     for acc_batch in accession_batches:
