@@ -4,7 +4,10 @@ import click
 @click.command()
 def load():
     '''
-    fasta, fastq, ...
+    Example:
+
+    \b
+    zoo load --ncbi accession.txt result.json
     '''
     print('Load.')
 
@@ -12,6 +15,9 @@ def load():
 @click.command()
 def dump():
     '''
-    fasta, fastq, ...
+    Example:
+
+    \b
+    zoo dump --db x --cell y --fasta dump.fa  # all metadata in header, | delim
     '''
     print('Dump.')
