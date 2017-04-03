@@ -37,7 +37,9 @@ def sbt_index(client, db, cell, query, ksize, nsketch, key, file):
     \ 9158 Elapsed Time: 0:01:45
     Save SBT.
     Done.
-    (lab3) tmp$ sourmash sbt_search --ksize 16 reference survey.fa.sig
+
+    \b
+    $ sourmash sbt_search --ksize 16 reference survey.fa.sig
     # running sourmash subcommand: sbt_search
     loaded query: survey.fa... (k=16, DNA)
     0.11 0ef85591-d464-4953-915f-f673907b7e8e (Zika reference genome)
