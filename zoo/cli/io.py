@@ -2,9 +2,16 @@ import click
 
 
 @click.command()
-def io():
+def load():
     '''
     fasta, fastq, ...
     '''
-    pass
+    print('Load.')
 
+
+@click.command()
+def dump():
+    '''
+    fasta, fastq, ...
+    '''
+    print('Dump.')
