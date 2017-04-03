@@ -374,15 +374,31 @@ status
 '''
 
 
+@click.option('--client', default='localhost:27017')
+@click.option('--db', required=True)
+@click.option('--cell', required=True, help='Cell name.')
+@click.option(
+    '--example', required=False, help='Include example document?',
+    is_flag=True)
 @click.command()
-def status():
+def status(client, db, cell, example):
     '''
     \b
     - list cells, num_entries
     - verbose: find_one() in each cell but truncate sequence field before print
     - include .zoo metadata in the report in the future
+
+    Example:
+
+    \b
+    zoo status --db diff --cell mock --example
     '''
-    print('Trying.')
+    c = MongoClient(client)[db][cell]
+    print(c.count(), 'documents.\n')
+    if example:
+        print('Example:')
+        print(json.dumps(c.find_one(), indent=2))
+        print()
 
 
 @click.command()
