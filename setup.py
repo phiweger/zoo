@@ -15,6 +15,7 @@ setup(
         'data/zika/*',
         'data/tests/*',
         'data/flu/*',
+        'data/rna_virome_shi2016/*',
         'schema/*.json']},
     install_requires=[
         'biopython',

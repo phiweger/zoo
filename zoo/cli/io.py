@@ -7,3 +7,4 @@ def io():
     fasta, fastq, ...
     '''
     pass
+

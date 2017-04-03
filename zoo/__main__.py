@@ -36,4 +36,3 @@ cli.add_command(io)         # TODO
 # alignment, tree
 cli.add_command(encode)  # TODO
 cli.add_command(decode)  # TODO
-

@@ -15,12 +15,14 @@ from sourmash_lib import Estimators
 from sourmash_lib.sbt import SBT, GraphFactory
 from sourmash_lib.sbtmh import SigLeaf, search_minhashes
 from sourmash_lib.signature import SourmashSignature
+from zoo import get_data
 
 
 KSIZE = 16
 N = 200
 
-fa = Fasta('mock_flu.fa')
+with open(get_data('data/mock_flu.fa'), 'r+') as file:
+    fa = Fasta(file)
 
 
 # init SBT
