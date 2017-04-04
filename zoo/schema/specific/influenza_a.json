@@ -1,28 +1,23 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "Sequence",
-    "description": "The core sequence document.",
+    "title": "Specific schema: Influenza A virus",
+    "description": "A small example schema specific to Influenza A virus instances.",
     "type": "object",
-    "required": ["_id", "sequence"],
+    "required": ["_id", "sequence", "nomenclature"],
     "properties": {
         "_id" : {"type" : "string"},
         "sequence" : {"type" : "string"},
-        "annotation": {"$ref": "test_extension.json#"},
-        "num_segments": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 8
-        },
-        "num_segments2": {
+        "segment": {
             "anyOf": [
                 {"type": "null"},
                 {"type": "number"}
             ],
             "enum": [1, 2, 3, 4, 5, 6, 7, 8, null]
         },
-        "name": {
+        "nomenclature": {
             "type": "string",
-            "pattern": "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$"
-        }
+            "pattern": "^A/[.+?/]?.+?/.+?/(19|20)\\d{2}\\(H\\dN\\d\\)$"
+        },
+        "annotation": {"$ref": "fragments/test_extension.json#"}
     }
 }
