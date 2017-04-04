@@ -90,7 +90,7 @@ def load(file, out, batch, email, db, fmt):
     for acc, record in accessions_to_fmt(
             accessions, dbase, batchsize, RETMAX, fmt):
         counter += 1
-        write_record(out, acc, record)
+        write_record(out, acc, record, fmt)
         bar.update(counter)
     print('\nDone.')
 

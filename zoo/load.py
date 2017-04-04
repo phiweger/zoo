@@ -1,4 +1,5 @@
-from Bio import Entrez
+from Bio import Entrez, SeqIO
+from io import StringIO
 import os
 import urllib
 
@@ -60,11 +61,13 @@ def process_batch(accessions_batch, db, batchsize, retmax, fmt):
         yield from extract_records_gb(records_handle)
         # yield from, stackoverflow, 9708902
     elif fmt == 'json':
-        print('Yay, JSON.')
-        # yield from extract_records_json(records_handle)
+        for acc, r in extract_records_gb(records_handle):
+            record = SeqIO.read(StringIO(r), 'genbank')
+            # yield gb2json(record)
     elif fmt == 'fasta':
-        print('Yay, fasta.')
-        # yield from extract_records_fasta(records_handle)
+        for acc, r in extract_records_gb(records_handle):
+            record = SeqIO.read(StringIO(r), 'genbank')
+            yield acc, record.format('fasta')
     else:
         raise AttributeError(
                 'Output format not supported, try fasta | genbank | json.'
@@ -77,9 +80,13 @@ def accessions_to_fmt(accessions, db, batchsize, retmax, fmt):
         yield from process_batch(acc_batch, db, batchsize, retmax, fmt)
 
 
-GB_EXT = '.gb'
+def write_record(dir, accession, record, fmt):
+    ext = {'genbank': '.gb', 'fasta': 'fa'}
+    if fmt in ['genbank', 'fasta']:
+        with open(os.path.join(dir, accession + ext[fmt]), 'w') as output:
+            print(record, file=output)
+    elif fmt == 'json':
+        pass
+        # 'a+' append to file
 
 
-def write_record(dir, accession, record):
-    with open(os.path.join(dir, accession + GB_EXT), 'w') as output:
-        print(record, file=output)
