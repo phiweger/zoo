@@ -4,3 +4,5 @@ include zoo/data/flu/*
 include zoo/data/tests/*
 include zoo/data/rna_virome_shi2016/*
 include zoo/schema/*.json
+include zoo/schema/fragments/*.json
+include zoo/schema/specific/*.json

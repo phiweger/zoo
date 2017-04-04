@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Sequence",
+    "description": "The core sequence document.",
+    "type": "object",
+    "required": ["_id", "sequence"],
+    "properties": {
+        "_id" : {"type" : "string"},
+        "sequence" : {"type" : "string"},
+        "annotation": {"$ref": "test_extension.json#"},
+        "num_segments": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8
+        },
+        "num_segments2": {
+            "anyOf": [
+                {"type": "null"},
+                {"type": "number"}
+            ],
+            "enum": [1, 2, 3, 4, 5, 6, 7, 8, null]
+        },
+        "name": {
+            "type": "string",
+            "pattern": "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$"
+        }
+    }
+}

@@ -16,7 +16,10 @@ setup(
         'data/tests/*',
         'data/flu/*',
         'data/rna_virome_shi2016/*',
-        'schema/*.json']},
+        'schema/*.json',
+        'schema/fragments/*.json',
+        'schema/specific/*.json'
+        ]},
     install_requires=[
         'biopython',
         'Click',
