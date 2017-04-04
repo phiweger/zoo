@@ -54,6 +54,23 @@ def load(file, out, batch, email, db, fmt):
     urllib.error.URLError: <urlopen error [Errno 54] Connection reset by peer>
     probably due to some connection problem with NCBI. If this is the case,
     get a coffee, and simply try again.
+
+    \b
+    Loading data from NCBI.
+    Batch size: 100
+    Starting download:
+    / 200 Elapsed Time: 0:00:08
+
+    \b
+    <urlopen error [Errno 60] Operation timed out>
+    Reconnect, attempt 1/10.
+    / 600 Elapsed Time: 0:02:29
+
+    \b
+    <urlopen error [Errno 54] Connection reset by peer>
+    Reconnect, attempt 1/10.
+    - 2109 Elapsed Time: 0:07:06
+    Done.
     '''
     print('Loading data from NCBI.')
 
