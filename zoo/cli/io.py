@@ -22,7 +22,8 @@ from zoo.load import write_record, accessions_to_gb, read_accessions
 def load(file, out, batch, email, db):
     '''Download genbank entries from NCBI and optionally dump to JSON
 
-    This function borrows heavily from https://www.biostars.org/p/66921/.
+    This function borrows heavily from https://www.biostars.org/p/66921/,
+    see full script at zoo/zoo/scripts/download_ncbi.py
 
     Help:
 
@@ -63,6 +64,12 @@ def load(file, out, batch, email, db):
     for acc, record in accessions_to_gb(
             accessions, dbase, batchsize, RETMAX):
         counter += 1
+        # --format fasta | genbank | json
+
+        # if --fasta
+        # biopython .format('fasta')
+
+        # if --genbank
         write_record(op_dir, acc, record)
         bar.update(counter)
     print('\nDone.')

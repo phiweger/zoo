@@ -9,11 +9,13 @@ def read_accessions(fp):
 
 def accessions_to_gb(accessions, db, batchsize, retmax):
     def batch(sequence, size):
+        '''Splitting accession list into batches of <batchsize>.'''
         l = len(accessions)
         for start in range(0, l, size):
             yield sequence[start:min(start + size, l)]
 
     def extract_records(records_handle):
+        '''...'''
         buffer = []
         for line in records_handle:
             if line.startswith("LOCUS") and buffer:
@@ -25,6 +27,8 @@ def accessions_to_gb(accessions, db, batchsize, retmax):
         yield buffer[0].split()[1], "".join(buffer)
 
     def process_batch(accessions_batch):
+        '''Main function.'''
+
         # get GI for query accessions
         query = " ".join(accessions_batch)
         query_handle = Bio.Entrez.esearch(db=db, term=query, retmax=retmax)
