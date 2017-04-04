@@ -1,5 +1,6 @@
-import Bio.Entrez
+from Bio import Entrez
 import os
+import urllib
 
 
 def read_accessions(fp):
@@ -7,53 +8,78 @@ def read_accessions(fp):
         return [line.strip() for line in acc_lines]
 
 
-def accessions_to_gb(accessions, db, batchsize, retmax):
-    def batch(sequence, size):
-        '''Splitting accession list into batches of <batchsize>.'''
-        l = len(accessions)
-        for start in range(0, l, size):
-            yield sequence[start:min(start + size, l)]
+def extract_records_gb(records_handle):
+    '''...'''
+    buffer = []
+    for line in records_handle:
+        if line.startswith('LOCUS') and buffer:
+            # yield accession number and record
+            yield buffer[0].split()[1], ''.join(buffer)
+            buffer = [line]
+        else:
+            buffer.append(line)
+    yield buffer[0].split()[1], ''.join(buffer)
 
-    def extract_records(records_handle):
-        '''...'''
-        buffer = []
-        for line in records_handle:
-            if line.startswith("LOCUS") and buffer:
-                # yield accession number and record
-                yield buffer[0].split()[1], "".join(buffer)
-                buffer = [line]
-            else:
-                buffer.append(line)
-        yield buffer[0].split()[1], "".join(buffer)
 
-    def process_batch(accessions_batch):
-        '''Main function.'''
+def batch(accessions, size):
+    '''Splitting accession list into batches of <batchsize>.'''
+    l = len(accessions)
+    for start in range(0, l, size):
+        yield accessions[start:min(start + size, l)]
 
-        # get GI for query accessions
-        query = " ".join(accessions_batch)
-        query_handle = Bio.Entrez.esearch(db=db, term=query, retmax=retmax)
-        gi_list = Bio.Entrez.read(query_handle)['IdList']
 
-        # get GB files
-        search_handle = Bio.Entrez.epost(db=db, id=",".join(gi_list))
-        search_results = Bio.Entrez.read(search_handle)
-        webenv = search_results["WebEnv"]
-        query_key = search_results["QueryKey"]
+def process_batch(accessions_batch, db, batchsize, retmax, fmt):
+    '''Process a batch of genbank accession IDs'''
+    # get GI for query accessions
+    query = ' '.join(accessions_batch)
 
-        records_handle = Bio.Entrez.efetch(
-            db=db, rettype="gb", retmax=batchsize,
-            webenv=webenv, query_key=query_key)
-        yield from extract_records(records_handle)
+    for attempt in range(10):  # stackoverflow, 2083987
+        try:
+            query_handle = Entrez.esearch(db=db, term=query, retmax=retmax)
+            gi_list = Entrez.read(query_handle)['IdList']
+
+            # get GB files
+            search_handle = Entrez.epost(db=db, id=','.join(gi_list))
+            search_results = Entrez.read(search_handle)
+            webenv = search_results['WebEnv']
+            query_key = search_results['QueryKey']
+
+            records_handle = Entrez.efetch(
+                db=db, rettype='gb', retmax=batchsize,
+                webenv=webenv, query_key=query_key)
+        except (ConnectionResetError, TimeoutError, urllib.error.URLError) as e:
+            print('\n')
+            print(e)
+            print('Reconnect, attempt', str(attempt + 1) + '/10.')
+        else:
+            break
+
+    # divert here: fasta, gb or json?
+    # Bio.Seq import record
+    if fmt == 'genbank':
+        yield from extract_records_gb(records_handle)
         # yield from, stackoverflow, 9708902
+    elif fmt == 'json':
+        print('Yay, JSON.')
+        # yield from extract_records_json(records_handle)
+    elif fmt == 'fasta':
+        print('Yay, fasta.')
+        # yield from extract_records_fasta(records_handle)
+    else:
+        raise AttributeError(
+                'Output format not supported, try fasta | genbank | json.'
+                )
 
+
+def accessions_to_fmt(accessions, db, batchsize, retmax, fmt):
     accession_batches = batch(accessions, batchsize)
     for acc_batch in accession_batches:
-        yield from process_batch(acc_batch)
+        yield from process_batch(acc_batch, db, batchsize, retmax, fmt)
 
 
-GB_EXT = ".gb"
+GB_EXT = '.gb'
 
 
 def write_record(dir, accession, record):
-    with open(os.path.join(dir, accession + GB_EXT), "w") as output:
+    with open(os.path.join(dir, accession + GB_EXT), 'w') as output:
         print(record, file=output)

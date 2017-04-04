@@ -1,8 +1,8 @@
-import Bio.Entrez
+from Bio import Entrez
 import click
 from progressbar import ProgressBar, UnknownLength
 import os
-from zoo.load import write_record, accessions_to_gb, read_accessions
+from zoo.load import write_record, accessions_to_fmt, read_accessions
 
 
 @click.option(
@@ -17,9 +17,12 @@ from zoo.load import write_record, accessions_to_gb, read_accessions
 @click.option(
     '--db', required=False, default='nucleotide',
     help='"NCBI database ID.')
+@click.option(
+    '--fmt', required=False, default='genbank',
+    help='"Output format: genbank | fasta | json')
 @click.argument('file', type=click.Path())
 @click.command()
-def load(file, out, batch, email, db):
+def load(file, out, batch, email, db, fmt):
     '''Download genbank entries from NCBI and optionally dump to JSON
 
     This function borrows heavily from https://www.biostars.org/p/66921/,
@@ -44,33 +47,33 @@ def load(file, out, batch, email, db):
     Starting download:
     \ 10 Elapsed Time: 0:00:00
     Done.
+
+    Notes:
+
+    The function can fail with e.g.:
+    urllib.error.URLError: <urlopen error [Errno 54] Connection reset by peer>
+    probably due to some connection problem with NCBI. If this is the case,
+    get a coffee, and simply try again.
     '''
     print('Loading data from NCBI.')
 
     RETMAX = 10**9
 
     accessions = read_accessions(file)
-    op_dir = out
-    if not os.path.exists(op_dir):
-        os.makedirs(op_dir)
+    if not os.path.exists(out):
+        os.makedirs(out)
     dbase = db
-    Bio.Entrez.email = email
+    Entrez.email = email
     batchsize = batch
 
     print('Batch size:', batchsize)
     print('Starting download:')
     bar = ProgressBar(max_value=UnknownLength)
     counter = 0
-    for acc, record in accessions_to_gb(
-            accessions, dbase, batchsize, RETMAX):
+    for acc, record in accessions_to_fmt(
+            accessions, dbase, batchsize, RETMAX, fmt):
         counter += 1
-        # --format fasta | genbank | json
-
-        # if --fasta
-        # biopython .format('fasta')
-
-        # if --genbank
-        write_record(op_dir, acc, record)
+        write_record(out, acc, record)
         bar.update(counter)
     print('\nDone.')
 
