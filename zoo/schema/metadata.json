@@ -1,0 +1,39 @@
+{
+    "title": "Metadate",
+    "description": "An exemplary metadata JSON fragment.",
+    "type": "object",
+    "properties": {
+        
+        "about": {"type": "string"}, 
+        
+        "log": {
+            "type" : "array",
+            "description": "append any log data, TODO: structure"
+            },
+        
+        "geo": {
+            "type" : "object",
+            "properties": {
+                "long": {"type": "number"},
+                "lat": {"type": "number"},
+                "loc": {"type": "string"}
+            }
+        },
+        
+        "ids": {
+            "type" : "array", 
+            "description": "any ID assigned to this sequence record"
+        },
+        
+        "date": {
+            "type" : "object", 
+            "properties": {
+                "y": {"anyOf": [{"type": "number"}, {"type": "number"}]},
+                "m": {"anyOf": [{"type": "number"}, {"type": "number"}]},
+                "d": {"anyOf": [{"type": "number"}, {"type": "number"}]}
+            }
+        },
+        
+        "host": {"type": "string"}
+    }
+}

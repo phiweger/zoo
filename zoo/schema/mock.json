@@ -1,0 +1,13 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Sequence",
+    "description": "The core sequence document.",
+    "type": "object",
+    "properties": {
+        "_id" : {"type" : "string"},
+        "seq" : {"type" : "string"},
+        "met" : {"type" : "string"},
+        "der" : {"type" : "string"},
+        "rel": {"$ref": "test_extension.json#"}
+    }
+}
