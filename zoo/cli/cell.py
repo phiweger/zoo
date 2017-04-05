@@ -34,7 +34,7 @@ init
 @click.option('--client', default='localhost:27017')
 @click.option('--db', required=True)
 @click.option('--cell', required=True, help='Cell name.')
-@click.argument('file', type=click.Path())
+@click.argument('file', type=click.File('r'))
 @click.command()
 def init(file, client, db, cell):  # load json to mongodb and assign UUID
     '''
@@ -51,12 +51,11 @@ def init(file, client, db, cell):  # load json to mongodb and assign UUID
     click.echo('Initializing data cell.')
     c = MongoClient(client)[db][cell]
     inserted = 0
-    with open(file, 'r+') as f:
-        for line in f:
-            d = json.loads(line.strip())
-            d['_id'] = str(uuid4())
-            c.insert_one(d)
-            inserted += 1
+    for line in file:
+        d = json.loads(line.strip())
+        d['_id'] = str(uuid4())
+        c.insert_one(d)
+        inserted += 1
     print(inserted, 'entries inserted into cell', '"' + cell + '".')
     print('Primary key assigned to field "_id".')
 
