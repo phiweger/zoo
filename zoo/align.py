@@ -121,7 +121,7 @@ def decode_gaps(seq, gapdict, uppercase=False):
     return result
 
 
-def hash_seq(seq_iterator, method='md5'):
+def hash_seq(seq_iterator, method='md5', sort=True):
     '''
     Given any sequence iterator, calculate its hash with <method>. We use this
     to hash an MSA to an ID as well as verify its integrity (think checksum).
@@ -144,7 +144,9 @@ def hash_seq(seq_iterator, method='md5'):
     # 'bba3a154dae681c96...'
     '''
     m = getattr(hashlib, method)()  # stackoverflow, 3061
-    for i in sorted(seq_iterator):  # order does matter for md5
+    if sort:
+        seq_iterator = sorted(seq_iterator)
+    for i in seq_iterator:  # order does matter for md5
         m.update(i.encode('utf-8'))
     return m.hexdigest()
 

@@ -9,6 +9,6 @@
         "der": {"type" : "null"},
         "rel": {"type" : "null"}
     },
-    "requires": ["_id", "seq"],
+    "required": ["_id", "seq"],
     "additionalProperties": false
 }

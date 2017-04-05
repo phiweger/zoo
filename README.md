@@ -80,7 +80,7 @@ ls
 zoo adheres to pytest's package integration [guidance](http://doc.pytest.org/en/latest/goodpractices.html).
 
 ```
-# cd into package directory
+# cd into package directory and virtualenv (Python 3)
 python setup.py test
 ```
 

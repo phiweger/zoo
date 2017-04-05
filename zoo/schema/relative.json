@@ -12,20 +12,21 @@
                 "ord":      {"type": "string"},
                 "fam":      {"type": "string"},
                 "subtype":  {"type": "string"},
-                "nomanclature": {
+                "nomenclature": {
                     "type": "string",
                     "description": "for Influenza"
                 }
             }
         },
-        "tree": {"type": "null"},
+        "tree": {"type": "array"},
         "msa": {
-            "type": "null",
+            "type": "array",
             "description": "multiple sequence alignment"
             },
         "sam": {
-            "type": "null",
+            "type": "array",
             "description": "reference-based sequence alignment"
         }
-    }
+    },
+    "additionalProperties": false
 }
