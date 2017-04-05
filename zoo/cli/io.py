@@ -15,7 +15,7 @@ import sys
     '--db', required=False, default='nucleotide',
     help='"NCBI database ID.')
 @click.option(
-    '--fmt', required=False, default='genbank',
+    '--fmt', required=False, default='json',
     help='Output format: genbank | fasta | json')
 @click.option(
     '--source', required=False, default='ncbi',
@@ -96,12 +96,10 @@ def load(ids, out, batch, email, db, fmt, source, stdout):
                 fill_char=':', empty_char='.'
                 ) as bar:
             for acc, record in bar:
-                # counter += 1
                 if not stdout:
                     write_record(out, acc, record, fmt)
                 else:
                     print(record)  # This goes to stdout and can be piped.
-                # bar.update(counter)
         click.echo('Done.', err=True)
 
 
