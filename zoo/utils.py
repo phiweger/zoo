@@ -13,7 +13,13 @@ import progressbar
 import re
 import sourmash_lib
 from sourmash_lib import signature
+import sys
 import tempfile
+
+
+def eprint(*args, **kwargs):
+    '''Print to stderr, stackoverflow, 5574702.'''
+    print(*args, file=sys.stderr, **kwargs)
 
 
 def locate(locations, seq):
