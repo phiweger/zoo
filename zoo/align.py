@@ -107,18 +107,17 @@ def decode_gaps(seq, gapdict, uppercase=False):
     decode_gaps('ACTGAGGTAGGTAA', {1: 2, 7: 3, 17: 1})
     # 'A--CTGA---GGTAGGT-AA'
     '''
-    index = 0
     result = ''
+    index = 0
     for nt in seq:
         try:
-            n = gapdict[index]
-            result += n * '-' + nt
-            index = index + n
+            v = gapdict[index]
+            insert = v * '-'
+            result = result + insert + nt
+            index += len(nt + insert)
         except KeyError:
             result += nt
-        index += 1
-    if uppercase is True:
-        result = result.upper()
+            index += 1
     return result
 
 

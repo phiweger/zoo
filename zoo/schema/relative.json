@@ -1,0 +1,31 @@
+{
+    "title": "Relative",
+    "description": "JSON fragment of relative/ comparative sequence information.",
+    "type": "object",
+    "properties": {
+        "tax": {
+            "type" : "object",
+            "description": "taxonomy",
+            "properties": {
+                "spec":     {"type": "string"},
+                "strain":   {"type": "string"},
+                "ord":      {"type": "string"},
+                "fam":      {"type": "string"},
+                "subtype":  {"type": "string"},
+                "nomanclature": {
+                    "type": "string",
+                    "description": "for Influenza"
+                }
+            }
+        },
+        "tree": {"type": "null"},
+        "msa": {
+            "type": "null",
+            "description": "multiple sequence alignment"
+            },
+        "sam": {
+            "type": "null",
+            "description": "reference-based sequence alignment"
+        }
+    }
+}

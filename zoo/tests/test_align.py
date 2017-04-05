@@ -17,6 +17,12 @@ def test_decode_gaps():
     assert result == 'A--cTGA---ggtAGGT-AA'
 
 
+def test_encode_decode():
+    seq = 'ACTGAGGTAGGTAA'
+    seq_gap = 'A--CTGA---GGTAGGT-AA'
+    assert decode_gaps(seq, encode_gaps(seq_gap)) == seq_gap
+
+
 def test_hash_seq(hash='md5'):
     assert hash_seq(['AAAA', 'ACTG']) == '3b0d5a673fb29e5201e4587a35e2576d'
     assert hash_seq(['ACTG', 'AAAA']) == hash_seq(['AAAA', 'ACTG'])

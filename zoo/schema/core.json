@@ -5,9 +5,10 @@
     "properties": {
         "_id": {"type" : "string"},
         "seq": {"type" : "string"},
-        "met": {"type" : "null"},
+        "meta": {"type" : "null"},
         "der": {"type" : "null"},
         "rel": {"type" : "null"}
     },
-    "requires": ["_id", "seq"]
+    "requires": ["_id", "seq"],
+    "additionalProperties": false
 }

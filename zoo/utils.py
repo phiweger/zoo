@@ -5,6 +5,7 @@ TODO: iter_seq: customize name like _id|host|...
 '''
 
 
+from __future__ import print_function  # Python 2 compatible
 from functools import reduce
 import hashlib
 import json

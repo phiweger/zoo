@@ -3,37 +3,39 @@
     "description": "An exemplary metadata JSON fragment.",
     "type": "object",
     "properties": {
-        
         "about": {"type": "string"}, 
-        
         "log": {
             "type" : "array",
             "description": "append any log data, TODO: structure"
             },
-        
         "geo": {
             "type" : "object",
+            "description": "location < division < country < region",
             "properties": {
-                "long": {"type": "number"},
-                "lat": {"type": "number"},
-                "loc": {"type": "string"}
-            }
-        },
-        
+                "long": {"type": "string"},
+                "lat": {"type": "string"},
+                "loc": {"type": "string"},
+                "reg": {"type": "string"},
+                "cou": {"type": "string"},
+                "div": {"type": "string"}
+                }
+            },
         "ids": {
             "type" : "array", 
             "description": "any ID assigned to this sequence record"
-        },
-        
+            },
         "date": {
             "type" : "object", 
             "properties": {
-                "y": {"anyOf": [{"type": "number"}, {"type": "number"}]},
-                "m": {"anyOf": [{"type": "number"}, {"type": "number"}]},
-                "d": {"anyOf": [{"type": "number"}, {"type": "number"}]}
-            }
-        },
-        
-        "host": {"type": "string"}
-    }
+                "y": {"anyOf": [{"type": "number"}, {"type": "null"}]},
+                "m": {"anyOf": [{"type": "number"}, {"type": "null"}]},
+                "d": {"anyOf": [{"type": "number"}, {"type": "null"}]}
+                }
+            },
+        "host": {"type": "string"},
+        "lab": {"type": "string", "description": "originating lab"},
+        "gen": {"type": "string", "description": "gender"},
+        "age": {"type": "string"}
+    },
+    "additionalProperties": false
 }
