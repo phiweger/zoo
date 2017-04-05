@@ -1,7 +1,9 @@
 from Bio import Entrez, SeqIO
 from io import StringIO
+import json
 import os
 import urllib
+from zoo.format import seqrecord2jsondict
 
 
 def read_accessions(fp):
@@ -63,7 +65,7 @@ def process_batch(accessions_batch, db, batchsize, retmax, fmt):
     elif fmt == 'json':
         for acc, r in extract_records_gb(records_handle):
             record = SeqIO.read(StringIO(r), 'genbank')
-            # yield gb2json(record)
+            yield acc, json.dumps(seqrecord2jsondict(record))
     elif fmt == 'fasta':
         for acc, r in extract_records_gb(records_handle):
             record = SeqIO.read(StringIO(r), 'genbank')
@@ -80,13 +82,16 @@ def accessions_to_fmt(accessions, db, batchsize, retmax, fmt):
         yield from process_batch(acc_batch, db, batchsize, retmax, fmt)
 
 
-def write_record(dir, accession, record, fmt):
-    ext = {'genbank': '.gb', 'fasta': 'fa'}
+def write_record(out, accession, record, fmt):
+    ext = {'genbank': '.gb', 'fasta': '.fa'}
     if fmt in ['genbank', 'fasta']:
-        with open(os.path.join(dir, accession + ext[fmt]), 'w') as output:
+        if not os.path.exists(out):
+            os.makedirs(out)
+        with open(os.path.join(out, accession + ext[fmt]), 'w') as output:
             print(record, file=output)
     elif fmt == 'json':
-        pass
+        with open(out, 'a+') as output:
+            print(record, file=output)
         # 'a+' append to file
 
 

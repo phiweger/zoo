@@ -39,7 +39,8 @@ def load(file, out, batch, email, db, fmt):
 
     Example:
 
-    zoo load --out virometest6 --email '' rna_virome_shi2016.txt
+    zoo load --fmt json --out test.json --email '' \
+    data/rna_virome_shi2016/rna_virome_shi2016.txt
 
     \b
     Loading data from NCBI.
@@ -50,10 +51,8 @@ def load(file, out, batch, email, db, fmt):
 
     Notes:
 
-    The function can fail with e.g.:
-    urllib.error.URLError: <urlopen error [Errno 54] Connection reset by peer>
-    probably due to some connection problem with NCBI. If this is the case,
-    get a coffee, and simply try again.
+    The function can fail due to a variety of connection problems with NCBI.
+    If this is the case, get a coffee, and simply try again.
 
     \b
     Loading data from NCBI.
@@ -77,8 +76,6 @@ def load(file, out, batch, email, db, fmt):
     RETMAX = 10**9
 
     accessions = read_accessions(file)
-    if not os.path.exists(out):
-        os.makedirs(out)
     dbase = db
     Entrez.email = email
     batchsize = batch
