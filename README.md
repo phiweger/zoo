@@ -1,6 +1,6 @@
 ## zoo
 
-A distributable viral database for rapid prototyping (still pre-alpha release).
+A portable datastructure for rapid prototyping in (viral) bioinformatics (under development).
 
 ![](https://github.com/viehwegerlib/zoo/blob/master/zoo/img/cell.png)
 
@@ -126,6 +126,8 @@ dat clone ff92ce30e1ff6ebd75edeb42f04239367243a58b7838f50706bd995e5dbc5d4c
 ls
 # zika.json
 ```
+
+This is truly viral messaging.
 
 ### Tests
 
