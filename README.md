@@ -23,18 +23,20 @@ zoo provides a command-line tool as well as a Python library. For detailed infor
 ### zoo CLI
 
 ```shell
-# Stream GenBank records in JSON format to data cell, and validate schema.
+# Stream GenBank records (in JSON format) to data cell, and validate schema.
 zoo load --source ncbi --fmt json \
 --ids accessions.txt --stdout - | \
 zoo init --db mockA --cell foo --validate -
 # ... Initializing data cell.
-# ... 3 entries inserted into cell "original".
+# ... 42 entries inserted into cell "original".
 # ... Primary key assigned to field "_id".
 # ... inspect cell and commit
 
-
 zoo status --db mockA --cell foo --example
 zoo commit --db mockA --cell foo original
+# ... Dumping data cell.
+# ... | 42 Elapsed Time: 0:00:00
+# ... Done.
 
 # share
 mkdir send
@@ -50,7 +52,7 @@ dat clone <link> receive/
 zoo add --db mockB --cell foo --primkey genbank.accession receive/original.json
 # ... Loading data cell.
 # ... Index created on field "genbank.accession".
-# ... 20 documents inserted in cell "foo".
+# ... 39 documents inserted in cell "foo".
 # ... 3 duplicates skipped.
 
 # Meanwhile, original.json was modified. B want his zoo to reflect the changes:
@@ -62,7 +64,7 @@ zoo pull --db mockB --cell foo receive/modified.json
 # ... Updating cell's md5 hashes.
 # ... / 0 Elapsed Time: 0:00:00
 # ... 
-# ... 27 entries unchanged.
+# ... 38 entries unchanged.
 # ... 4 entries replaced.
 
 # Now put data cells into your favourite analysis workflow, then use zoo's API 
@@ -94,8 +96,7 @@ sourmash sbt_search --ksize 16 virusref query.fa.sig
 # ... loaded query: survey.fa... (k=16, DNA)
 # ... 0.11 0ef85591-d464-4953-915f-f673907b7e8e (here Zika reference genome)
 
-
-# Done.
+# Done, lets get some coffee.
 zoo drop --db mockB --cell foo --force
 zoo destroy --db mockB --force
 ```
