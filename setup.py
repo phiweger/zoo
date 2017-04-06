@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='zoo',
-    version='0.2',
+    version='0.3',
     description='A distributed microbial database',
     url='https://github.com/viehwegerlib/zoo',
     author='Adrian Viehweger',
@@ -15,6 +15,7 @@ setup(
         'data/zika/*',
         'data/tests/*',
         'data/flu/*',
+        'data/ebola/*',
         'data/rna_virome_shi2016/*',
         'schema/*.json',
         'schema/fragments/*.json',

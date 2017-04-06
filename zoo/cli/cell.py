@@ -198,7 +198,7 @@ def commit(file, client, db, cell, ksize, n):
 
             # update aggregate minhash for collection
             for v in dk.values():
-                v.add_sequence(d['sequence'], force=True)
+                v.add_sequence(d['seq'], force=True)
 
             # update progress bar
             bar.update(counter)

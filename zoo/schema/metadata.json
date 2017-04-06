@@ -12,12 +12,12 @@
             "type" : "object",
             "description": "location < division < country < region",
             "properties": {
-                "long": {"type": "string"},
-                "lat": {"type": "string"},
-                "loc": {"type": "string"},
-                "reg": {"type": "string"},
-                "cou": {"type": "string"},
-                "div": {"type": "string"}
+                "long": {"anyOf": [{"type": "number"}, {"type": "null"}]},
+                "lat":  {"anyOf": [{"type": "number"}, {"type": "null"}]},
+                "loc":  {"type": "string"},
+                "reg":  {"type": "string"},
+                "cou":  {"type": "string"},
+                "div":  {"type": "string"}
                 }
             },
         "ids": {
@@ -25,12 +25,8 @@
             "description": "any ID assigned to this sequence record"
             },
         "date": {
-            "type" : "object", 
-            "properties": {
-                "y": {"anyOf": [{"type": "number"}, {"type": "null"}]},
-                "m": {"anyOf": [{"type": "number"}, {"type": "null"}]},
-                "d": {"anyOf": [{"type": "number"}, {"type": "null"}]}
-                }
+            "type" : "string", 
+            "pattern": "(19|20)\\d{2}-\\d{2}-\\d{2}"
             },
         "host": {"type": "string"},
         "lab": {"type": "string", "description": "originating lab"},
