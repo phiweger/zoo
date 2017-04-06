@@ -24,7 +24,7 @@ import pandas as pd
 from pyfaidx import Fasta
 from pymongo import MongoClient
 from uuid import uuid4
-from zoo import get_schema
+from zoo import get_schema, get_data
 from zoo.align import encode_gaps, decode_gaps, hash_seq
 from zoo.utils import deep_set, deep_get
 
@@ -33,9 +33,9 @@ client = MongoClient('localhost:27017')
 c = client['ebola']['makona']
 
 
-fp = '/Users/pi/data/virus/ebola/space-time/Data/Makona_1610_genomes_2016-06-23.fasta'
-fp_geo = '/Users/pi/data/geolocation/geo_lat_long.tsv'
-fp_makona = '/Users/pi/data/virus/ebola/space-time/Data/Makona_1610_metadata_2016-06-23.csv'
+fp = get_data('ebola/Makona_1610_genomes_2016-06-23.fasta')
+fp_geo = get_data('ebola/geo_lat_long.tsv')
+fp_makona = get_data('ebola/Makona_1610_metadata_2016-06-23.csv')
 
 
 '''
