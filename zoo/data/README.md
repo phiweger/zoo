@@ -31,7 +31,7 @@ For generation of `mock_flu.fa` see `mock_flu.py.`
 
 ### Ebola
 
-TODO
+See directory README.
 
 ### JMTV segmented virus
 
