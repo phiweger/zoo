@@ -3,7 +3,7 @@ from zoo.align import encode_gaps, decode_gaps, hash_seq
 
 def test_encode_gaps():
     seq = 'A--CTGA---GGTAGGT-AA'
-    assert encode_gaps(seq) == {1: 2, 7: 3, 17: 1}
+    assert encode_gaps(seq) == {'1': 2, '7': 3, '17': 1}
 
 
 def test_decode_gaps():
@@ -12,7 +12,7 @@ def test_decode_gaps():
     are returned (by default) in lower case letters.
     '''
     seq = 'AcTGAggtAGGTAA'
-    gapdict = {1: 2, 7: 3, 17: 1}
+    gapdict = {'1': 2, '7': 3, '17': 1}
     result = decode_gaps(seq, gapdict, uppercase=False)
     assert result == 'A--cTGA---ggtAGGT-AA'
 

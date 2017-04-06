@@ -93,7 +93,7 @@ def encode_gaps(seq):
             counter += 1
         else:
             if counter != 0:
-                d[index - counter] = counter
+                d[str(index - counter)] = counter
                 counter = 0  # reset to 0
         index += 1
     return d
@@ -111,7 +111,7 @@ def decode_gaps(seq, gapdict, uppercase=False):
     index = 0
     for nt in seq:
         try:
-            v = gapdict[index]
+            v = gapdict[str(index)]
             insert = v * '-'
             result = result + insert + nt
             index += len(nt + insert)
