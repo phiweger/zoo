@@ -27,6 +27,7 @@ setup(
         'deepdiff',
         # 'ijson',  # likely not needed
         'jsonschema',
+        'networkx',
         'numpy',
         'pandas',
         'progressbar2',

@@ -175,81 +175,10 @@ gen = (decode_gaps(i['seq'], deep_get(i, 'rel.msa')[0]['gaps']) for i in q)
 print(hash_seq(gen))  # a130dfeee97e58bf04079d9efe358a8b
 
 
-# from datetime import datetime
-# datetime.strptime('2017-01-01', '%Y-%m-%d')
 
 
-'''
-exploratory data analysis
-'''
-
-# number of cases in time
-# map w/ small multiples for time
-
-'''
-We now want a csv w/ header: date, country, location, longitude, latitude.
-We could do that manually:
-u = c.find(
-    {},  # query
-    {    # projection
-        '_id': 0,
-        'meta.date': 1,
-        'meta.geo.cou': 1,
-        'meta.geo.loc': 1,
-        'meta.geo.lat': 1,
-        'meta.geo.long': 1
-    })
-... and so on.
 
 
-Far easier w/ the command line:
-
-$ zoo commit --db ebola --cell makona makona
-$ cat makona.json | json2csv -p \
--k meta.date,meta.geo.cou,meta.geo.loc,meta.geo.lat,meta.geo.long \
-> makona.csv
-
-See json2csv here: https://github.com/jehiah/json2csv
-
-The visualisation can be done in R (see supplementary script *.R)
-'''
-
-# import dendropy
-
-# x = dendropy.Tree.get_from_path(
-#     'Makona_1610_genomes_2016-06-23.ml.tree',
-#     schema='nexus')
-
-# http://etetoolkit.org/docs/2.3/tutorial/tutorial_trees.html#getting-leaves-descendants-and-node-s-relatives
-'''
-Dsparent= (t&"C").up
-Bsparent= (t&"B").up
-Jsparent= (t&"J").up
-'''
-# https://github.com/evogytis/EBOV-rates-project-2016/blob/master/notebooks/EBOV_rates_project_2016_figures.ipynb
-'''
-def move_up(self):
-    node=self.cur_node
-    self.cur_node=node.parent
-'''
-# https://github.com/evogytis/EBOV-rates-project-2016/tree/master/trees
-# https://github.com/blab/baltic
-
-# I haven't dedicated much time to writing a general tree parser to handle all cases, but the example below shows how to handle a simple FigTree file. Similar code can now be called by baltic's loadNexus() function, which takes a path to a tree file in nexus format and returns a baltic tree object. If other formats are required, such as newick, it should be as easy as handing the make_tree function the tree string and an empty tree object.
-# https://github.com/blab/baltic/blob/master/austechia.ipynb
-
-# origin: http://stackoverflow.com/questions/280243/python-linked-list/280286#280286
-
-
-'''
-import networkx, pylab
-tree = Phylo.read('example.xml', 'phyloxml')
-net = Phylo.to_networkx(tree)
-
-http://biopython.org/wiki/Phylo
-https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-209
-http://biopython.org/wiki/Phylo_cookbook
-'''
 
 
 
