@@ -171,6 +171,7 @@ q = c.find(
     {'rel.msa.hash': 'a130dfeee97e58bf04079d9efe358a8b'},
     {'seq': 1, '_id': 0, 'rel.msa.gaps': 1})
 
+
 gen = (decode_gaps(i['seq'], deep_get(i, 'rel.msa')[0]['gaps']) for i in q)
 print(hash_seq(gen))  # a130dfeee97e58bf04079d9efe358a8b
 
