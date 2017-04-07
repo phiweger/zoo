@@ -1,4 +1,4 @@
-## zoo - Truly viral messaging.
+## zoo - Truly viral messages.
 
 A portable datastructure for rapid prototyping in (viral) bioinformatics (under development).
 
