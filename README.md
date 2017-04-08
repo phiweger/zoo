@@ -96,6 +96,10 @@ sourmash sbt_search --ksize 16 virusref query.fa.sig
 # ... loaded query: survey.fa... (k=16, DNA)
 # ... 0.11 0ef85591-d464-4953-915f-f673907b7e8e (here Zika reference genome)
 
+# Export, e.g. to fasta or JSON.
+zoo dump --query q.json --selection _id,meta.date,meta.geo.cou,seq \
+--delim "|" --fmt fasta dump.fa
+
 # Done, lets get some coffee.
 zoo drop --db mockB --cell foo --force
 zoo destroy --db mockB --force
