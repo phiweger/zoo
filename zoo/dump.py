@@ -11,7 +11,7 @@ with open(path, 'w+') as outjson:
 '''
 
 
-def json_dump(path, cursor):
+def dump_json(path, cursor):
     '''Export a (mongodb) cursor to JSON format.
 
     For each document, start a new line in the output.
@@ -31,3 +31,8 @@ def json_dump(path, cursor):
     with open(path, 'w+') as outjson:
         for i in cursor:
             outjson.write(json.dumps(i) + '\n')
+
+
+def dump_fasta(query):
+    print(next(query))
+

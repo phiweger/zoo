@@ -8,6 +8,7 @@ from .cli.cell import drop, destroy
 from .cli.minhash import minhash, sbt_index
 from .cli.io import load, dump
 from .cli.digest import digest
+from .cli.sample import sample, query
 from .cli.scale import scale
 
 
@@ -40,3 +41,9 @@ cli.add_command(digest)  # TODO
 
 # port
 cli.add_command(scale)  # TODO
+
+# sample, query
+cli.add_command(sample)  # TODO
+cli.add_command(query)  # TODO
+
+

@@ -1,7 +1,9 @@
 from Bio import Entrez
 import click
 from zoo.load import write_record, accessions_to_fmt, read_accessions
+from zoo.dump import dump_fasta
 from zoo.utils import eprint
+from zoo.utils_mongodb import env_switch, eval_query
 import sys
 
 
@@ -103,12 +105,38 @@ def load(ids, out, batch, email, db, fmt, source, stdout):
         click.echo('Done.', err=True)
 
 
+@click.option('--client', required=False, default='localhost:27017')
+@click.option('--db', required=False)
+@click.option('--cell', required=False, help='Cell name.')
+@click.option('--client_env', envvar='ZOOCLIENT', required=False, default=None)
+@click.option('--db_env', envvar='ZOODB', required=False, default=None)
+@click.option('--cell_env', envvar='ZOOCELL', required=False, default=None)
+@click.option('--message', default='hello cello')
+@click.option(
+    '--query', required=False, default=None,
+    help='A JSON file with the (pymongo) query syntax.')
+@click.option(
+    '--selection', default=None,
+    help='Comma-seperated list of attributes to use in header.')
+# @click.argument('out', type=click.File('w+'))
 @click.command()
-def dump():
+def dump(client, client_env, db, db_env, cell, cell_env, message, query, selection):
     '''
-    Example:
+    Desired:
 
     \b
     zoo dump --db x --cell y --fasta dump.fa  # all metadata in header, | delim
+    zoo sample ... | zoo dump ...
     '''
-    print('Dump.')
+
+    c = env_switch(client, client_env, db, db_env, cell, cell_env)
+    q = eval_query(c, query, selection)
+
+    print(c.count())
+    print('Header is', selection)
+    dump_fasta(q)
+
+
+
+
+
