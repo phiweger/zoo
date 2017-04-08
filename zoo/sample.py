@@ -24,3 +24,25 @@ def random_draw(collection, match, n):
     pipeline = [{'$match': match}, {'$sample': sample}]
     query = collection.aggregate(pipeline)
     return query
+
+
+def stratified_draw():
+    '''
+    In [102]: with open('pipeline.json', 'r+') as file:
+         ...:     a = c.aggregate(json.load(file))
+
+    In [102]: cat pipeline.json
+    [
+        {
+            "$match": {
+                "meta.geo.cou": "sierra_leone"
+            }
+        },
+        {
+            "$sample": {
+                "size": 15
+            }
+        }
+    ]
+    '''
+    pass

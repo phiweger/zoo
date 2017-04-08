@@ -31,8 +31,3 @@ def dump_json(path, cursor):
     with open(path, 'w+') as outjson:
         for i in cursor:
             outjson.write(json.dumps(i) + '\n')
-
-
-def dump_fasta(query):
-    print(next(query))
-

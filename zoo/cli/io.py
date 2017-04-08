@@ -1,8 +1,8 @@
 from Bio import Entrez
 import click
+import json
 from zoo.load import write_record, accessions_to_fmt, read_accessions
-from zoo.dump import dump_fasta
-from zoo.utils import eprint
+from zoo.utils import eprint, deep_get
 from zoo.utils_mongodb import env_switch, eval_query
 import sys
 
@@ -111,32 +111,45 @@ def load(ids, out, batch, email, db, fmt, source, stdout):
 @click.option('--client_env', envvar='ZOOCLIENT', required=False, default=None)
 @click.option('--db_env', envvar='ZOODB', required=False, default=None)
 @click.option('--cell_env', envvar='ZOOCELL', required=False, default=None)
-@click.option('--message', default='hello cello')
+@click.option('--delim', default='|')
+@click.option('--fmt', required=True, default='json')
 @click.option(
     '--query', required=False, default=None,
     help='A JSON file with the (pymongo) query syntax.')
 @click.option(
     '--selection', default=None,
     help='Comma-seperated list of attributes to use in header.')
-# @click.argument('out', type=click.File('w+'))
+@click.argument('file', type=click.File('w+'))
 @click.command()
-def dump(client, client_env, db, db_env, cell, cell_env, message, query, selection):
-    '''
-    Desired:
+def dump(
+        client, client_env, db, db_env, cell, cell_env,
+        query, selection, delim, file, fmt):
+    '''Dump a query (maybe restricted by selection) to <fmt>.
+
+    Example:
 
     \b
-    zoo dump --db x --cell y --fasta dump.fa  # all metadata in header, | delim
-    zoo sample ... | zoo dump ...
+    cat q.json
+    # {}
+    zoo dump --query q.json --selection _id,meta.date,meta.geo.cou,seq \
+    --delim "|" --fmt fasta dump.fa
+    head -n2 dump.fa
+    # >a0b5d956-a940-427d-b5ff-f3a22e750389|2015-09-07|sierra_leone
+    # NNNNNNNNNNNNNNNNNNNNNNNNNNNNNTTTAGGATCTTTTGTGTGCGAATAACTAT...
     '''
 
     c = env_switch(client, client_env, db, db_env, cell, cell_env)
-    q = eval_query(c, query, selection)
+    records = eval_query(c, query, selection)  # will return selection as dict
 
-    print(c.count())
-    print('Header is', selection)
-    dump_fasta(q)
+    if fmt == 'json':
+        for rec in records:
+            file.write(json.dumps(rec) + '\n')
 
-
-
-
-
+    elif fmt == 'fasta':
+        s = selection.split(',')
+        assert 'seq' in s  # a valid fasta needs a sequence
+        for rec in records:
+            header = delim.join(
+                [deep_get(rec, key) for key in s if key != 'seq'])
+            lines = '>{}\n{}\n'.format(header, rec['seq'])
+            file.write(lines)
