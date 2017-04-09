@@ -147,7 +147,7 @@ tox
 
 BSD-3-Clause
 
-Copyright (c) 2016 Adrian Viehweger
+Copyright (c) 2017 Adrian Viehweger
 
 [![DOI](https://zenodo.org/badge/84596868.svg)](https://zenodo.org/badge/latestdoi/84596868)
 
