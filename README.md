@@ -138,6 +138,9 @@ zoo adheres to pytest's package integration [guidance](http://doc.pytest.org/en/
 ```
 # cd into package directory and virtualenv (Python 3)
 python setup.py test
+
+# test Python 2.7 and 3.5
+tox
 ```
 
 ### License

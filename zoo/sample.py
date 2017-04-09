@@ -1,4 +1,4 @@
-def random_draw(collection, match, n):
+def draw_random(collection, match, n):
     '''
     In: collection, match dictionary (i.e. the filter), sample size n
     Out: documents of samples as database cursor (i.e. generator)
@@ -26,7 +26,7 @@ def random_draw(collection, match, n):
     return query
 
 
-def stratified_draw():
+def draw_stratified():
     '''
     In [102]: with open('pipeline.json', 'r+') as file:
          ...:     a = c.aggregate(json.load(file))
@@ -45,4 +45,8 @@ def stratified_draw():
         }
     ]
     '''
+    pass
+
+
+def draw_train_test():
     pass

@@ -424,50 +424,8 @@ def flat(l):
     return result
 
 
-# def select_taxonomy(id):
-#     '''
-#     Given an id, return all entries from all collections associated
-#     with taxonomy id.
-
-#     Aim at some point is to build an RNA-virus SBT and query it.
-#     '''
-#     pass
+def random_access(fp, identifier):
+    '''Given an identifier (e.g. UUID), access seq in supplement fasta file.'''
+    pass
 
 
-# def export_fasta(cursor):
-#     '''
-#     Given a mongodb cursor (i.e. a query), export the sequence to fasta
-#     w/ the indicated fields concatenated by "|".
-#     '''
-#     pass
-
-
-# # def minhash(cursor):
-# #     '''
-# #     Given a document set (a query), calculate minhash sequence with
-# #     k = {15, 30} (sourmash).
-# #     '''
-# #     pass
-
-
-# def sbt_index(cursor):
-#     '''
-#     Given a query, use sourmash to construct an SBT .. sequence bloom tree.
-#     '''
-#     pass
-
-
-# def phylo_query(signature, sbt, n):
-#     '''
-#     Given a minhash signature calculated by sourmash, return the n "closest"
-#     documents.
-#     '''
-#     pass
-
-
-# def complete_iav(cursor):
-#     '''
-#     Return a generator w/ entries that have complete genomes, i.e. entries for
-#     8 segments.
-#     '''
-#     pass
