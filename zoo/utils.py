@@ -423,19 +423,3 @@ def flat(l):
         else:
             result.append(item)
     return result
-
-
-def seq_access(fp, _id, func=None):
-    '''Given an identifier (e.g. UUID), access seq in supplement fasta file.
-
-    func .. a key function to pass to pyfaidx.Fasta(), e.g.
-    func = lambda x: x.split('|')[0]
-
-    The access is random, i.e. quick, given that an index exists. If no index
-    is found (file.fai) one is created.
-    '''
-    fa = Fasta(fp, key_function=func)
-    return str(fa[_id])
-
-
-

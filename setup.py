@@ -16,6 +16,7 @@ setup(
         'data/tests/*',
         'data/flu/*',
         'data/ebola/*',
+        'data/plum/*',
         'data/rna_virome_shi2016/*',
         'schema/*.json',
         'schema/fragments/*.json',

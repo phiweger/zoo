@@ -1,0 +1,12 @@
+{
+    "title": "Link",
+    "description": "A basic link schema.",
+    "type": "object",
+    "properties": {
+        "txt": {"type" : "string"},
+        "type": {"type" : "string"},
+        "fp": {"type" : "string"},
+    },
+    "required": ["txt", "type", "fp"],
+    "additionalProperties": false
+}
