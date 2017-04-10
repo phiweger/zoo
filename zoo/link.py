@@ -37,7 +37,7 @@ class Link():
     l.access_fasta(func=lambda x: x.split(' ')[0])[:10]
     # 'AAAATATAAA'
     '''
-    def __init__(self, target, key):
+    def __init__(self, target, key, **kwargs):
         '''
         supported target types: field ("internal" link), fasta
         '''
@@ -67,5 +67,7 @@ class Link():
         return c.find({field: self.key})  # returns > 1 docs if key not unique
 
     def access_fasta(self, func=None):
-        return link_fasta(self, func)
-
+        try:
+            return link_fasta(self, func)
+        except KeyError:
+            print('The key indicated in the link is not found in file header.')

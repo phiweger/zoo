@@ -1,18 +1,11 @@
 {
     "_id": "someuuid",
-    "seq": {
-        "link": {
-            "type": "filepath",
-            "fp": "NC_001445.fa",
-            "txt": "plum pox reference genome"
-        }
-    },
+    "seq": "AAAATATAAA...",
     "relative": {
         "link": {
-            "type": "filepath",
-            "fp": "NC_014697.fa",
+            "target": "plum/plum.fa",
+            "key": "NC_014697.1",
             "txt": "chloroplast prunus persica"
         }
     }
-
 }

@@ -56,6 +56,6 @@ def test_link_document_multiple_key_matches():
 
 
 def test_link_fasta():
-    l = Link(get_data('plum/NC_001445.fa'), 'NC_001445.1')
+    l = Link(get_data('plum/plum.fa'), 'NC_014697.1')
     seq = l.access_fasta(func=lambda x: x.split(' ')[0])[:10]
-    assert seq == 'AAAATATAAA'
+    assert seq == 'TGGGCGAACG'
