@@ -80,6 +80,10 @@ zoo digest --decode msa.mafft.fa
 # discover it.
 zoo push ...
 
+# Not yet implemented: Port a zoo cell batteries included to a larger compute
+# environment.
+zoo scale --container docker  # or rkt
+
 # Create a sequence Bloom tree (SBT) from the minhash signatures of a given 
 # cell.
 zoo sbt_index --db ref --cell virus --ksize 16 --nsketch 1000 virusref
@@ -112,9 +116,10 @@ zoo destroy --db mockB --force
 
 ### zoo API
 
-zoo includes a Python library with an intuitive API and many functions to move data in and out of a data cell as well as for formatting the data for downstream analysis, such as:
+zoo includes a Python library with an intuitive API and many functions to move data in and out of a data cell as well as for formatting the data for downstream analysis. The API covers amongst other things:
 
-- export to fasta
+- [linked data](https://github.com/viehwegerlib/zoo/blob/master/examples/link.py), in the form of internal links to other documents or links to external files
+- export to fasta, ...
 - one-hot-encode the selected sequences for machine learning
 
 ### Sharing data
