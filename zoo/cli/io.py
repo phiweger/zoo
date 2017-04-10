@@ -136,6 +136,14 @@ def dump(
     head -n2 dump.fa
     # >a0b5d956-a940-427d-b5ff-f3a22e750389|2015-09-07|sierra_leone
     # NNNNNNNNNNNNNNNNNNNNNNNNNNNNNTTTAGGATCTTTTGTGTGCGAATAACTAT...
+
+    \b
+    zoo dump --query q.json --selection _id - > qdump.json
+    zoo dump --query q.json --selection _id | wc -l
+    zoo dump --query q.json --selection _id,seq --fmt fasta - | grep ">" | head
+    # minhash
+    zoo dump --query q.json --selection _id,seq --fmt fasta - | \
+    sourmash compute -k 16 -n 100 --singleton --out q.sig -
     '''
 
     c = env_switch(client, client_env, db, db_env, cell, cell_env)
@@ -143,7 +151,10 @@ def dump(
 
     if fmt == 'json':
         for rec in records:
-            file.write(json.dumps(rec) + '\n')
+            try:
+                file.write(json.dumps(rec) + '\n')
+            except BrokenPipeError:  # somehow occurs when piping into head
+                return
 
     elif fmt == 'fasta':
         s = selection.split(',')
@@ -152,4 +163,8 @@ def dump(
             header = delim.join(
                 [deep_get(rec, key) for key in s if key != 'seq'])
             lines = '>{}\n{}\n'.format(header, rec['seq'])
-            file.write(lines)
+            try:
+                file.write(lines)
+            except BrokenPipeError:
+                return
+

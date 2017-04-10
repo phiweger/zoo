@@ -87,6 +87,12 @@ def sbt_index(client, db, cell, query, ksize, nsketch, key, file):
 def minhash(client, db, cell, query, ksize, nsketch, key, file):
     '''Minhash a cell/ database cursor.
     just plain old sigs for collection
+
+    Example:
+
+    # we don't have to use this function, but can pipe w/ zoo dump
+    zoo dump --query q.json --selection _id,seq --fmt fasta - | \
+    sourmash compute -k 16 -n 100 --singleton --out q.sig -
     '''
     c = MongoClient(client)[db][cell]
 

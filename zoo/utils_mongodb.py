@@ -1,5 +1,6 @@
 import json
 from pymongo import MongoClient
+from zoo.utils import eprint
 
 
 def env_switch(client, client_env, db, db_env, cell, cell_env):
@@ -27,11 +28,11 @@ def eval_query(collection, query, selection):
         selection = {k: 1 for k in selection.split(',')}
     if query:
         with open(query, 'r+') as file:
-            print('Evaluating query.')
+            eprint('Evaluating query.')
             return collection.find(json.load(file), selection)
             # passing None to selection defaults to "return all documents"
     else:
-        print('All entries used.')
+        eprint('All entries used.')
         return collection.find()  # whole collection
 
 
