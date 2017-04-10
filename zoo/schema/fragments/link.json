@@ -3,10 +3,16 @@
     "description": "A basic link schema.",
     "type": "object",
     "properties": {
-        "txt": {"type" : "string"},
-        "type": {"type" : "string"},
-        "fp": {"type" : "string"},
+        "txt": {
+            "type": "string",
+            "description": "A link description."
+        },
+        "target": {"type": "string"},
+        "key": {
+            "type": "string", 
+            "description": "E.g. an ID in a cell or part of a header in fasta."
+        }
     },
-    "required": ["txt", "type", "fp"],
+    "required": ["target", "key"],
     "additionalProperties": false
 }
