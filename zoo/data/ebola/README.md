@@ -20,6 +20,6 @@ If you follow the [Ebola use case](https://github.com/viehwegerlib/zoo/blob/mast
 
 ... as well as visualisation of precomputed results, such as phylogenetic trees.
 
-![TODO: fill]()
+![](https://github.com/viehwegerlib/zoo/blob/master/zoo/img/tree.png)
 
 

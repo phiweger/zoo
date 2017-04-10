@@ -1,7 +1,12 @@
+library(ape)
 library(dplyr)
 library(ggmap)
 library(ggplot2)
+library(ggtree)
 source('../zoo/vis/theme_default.R')
+
+
+# Map
 
 
 df <- read.table('makona.csv', header=T, stringsAsFactors=F, sep=',')
@@ -29,3 +34,10 @@ fp <- '~/tmp/map.png'
 ggsave(filename=fp, plot=q, height=17, width=17, units='cm', dpi=600)
 
 
+# Tree
+
+tree <- read.nexus('Makona_1610_genomes_2016-06-23.ml.tree')
+# from zoo/data/ebola
+p <- ggtree(tree)
+fp <- '~/tmp/tree.png'
+ggsave(filename=fp, plot=p, height=20, width=7, units='cm', dpi=600)

@@ -193,6 +193,8 @@ date and geo objects (easier queries)
 exploratory data analysis
 '''
 
+
+# TODO:
 # number of cases in time
 # map w/ small multiples for time
 
@@ -274,7 +276,9 @@ except AssertionError:
     print('Trees g and ghat NOT isomorphic, something went wrong.')
 
 
-
+'''
+The visualisation can be done in R (see supplementary script *.R)
+'''
 
 
 
