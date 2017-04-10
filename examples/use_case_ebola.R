@@ -40,4 +40,4 @@ tree <- read.nexus('Makona_1610_genomes_2016-06-23.ml.tree')
 # from zoo/data/ebola
 p <- ggtree(tree)
 fp <- '~/tmp/tree.png'
-ggsave(filename=fp, plot=p, height=20, width=7, units='cm', dpi=600)
+ggsave(filename=fp, plot=p, height=17, width=17, units='cm', dpi=600)
