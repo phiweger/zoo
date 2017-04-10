@@ -20,12 +20,16 @@ this against a SBT made from all reference sequences
 # from itertools import islice
 import json
 from jsonschema import validate
+import networkx as nx
 import pandas as pd
+from progressbar import ProgressBar, UnknownLength
 from pyfaidx import Fasta
 from pymongo import MongoClient
+import re
 from uuid import uuid4
 from zoo import get_schema, get_data
 from zoo.align import encode_gaps, decode_gaps, hash_seq
+from zoo.tree import parse_tree, get_leaves
 from zoo.utils import deep_set, deep_get
 
 
@@ -137,7 +141,7 @@ for i in fa:
     # - Makona_1610_metadata_2016-06-23.csv
 
     '''
-    encode MSA
+    Digest multiple sequence alignment.
     '''
 
     # gaps and MSA hash as ID
@@ -223,14 +227,51 @@ The visualisation can be done in R (see supplementary script *.R)
 
 
 '''
-tree
+Digest tree.
 '''
 
-# ...
+# parse tree string from nexus file and construct tree
+treestring_regex = 'tree [A-Za-z\_]+([0-9]+)'
+with open(get_data('ebola/Makona_1610_genomes_2016-06-23.ml.tree')) as file:
+    for line in file:
+        l = line.strip()
+
+        cerberus = re.search(treestring_regex, l)
+        if cerberus is not None:
+            print('Identified tree string.')
+            treestr_start = l.index('(')
+            g = parse_tree(data=l[treestr_start:], g=nx.DiGraph())
+            print('Tree has been parsed.')
 
 
+# decompose tree
+d = {}
+for n in get_leaves(g):
+    # redundant: don't keep "root" or node itself
+    d[n] = nx.shortest_path(g, source='root', target=n)[:-1]
 
 
+# reconstruct tree and check isomorphism
+ghat = nx.DiGraph()
+bar = ProgressBar(max_value=UnknownLength)
+counter = 0
+for k, v in d.items():
+    v.append(k)
+    while len(v) > 1:
+        child = v.pop()
+        ghat.add_node(child)
+        parent = v[-1]
+        ghat.add_node(parent)
+        ghat.add_edge(parent, child)
+    counter += 1
+    bar.update(counter)
+
+print('\nTesting isomorphism.')
+try:
+    assert nx.is_isomorphic(g, ghat)  # slow
+    print('Trees g and ghat are isomorphic.')
+except AssertionError:
+    print('Trees g and ghat NOT isomorphic, something went wrong.')
 
 
 

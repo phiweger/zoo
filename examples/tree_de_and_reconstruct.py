@@ -1,12 +1,12 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-import re
+from progressbar import ProgressBar, UnknownLength
+import warnings
+from zoo.tree import parse_tree, get_leaves
 
 
-def get_leaves(g):
-    '''Return leaves (terminal nodes) of an DAG, stackoverflow, 31946253.'''
-    return [x for x in g.nodes_iter() if g.out_degree(
-        x) == 0 and g.in_degree(x) == 1]
+# ignore matplotlib warnings, stackoverflow, 33792478
+warnings.filterwarnings("ignore")
 
 
 tree = '(D,(C,(B,A),(E,(F,G))))'
@@ -94,58 +94,40 @@ except AssertionError:
 # --------------------------------------------------------------------------
 # below is under development
 
+tree = "('D':0,('C':0,('B':0,'A':0):0,('E':0,('F':0,'G':0):0):0):0);"
+g = parse_tree(data=tree, g=nx.DiGraph())
 
-def parse_tree(treestr, tree, verbose=False):
-    '''
-    tree = "('D':0,('C':0,('B':0,'A':0):0,('E':0,('F':0,'G':0):0):0):0)"
+pos = nx.spring_layout(g)
+node_labels = {node: node for node in g.nodes()}
+nx.draw(g, pos, arrows=True, labels=node_labels)
+plt.show()
 
-    for some guidance, see:
-    https://github.com/blab/baltic/blob/master/baltic.py
+# decompose
+d = {}
+for n in get_leaves(g):
+    # redundant: don't keep "root" or node itself
+    d[n] = nx.shortest_path(g, source='root', target=n)[:-1]
 
-    treestr .. a tree string
-    tree .. a networkx graph in the shape of a tree
+ghat = nx.DiGraph()
+bar = ProgressBar(max_value=UnknownLength)
+counter = 0
+for k, v in d.items():
+    v.append(k)
+    while len(v) > 1:
+        child = v.pop()
+        ghat.add_node(child)
+        parent = v[-1]
+        ghat.add_node(parent)
+        ghat.add_edge(parent, child)
+    counter += 1
+    bar.update(counter)
 
-    https://pyformat.info/
-    '''
-
-    tree = nx.DiGraph()
-    i = 0
-    stored_i = None
-
-    while i < len(treestr):
-        if stored_i == i and verbose is True:
-            print('{} >{}<'.format(i, treestr[i]))
-
-        print(i, stored_i)
-
-        assert (stored_i != i), '\nTree string unparseable.\nStopped at >>{}<<\nstring region looks like this: {}'.format(treestr[i], treestr[i:i+5000]) ## make sure that you've actually parsed something last time, if not - there's something unexpected in the tree string
-        stored_i = i
-
-        if treestr[i] == '(':
-            if verbose is True:
-                print('adding node {}'.format(i))
-            tree.add_node(i)
-            i += 1
-
-        cerberus = re.match('(\(|,)([0-9]+)(\[|\:)', treestr[i-1:i+100])
-        print(cerberus)
-        if cerberus is not None:
-            if verbose is True:
-                print('{} adding leaf (BEAST) {}'.format(i, cerberus.group(2)))
-            tree.add_leaf(i, cerberus.group(2)) ## add tip
-            i += len(cerberus.group(2)) ## advance in tree string by however many characters the tip is encoded
-
-
-# rewrite baltic.make_tree in Python 3 and w/ networkx graph structure.
-
-
-
-
-
-
-
-
-
+print('\nTesting isomorphism.')
+try:
+    assert nx.is_isomorphic(g, ghat)  # slow
+    print('Trees g and ghat are isomorphic.')
+except AssertionError:
+    print('Trees g and ghat NOT isomorphic, something went wrong.')
 
 
 
