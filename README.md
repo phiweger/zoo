@@ -80,10 +80,6 @@ zoo digest --decode msa.mafft.fa
 # discover it.
 zoo push ...
 
-# Not yet implemented: Port a zoo cell batteries included to a larger compute
-# environment.
-zoo scale --container docker  # or rkt
-
 # Create a sequence Bloom tree (SBT) from the minhash signatures of a given 
 # cell.
 zoo sbt_index --db ref --cell virus --ksize 16 --nsketch 1000 virusref
@@ -126,7 +122,7 @@ zoo includes a Python library with an intuitive API and many functions to move d
 
 As illustrated above, [data cells](https://github.com/viehwegerlib/zoo/wiki/Whitepaper) are shared with the [dat protocol](https://github.com/datproject/dat). It couldn't be easier. Let's say you had a file `zika.json` with some experimental Zika data.
 
-```
+```shell
 dat share .../zika_survey/  # contains zika.json
 # Syncing Dat Archive: .../zika_survey
 # Link: dat://ff92ce30e1ff6ebd75edeb42f04239367243a58b7838f50706bd995e5dbc5d4c
@@ -134,18 +130,27 @@ dat share .../zika_survey/  # contains zika.json
 
 We can send this link to a colleague or put it in the zoo registry for others to find.
 
-```
+```shell
 # meanwhile in a faraway place
 dat clone ff92ce30e1ff6ebd75edeb42f04239367243a58b7838f50706bd995e5dbc5d4c
 ls
 # zika.json
 ```
 
+### Scaling
+
+zoo by design considers data to be an infinite stream, so scaling will become an issue, especially so if moving to larger organisms such as bacteria. Either the local storage capacity is exceeded or the analysis has too little resources. zoo offers convenient exports you can ship to larger compute environment.
+
+```shell
+# Not yet implemented: Port a zoo cell (batteries included).
+zoo scale --container docker  # or rkt
+```
+
 ### Tests
 
 zoo adheres to pytest's package integration [guidance](http://doc.pytest.org/en/latest/goodpractices.html).
 
-```
+```shell
 # cd into package directory and virtualenv (Python 3)
 python setup.py test
 
