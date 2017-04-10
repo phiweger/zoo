@@ -116,7 +116,15 @@ for i in l:
     key = i.name  # pass the previous segments ID as link key to the next seq
 
 
-# Create a circular link, i.e. linked list becomes a circle.
+'''
+One nice way to store a segmented genome is by a circular linked list where the
+last element connects to to first. That way, we do not store too many links
+(e.g. compared to saving all n-1 segment links in each of the n documents).
+MongoDB with its graph database functionality is intelligent enough to not
+cycle indefiniely though such a circular list, but stops once all nodes have
+been visited, i.e. once all segments have been collected.
+'''
+# create circular linked list
 c.update_one(
     {'_id': 'KJ001579.1'},
     {'$set': {'rel.link': [{'key': 'KJ001582.1', 'target': 'test.jmtv._id'}]}}

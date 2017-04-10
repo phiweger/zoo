@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import re
 
 
 def get_leaves(g):
@@ -88,3 +89,65 @@ try:
     print('Trees g and ghat isomorphic.')
 except AssertionError:
     print('Trees g and ghat NOT isomorphic, something went wrong.')
+
+
+# --------------------------------------------------------------------------
+# below is under development
+
+
+def parse_tree(treestr, tree, verbose=False):
+    '''
+    tree = "('D':0,('C':0,('B':0,'A':0):0,('E':0,('F':0,'G':0):0):0):0)"
+
+    for some guidance, see:
+    https://github.com/blab/baltic/blob/master/baltic.py
+
+    treestr .. a tree string
+    tree .. a networkx graph in the shape of a tree
+
+    https://pyformat.info/
+    '''
+
+    tree = nx.DiGraph()
+    i = 0
+    stored_i = None
+
+    while i < len(treestr):
+        if stored_i == i and verbose is True:
+            print('{} >{}<'.format(i, treestr[i]))
+
+        print(i, stored_i)
+
+        assert (stored_i != i), '\nTree string unparseable.\nStopped at >>{}<<\nstring region looks like this: {}'.format(treestr[i], treestr[i:i+5000]) ## make sure that you've actually parsed something last time, if not - there's something unexpected in the tree string
+        stored_i = i
+
+        if treestr[i] == '(':
+            if verbose is True:
+                print('adding node {}'.format(i))
+            tree.add_node(i)
+            i += 1
+
+        cerberus = re.match('(\(|,)([0-9]+)(\[|\:)', treestr[i-1:i+100])
+        print(cerberus)
+        if cerberus is not None:
+            if verbose is True:
+                print('{} adding leaf (BEAST) {}'.format(i, cerberus.group(2)))
+            tree.add_leaf(i, cerberus.group(2)) ## add tip
+            i += len(cerberus.group(2)) ## advance in tree string by however many characters the tip is encoded
+
+
+# rewrite baltic.make_tree in Python 3 and w/ networkx graph structure.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
