@@ -314,28 +314,3 @@ Complex query: Get all non-coding sequences.
 
 Develop EDA functions.
 '''
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
