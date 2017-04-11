@@ -1,3 +1,3 @@
-{"_id": "1", "genbank": {"a": "1"}, "animal": "zebra", "legs": 7, "dangerous": true}
-{"_id": "2", "genbank": {"a": "2"}, "animal": "kitten", "legs": 4, "dangerous": "very"}
-{"_id": "3", "genbank": {"a": "3"}, "animal": "injured dog", "legs": 3.3, "dangerous": false}
+{"_id": "1", "genbank": {"a": "1"}, "animal": "zebra", "legs": 7, "dangerous": true, "seq": "ACTG"}
+{"_id": "2", "genbank": {"a": "2"}, "animal": "kitten", "legs": 4, "dangerous": "very", "seq": "AATG"}
+{"_id": "3", "genbank": {"a": "3"}, "animal": "injured dog", "legs": 3.3, "dangerous": false, "seq": "TTGG"}

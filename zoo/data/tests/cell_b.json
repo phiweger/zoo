@@ -1,4 +1,4 @@
-{"_id": "1", "genbank": {"a": "1"}, "animal": "zebra", "legs": 7, "dangerous": true}
-{"_id": "2", "genbank": {"a": "2"}, "animal": "kitten", "legs": 4, "dangerous": "very"}
-{"_id": "3", "genbank": {"a": "3"}, "animal": "dog", "legs": 4, "dangerous": false}
-{"_id": "4", "genbank": {"a": "4"}, "animal": "hippo", "legs": 4, "cute": true}
+{"_id": "1", "genbank": {"a": "1"}, "animal": "zebra", "legs": 7, "dangerous": true, "seq": "ATNA"}
+{"_id": "2", "genbank": {"a": "2"}, "animal": "kitten", "legs": 4, "dangerous": "very", "seq": "AGNA"}
+{"_id": "3", "genbank": {"a": "3"}, "animal": "dog", "legs": 4, "dangerous": false, "seq": "YNNA"}
+{"_id": "4", "genbank": {"a": "4"}, "animal": "hippo", "legs": 4, "cute": true, "seq": "ANTA"}
