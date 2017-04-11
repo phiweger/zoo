@@ -153,10 +153,10 @@ We'll now do two things:
 '''
 
 a = c.aggregate([
-    {'$match': {'_id': 'KJ001582.1'}},
+    {'$match': {'_id': 'KJ001579.1'}},
     {'$graphLookup':
         {
-            'from': 'jmtv',
+            'from': 'jmtv',  # make sure this is really the collection
             'startWith': '$rel.link.key',
             'connectFromField': 'rel.link.key',
             'connectToField': '_id',
@@ -165,9 +165,8 @@ a = c.aggregate([
         }}
     ])
 
-
-'''
 print([i['_id'] for i in next(a)['segments']])
+'''
 # ['KJ001580.1', 'KJ001579.1', 'KJ001581.1']
 
 Note how even though we allow a maximum recursion depth of 100, the graph
