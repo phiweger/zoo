@@ -1,6 +1,6 @@
 ## zoo - Truly viral messages.
 
-A portable datastructure for rapid prototyping in (viral) bioinformatics (under development).
+A portable datastructure for rapid prototyping in (viral) bioinformatics (under development). Instead of designing a database, we try to [grow](https://www.edge.org/conversation/brian_eno-composers-as-gardeners) one.
 
 ![](https://github.com/viehwegerlib/zoo/blob/master/zoo/img/cell.png)
 
