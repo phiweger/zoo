@@ -1,11 +1,12 @@
 import click
-from deepdiff import DeepDiff
+# from deepdiff import DeepDiff
 import json
 from progressbar import ProgressBar, UnknownLength
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
-from sourmash_lib import Estimators, signature, signature_json
+from sourmash_lib import MinHash, signature, signature_json
 from uuid import uuid4
+from zoo.diff import diffutil
 from zoo.hash import hash_dict
 from zoo.utils import deep_get
 
@@ -176,7 +177,7 @@ def commit(file, client, db, cell, ksize, n):
 
     # initialize minhash
     ksize = [int(i) for i in ksize.split(',')]
-    dk = {k: Estimators(ksize=k, n=n) for k in ksize}
+    dk = {k: MinHash(ksize=k, n=n) for k in ksize}
 
     bar = ProgressBar(max_value=UnknownLength)
     counter = 0
@@ -352,19 +353,7 @@ def diff(client, db, cell, out, file):
     c = MongoClient(client)[db][cell]
 
     print('Writing diff.')
-    with open(out, 'w+') as outfile:
-        for line in file:
-            old = json.loads(line.strip())
-            _id = old['_id']
-            new = c.find_one({'_id': _id})
-            diff = DeepDiff(
-                new, old,  # note order of new, old
-                ignore_order=True,
-                verbose_level=2)
-            if diff:
-                diff['_id'] = _id
-                outfile.write(diff.json)
-                outfile.write('\n')
+    diffutil(c, out, file)
     print('Done.')
 
 

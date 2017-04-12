@@ -1,7 +1,7 @@
 import click
 from progressbar import ProgressBar, UnknownLength
 from pymongo import MongoClient
-from sourmash_lib import Estimators, signature
+from sourmash_lib import MinHash, signature
 from sourmash_lib.sbt import SBT, GraphFactory
 from sourmash_lib.sbtmh import SigLeaf
 from sourmash_lib.signature import SourmashSignature
@@ -63,7 +63,7 @@ def sbt_index(client, db, cell, query, ksize, nsketch, key, file):
     counter = 0
     for d in c.find():
         counter += 1
-        e = Estimators(ksize=ksize, n=nsketch)
+        e = MinHash(ksize=ksize, n=nsketch)
         e.add_sequence(d['sequence'], force=True)
         s = SourmashSignature(email='', estimator=e, name=deep_get(d, key))
         leaf = SigLeaf(metadata=deep_get(d, key), data=s)
@@ -105,7 +105,7 @@ def minhash(client, db, cell, query, ksize, nsketch, key, file):
         ))
     for d in c.find():
         counter += 1
-        e = Estimators(ksize=ksize, n=nsketch)
+        e = MinHash(ksize=ksize, n=nsketch)
         e.add_sequence(d['sequence'], force=True)
         s = SourmashSignature(email='', estimator=e, name=deep_get(d, key))
         l.append(s)
