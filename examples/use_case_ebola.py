@@ -232,6 +232,7 @@ The visualisation can be done in R (see supplementary script *.R)
 Digest tree.
 '''
 
+
 # parse tree string from nexus file and construct tree
 treestring_regex = 'tree [A-Za-z\_]+([0-9]+)'
 with open(get_data('ebola/Makona_1610_genomes_2016-06-23.ml.tree')) as file:

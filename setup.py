@@ -11,6 +11,7 @@ setup(
     packages=['zoo'],
     package_dir={'zoo': 'zoo'},
     package_data={'zoo': [
+        'cli/*',
         'data/*',
         'data/zika/*',
         'data/tests/*',
@@ -26,13 +27,15 @@ setup(
         'biopython',
         'Click',
         'deepdiff',
-        # 'ijson',  # likely not needed
+        'ijson',  # likely not needed
         'jsonschema',
+        'khmer',
         'networkx',
         'numpy',
         'pandas',
         'progressbar2',
         'pyfaidx',
+        'pymongo',
         'sourmash'
     ],
     zip_safe=False,

@@ -1,8 +1,8 @@
 include zoo/data/*
 include zoo/data/zika/*
 include zoo/data/flu/*
-inlcude zoo/data/ebola/*
-inlcude zoo/data/plum/*
+include zoo/data/ebola/*
+include zoo/data/plum/*
 include zoo/data/tests/*
 include zoo/data/rna_virome_shi2016/*
 include zoo/schema/*.json
