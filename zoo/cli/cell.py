@@ -6,7 +6,7 @@ from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
 from sourmash_lib import MinHash, signature, signature_json
 from uuid import uuid4
-from zoo.diff import jd
+from zoo.diff import json_diff
 from zoo.hash import hash_dict
 from zoo.utils import deep_get
 
@@ -354,7 +354,7 @@ def diff(client, db, cell, out, file):
     c = MongoClient(client)[db][cell]
 
     print('Writing diff.')
-    jd(c, out, file)
+    json_diff(c, out, file)
     print('Done.')
 
 

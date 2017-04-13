@@ -2,6 +2,7 @@ from Bio import Entrez, SeqIO
 from io import StringIO
 import json
 import os
+import sys
 import urllib
 from zoo.format import seqrecord2jsondict
 
@@ -43,7 +44,12 @@ def process_batch(accessions_batch, db, batchsize, retmax, fmt):
 
             # get GB files
             search_handle = Entrez.epost(db=db, id=','.join(gi_list))
-            search_results = Entrez.read(search_handle)
+            try:
+                search_results = Entrez.read(search_handle)
+            except RuntimeError:
+                print('\nInappropriate NCBI database selected?')
+                print('Aborted!')
+                sys.exit()
             webenv = search_results['WebEnv']
             query_key = search_results['QueryKey']
 

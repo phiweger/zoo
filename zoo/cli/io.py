@@ -14,7 +14,7 @@ import sys
     '--email', required=False, default='',
     help='An e-mail address.')
 @click.option(
-    '--db', required=False, default='nucleotide',
+    '--dbname', required=False, default='nucleotide',
     help='"NCBI database ID.')
 @click.option(
     '--fmt', required=False, default='json',
@@ -30,7 +30,7 @@ import sys
     help='Write to stdout instead of file.')
 @click.argument('out', type=click.Path())
 @click.command()
-def load(ids, out, batch, email, db, fmt, source, stdout):
+def load(ids, out, batch, email, dbname, fmt, source, stdout):
     '''Download genbank entries from NCBI and optionally dump to JSON
 
     This function borrows heavily from https://www.biostars.org/p/66921/,
@@ -83,7 +83,6 @@ def load(ids, out, batch, email, db, fmt, source, stdout):
         eprint('Loading data from NCBI.')
         RETMAX = 10**9
         accessions = read_accessions(ids)
-        dbase = db
         Entrez.email = email
         batchsize = batch
 
@@ -92,7 +91,7 @@ def load(ids, out, batch, email, db, fmt, source, stdout):
 
         with click.progressbar(  # stackoverlow, 3173320
             accessions_to_fmt(
-                accessions, dbase, batchsize, RETMAX, fmt),
+                accessions, dbname, batchsize, RETMAX, fmt),
                 length=len(accessions),
                 file=sys.stderr, show_pos=True, label='Progress:',
                 fill_char=':', empty_char='.'
