@@ -16,6 +16,12 @@ git clone https://github.com/viehwegerlib/zoo
 pip install -e zoo
 ```
 
+To create diffs of documents:
+
+```
+go get github.com/yudai/gojsondiff
+```
+
 ### Documentation
 
 zoo provides a command-line tool as well as a Python library. For detailed information about zoo's intention, implementation, use cases and tutorials refer to the [wiki](https://github.com/viehwegerlib/zoo/wiki/Whitepaper). Documentation about zoo's functions and API is available at [readthedocs](https://readthedocs.org/).

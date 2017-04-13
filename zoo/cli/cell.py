@@ -1,12 +1,12 @@
 import click
-# from deepdiff import DeepDiff
+from deepdiff import DeepDiff
 import json
 from progressbar import ProgressBar, UnknownLength
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
 from sourmash_lib import MinHash, signature, signature_json
 from uuid import uuid4
-from zoo.diff import diffutil
+from zoo.diff import jd
 from zoo.hash import hash_dict
 from zoo.utils import deep_get
 
@@ -228,18 +228,23 @@ pull
 @click.argument('file', type=click.File('r+'))
 @click.command()
 def pull(file, client, db, cell):
+    '''Update a cell instance with changes from a JSON dump.
+
+    Use case: You pulled changes from a dat repo, and want to update a
+    data cell, substituting documents that changed for updated ones.
+
+    Example:
+
+    \b
+    zoo init --db test --cell test cell_a.json
+    zoo pull --db test --cell test cell_b.json
+    # Diffing database instance against JSON dump.
+    # 4 documents in JSON dump. Of those ...
+    # 4 without changes.
     '''
-    for each entry in existing database:
-    1. calculate fresh md5
-    o need to calc new hash or pulled file as commit takes care of that
-    2. compare old vs. new, if != drop entry end replace with pulled one
-    4. we can assume primary keys same, because we pull changes from existing.
-    '''
-    print("Updating cell's md5 hashes.")
+    print('Diffing database instance against JSON dump.')
     c = MongoClient(client)[db][cell]
-
-    bar = ProgressBar(max_value=UnknownLength)
-
+    # bar = ProgressBar(max_value=UnknownLength)
     counter = 0
     nochange = 0
     replaced = 0
@@ -249,18 +254,14 @@ def pull(file, client, db, cell):
         d_new = json.loads(line.strip())
 
         _id_new = d_new['_id']
-        md5_new = d_new['md5']
-
-        d_old = c.find_one({'_id': _id_new}, {'_id': 0, 'md5': 0})
+        d_old = c.find_one({'_id': _id_new})
 
         if not d_old:  # new entry
             c.insert_one(d_new)
             inserted += 1
             counter += 1
-        else:  # update and check md5
-            md5_old = hash_dict(d_old)
-
-            if md5_new == md5_old:  # no need to update
+        else:
+            if DeepDiff(d_new, d_old) == {}:  # no need to update
                 nochange += 1
                 counter += 1
                 continue
@@ -268,15 +269,15 @@ def pull(file, client, db, cell):
                 c.find_one_and_replace({'_id': _id_new}, d_new)
                 replaced += 1
                 counter += 1
-        bar.update(counter)
-    print('\n')
+        # bar.update(counter)
+    print('{} {}'.format(counter, 'documents in JSON dump. Of those ...'))
     for k, v in {
-            'unchanged': nochange,
+            'without changes': nochange,
             'replaced': replaced,
             'inserted': inserted
             }.items():
         if v > 0:
-            print(v, 'entries', k + '.')
+            print(v, k + '.')
 
 
 '''
@@ -353,8 +354,13 @@ def diff(client, db, cell, out, file):
     c = MongoClient(client)[db][cell]
 
     print('Writing diff.')
-    diffutil(c, out, file)
+    jd(c, out, file)
     print('Done.')
+
+
+'''
+checkout .. rollback json changes (with jp)
+'''
 
 
 '''
