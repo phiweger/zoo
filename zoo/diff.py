@@ -60,6 +60,7 @@ def json_diff(collection, out, file):
     # from subprocess import call
     # Note that you have to specify path to script
     # success = call(["node", "/Users/pi/repos/zoo/wip/hello.js"])
+    # node hello.js --db test --cell a --file cell_a.json
     # 1. get line new
     # 2. get diff to old in database
     # 3. export diff as json

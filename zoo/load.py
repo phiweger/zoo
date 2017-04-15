@@ -47,7 +47,7 @@ def process_batch(accessions_batch, db, batchsize, retmax, fmt):
             try:
                 search_results = Entrez.read(search_handle)
             except RuntimeError:
-                print('\nInappropriate NCBI database selected?')
+                print('\nMismatch btw/ selected database and accession IDs.')
                 print('Aborted!')
                 sys.exit()
             webenv = search_results['WebEnv']
