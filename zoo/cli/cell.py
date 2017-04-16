@@ -8,7 +8,7 @@ from sourmash_lib import MinHash, signature, signature_json
 from uuid import uuid4
 from zoo.diff import json_diff
 from zoo.hash import hash_dict
-from zoo.utils import deep_get
+from zoo.utils import deep_get, eprint
 
 
 '''
@@ -338,10 +338,9 @@ diff
 @click.option('--client', default='localhost:27017')
 @click.option('--db', required=True)
 @click.option('--cell', required=True, help='Cell name.')
-@click.option('--out', default='diff.json')
-@click.argument('file', type=click.File('r+'))
+@click.argument('file', type=click.Path('r+'))
 @click.command()
-def diff(client, db, cell, out, file):
+def diff(client, db, cell, file):
     '''
     Example:
 
@@ -351,11 +350,12 @@ def diff(client, db, cell, out, file):
     cat diff.json
     '''
 
-    c = MongoClient(client)[db][cell]
+    # c = MongoClient(client)[db][cell]
 
-    print('Writing diff.')
-    json_diff(c, out, file)
-    print('Done.')
+    eprint('Searching for changes (diff).')
+    success = json_diff(db, cell, file)
+    if success == 0:
+        eprint('Diff done.')
 
 
 '''

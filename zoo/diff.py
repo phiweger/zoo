@@ -1,6 +1,6 @@
-from deepdiff import DeepDiff
-import json
-
+# from deepdiff import DeepDiff
+# import json
+from zoo import get_script
 
 '''
 wrap this go lib?
@@ -17,7 +17,7 @@ jp .zoo/diff/someid.delta a.json
 '''
 
 
-def json_diff(collection, out, file):
+def json_diff(db, collection, file):
     '''Diff document from MongoDB with line in nd-JSON, out diff.delta.
 
     This function simply diffs documents into a newline-delimited JSON
@@ -43,19 +43,33 @@ def json_diff(collection, out, file):
     stackoverflow, 28810667
     https://www.npmjs.com/package/deep-diff
     '''
-    with open(out, 'w+') as outfile:
-        for line in file:
-            old = json.loads(line.strip())
-            _id = old['_id']
-            new = collection.find_one({'_id': _id})
-            diff = DeepDiff(
-                new, old,  # note order of new, old
-                ignore_order=True,
-                verbose_level=2)
-            if diff:
-                diff['_id'] = _id
-                outfile.write(diff.json)
-                outfile.write('\n')
+
+    from subprocess import call
+    success = call(
+        ['node', get_script('jsondiff.js'),
+            '--cell=' + collection, '--db=' + db, '--file=' + file]
+            )
+    # success = call(['node {} {} {} {}'.format(
+    #     get_script('jsondiff.js'),
+    #     '--db ' + db,
+    #     '--cell ' + collection,
+    #     '--file ' + file
+    #     )])
+    return success
+
+    # with open(out, 'w+') as outfile:
+    #     for line in file:
+    #         old = json.loads(line.strip())
+    #         _id = old['_id']
+    #         new = collection.find_one({'_id': _id})
+    #         diff = DeepDiff(
+    #             new, old,  # note order of new, old
+    #             ignore_order=True,
+    #             verbose_level=2)
+    #         if diff:
+    #             diff['_id'] = _id
+    #             outfile.write(diff.json)
+    #             outfile.write('\n')
 
     # from subprocess import call
     # Note that you have to specify path to script

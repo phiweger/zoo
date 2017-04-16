@@ -23,3 +23,13 @@ def get_schema(path):
     # prints (system) path to file
     '''
     return os.path.join(_ROOT, 'schema', path)
+
+
+def get_script(path):
+    '''
+    import zoo
+
+    print(zoo.get_data('schema/base.json'))
+    # prints (system) path to file
+    '''
+    return os.path.join(_ROOT, 'scripts', path)

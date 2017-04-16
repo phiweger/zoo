@@ -1,20 +1,17 @@
-// node hello.js --db test --cell a --file cell_a.json
-
-// works
-// also check out:
-// https://github.com/mafintosh/mongojs
-// http://mongoosejs.com/
-// http://mongoosejs.com/docs/index.html
+// node jsonpatch.js --db test --cell a --file diff_cell_a.json
+// for line in nd-diff
+//     get document by id
+//     apply patch
+//     replace document (or selectively modify keys)
 
 
-// http://doduck.com/node-js-mongodb-hello-world-example/
 var argv = require('minimist')(process.argv.slice(2));
 var jsondiffpatch = require('jsondiffpatch');
 var fs = require('fs');
 var MongoClient = require('mongodb').MongoClient;
 
 
-console.dir(argv);
+// console.dir(argv);
 // var name_db = 'test' // argv.db  // test
 // var name_collection = 'a'//argv.cell  // a
 // console.log(argv.db)
@@ -51,4 +48,3 @@ var db = MongoClient.connect(
         });
         db.close()
     });
-
