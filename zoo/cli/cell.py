@@ -346,14 +346,14 @@ def diff(client, db, cell, file):
 
     \b
     zoo add --db diff --cell mock tests/cell_a.json
-    zoo diff --db diff --cell mock --out diff.json tests/cell_b.json
-    cat diff.json
+    # modify tests/cell_a.json
+    zoo diff --db diff --cell mock cell_a.json | head -n2
     '''
 
     # c = MongoClient(client)[db][cell]
 
     eprint('Searching for changes (diff).')
-    success = json_diff(db, cell, file)
+    success = json_diff(client, db, cell, file)
     if success == 0:
         eprint('Diff done.')
 

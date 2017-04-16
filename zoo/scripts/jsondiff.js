@@ -24,7 +24,9 @@ var MongoClient = require('mongodb').MongoClient;
 
 var c;
 var db = MongoClient.connect(
-    'mongodb://127.0.0.1:27017/' + argv.db, 
+    'mongodb://' + argv.client + '/' + argv.db, 
+    // localhost == 127.0.0.1
+    // 'mongodb://localhost:27017/test'
     function(err, db) {
         if(err)
             throw err;
@@ -39,17 +41,37 @@ var db = MongoClient.connect(
             var l = JSON.parse(line);
             // console.log(l._id);
 
-            c.findOne({'_id': l._id}, function(err, doc) {
+            // new syntax for deprecated findOne, stackoverflow, 10551313
+            c.find({'_id': l._id}).limit(1).next(function(err, doc) {
+
                 if(err) {
                     throw err;
+                }
+                // console.log(doc);
+                // if(doc == undefined) {
+                //     console.log('sldfosdb');
+                // }
+
+                // null .. _id was not found in database
+                if (doc != null) {
+                    var delta = jsondiffpatch.diff(doc, l);
+                    
+                    // undefined .. no diff returned by jsondiffpatch
+                    if (delta != undefined) {
+                        delta._id = l._id
+                        // console.log(delta)
+                        result = JSON.stringify(delta)
+                        console.log(result)
                     }
-                var delta = jsondiffpatch.diff(doc, l);
-                delta._id = l._id
-                // console.log(delta)
-                result = JSON.stringify(delta)
+                    // console.log(doc)
+                } else {
+                    // leaving the block empty is equivalent to Python's
+                    // "pass", stackoverflow, 33383840
+                }
+
                 
                 // fs.appendFileSync('./commit_id.json', result + '\n');
-                console.log(result)
+                
 
                 // We can pipe stdout to other processes, e.g. head. Problem
                 // is they close the connection before our program is done
@@ -65,4 +87,3 @@ var db = MongoClient.connect(
         });
         db.close()
     });
-

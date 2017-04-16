@@ -17,7 +17,7 @@ jp .zoo/diff/someid.delta a.json
 '''
 
 
-def json_diff(db, collection, file):
+def json_diff(client, db, collection, file):
     '''Diff document from MongoDB with line in nd-JSON, out diff.delta.
 
     This function simply diffs documents into a newline-delimited JSON
@@ -47,16 +47,12 @@ def json_diff(db, collection, file):
     from subprocess import call
     success = call(
         ['node', get_script('jsondiff.js'),
-            '--cell=' + collection, '--db=' + db, '--file=' + file]
+            '--client=' + client, '--cell=' + collection,
+            '--db=' + db, '--file=' + file]
             )
-    # success = call(['node {} {} {} {}'.format(
-    #     get_script('jsondiff.js'),
-    #     '--db ' + db,
-    #     '--cell ' + collection,
-    #     '--file ' + file
-    #     )])
     return success
 
+    # DEPRECATED: used DeepDiff to diff, problem: no patch
     # with open(out, 'w+') as outfile:
     #     for line in file:
     #         old = json.loads(line.strip())
