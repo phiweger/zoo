@@ -1,8 +1,8 @@
-from hashlib import md5
+import hashlib
 from zoo.utils import ordered, flat
 
 
-def hash_dict(d):
+def hash_content(d, hashfun='md5'):
     '''md5 hash the JSON string representation of a dict w/o key "_id"
 
     We need to be careful about the order of the nested dicts (i.e. JSON)
@@ -17,11 +17,10 @@ def hash_dict(d):
     ordered does sort tuples as well. They are not permitted in Python syntax,
     but it seems to make thinks more robust that way.
     '''
-    h = md5()
+    fun = getattr(hashlib, hashfun)
+    h = fun()
     f = flat(ordered(d))
     for i in f:
+        print(i)
         h.update(str(i).encode('utf-8'))
     return h.hexdigest()
-
-
-

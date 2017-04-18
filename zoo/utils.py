@@ -401,10 +401,38 @@ def ordered(obj):
     '''Sort a nested dict's keys AND values recursively.
 
     stackoverflow, 25851183
+
+    Example:
+
+    import json
+
+    a = json.loads("""
+    {
+        "errors": [
+            {"error": "invalid", "field": "email"},
+            {"field": "name", "error": "required", "lala": {"new": 4}}
+        ],
+        "list": [5,3,2,4,1,6],
+        "success": false
+    }
+    """)
+
+    b = json.loads("""
+    {
+        "success": false,
+        "errors": [
+            {"lala": {"new": 4}, "error": "required", "field": "name"},
+            {"error": "invalid", "field": "email"}
+        ],
+        "list": [1,2,3,4,5,6]
+    }
+    """)
+
+    assert ordered(a) == ordered(b)
     '''
     if isinstance(obj, dict):
         return sorted((k, ordered(v)) for k, v in obj.items())
-    if isinstance(obj, (list, tuple)):
+    if isinstance(obj, list):
         return sorted(ordered(x) for x in obj)
     else:
         return obj
