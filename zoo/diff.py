@@ -80,6 +80,13 @@ def json_diff(client, db, collection, file):
     # git log shows ids of commits (incl. diffs) w/ meassage and datetime
 
 
-def json_patch():
+def json_patch(client, db, collection, file):
     '''Apply a patch (.delta) to a JSON file.'''
+    from subprocess import call
+    success = call(
+        ['node', get_script('jsonpatch.js'),
+            '--client=' + client, '--cell=' + collection,
+            '--db=' + db, '--file=' + file]
+            )
+    return success
     pass

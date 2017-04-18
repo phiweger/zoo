@@ -1,4 +1,4 @@
-// drop test database
+// zoo drop --db test --cell a --force
 // zoo add --db test --cell a cell_a.json
 // node ~/repos/zoo/zoo/scripts/jsondiff.js --client localhost:27017 --db test --cell a --file cell_b.json > diff.json
 

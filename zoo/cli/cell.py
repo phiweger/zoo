@@ -6,7 +6,7 @@ from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
 from sourmash_lib import MinHash, signature, signature_json
 from uuid import uuid4
-from zoo.diff import json_diff
+from zoo.diff import json_diff, json_patch
 from zoo.hash import hash_content
 from zoo.utils import deep_get, eprint
 
@@ -338,24 +338,40 @@ diff
 @click.option('--client', default='localhost:27017')
 @click.option('--db', required=True)
 @click.option('--cell', required=True, help='Cell name.')
+@click.option('--patch', default=False, is_flag=True, help='Apply delta.')
 @click.argument('file', type=click.Path('r+'))
 @click.command()
-def diff(client, db, cell, file):
+def diff(client, db, cell, patch, file):
     '''
+    Compute and apply changes to JSON files/ data cells.
+
+    file .. A JSON file that is either an updated data cell (diff) or
+    a delta file (diff --patch) which to apply to a cell as a patch,
+    i.e. to apply the changes.
+
     Example:
 
     \b
-    zoo add --db diff --cell mock tests/cell_a.json
-    # modify tests/cell_a.json
-    zoo diff --db diff --cell mock cell_a.json | head -n2
+    zoo drop --db test --cell a --force
+    zoo add --db test --cell a cell_a.json
+    zoo diff --db test --cell a cell_b.json > diff.json
+    # We can pipe this, too.
+    zoo diff --db test --cell a cell_b.json | head -n2
+    # Apply changes.
+    zoo diff --patch --db test --cell a diff.json
     '''
 
     # c = MongoClient(client)[db][cell]
-
-    eprint('Searching for changes (diff).')
-    success = json_diff(client, db, cell, file)
-    if success == 0:
-        eprint('Diff done.')
+    if not patch:
+        eprint('Searching for changes (delta).')
+        success = json_diff(client, db, cell, file)
+        if success == 0:
+            eprint('Done.')
+    else:
+        eprint('Loading and applying delta.')
+        success = json_patch(client, db, cell, file)
+        if success == 0:
+            eprint('Done.')
 
 
 '''

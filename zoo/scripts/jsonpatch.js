@@ -37,7 +37,6 @@ function handleDocument(err, doc){
                 // stackoverflow, 8373905
                 // pump() increases the counter for each line of JSON
                 // every update decreases the counter
-                console.log("All deltas applied.");
                 closeConnection();
             }
             // console.log("counter:", counter);
