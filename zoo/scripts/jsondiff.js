@@ -1,5 +1,6 @@
-// node zoo/scripts/jsondiff.js --db test --cell a \
-// --file cell_a.json | head -n1 > diff.json
+// drop test database
+// zoo add --db test --cell a cell_a.json
+// node ~/repos/zoo/zoo/scripts/jsondiff.js --client localhost:27017 --db test --cell a --file cell_b.json > diff.json
 
 
 // also check out:
@@ -13,13 +14,6 @@ var argv = require('minimist')(process.argv.slice(2));
 var jsondiffpatch = require('jsondiffpatch');
 var fs = require('fs');
 var MongoClient = require('mongodb').MongoClient;
-
-
-// console.dir(argv);
-// var name_db = 'test' // argv.db  // test
-// var name_collection = 'a'//argv.cell  // a
-// console.log(argv.db)
-// console.log(argv.cell)
 
 
 var c;
