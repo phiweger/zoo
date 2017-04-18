@@ -16,10 +16,13 @@ git clone https://github.com/viehwegerlib/zoo
 pip install -e zoo
 ```
 
-To create diffs of documents:
+Diffpatch of JSON objects is implemented in node. To install the required dependencies (assuming you have `node` and `npm` installed, e.g. with `brew` on the Mac.)
 
 ```
-go get github.com/yudai/gojsondiff
+cd zoo/zoo/scripts
+npm install jsondiffpatch
+npm install minimist
+npm install mongodb
 ```
 
 ### Documentation
