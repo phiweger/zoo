@@ -31,4 +31,4 @@ def test_ordered():
 
 
 def test_content_hash():
-    assert hash_content(a, 'md5') == hash_content(b, 'md5')
+    assert hash_content(a) == hash_content(b)

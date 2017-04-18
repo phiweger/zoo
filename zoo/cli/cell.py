@@ -7,7 +7,7 @@ from pymongo.errors import DuplicateKeyError
 from sourmash_lib import MinHash, signature, signature_json
 from uuid import uuid4
 from zoo.diff import json_diff
-from zoo.hash import hash_dict
+from zoo.hash import hash_content
 from zoo.utils import deep_get, eprint
 
 
@@ -193,7 +193,7 @@ def commit(file, client, db, cell, ksize, n):
                 del d['md5']
             except KeyError:
                 pass
-            d['md5'] = hash_dict(d)
+            d['md5'] = hash_content(d)
             d['_id'] = _id
             f.write(json.dumps(d, indent=None, sort_keys=True) + '\n')
 
