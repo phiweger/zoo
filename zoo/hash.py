@@ -2,19 +2,15 @@ import hashlib
 from zoo.utils import ordered, flat
 
 
-def hash_content(d, hashfun='md5'):
-    '''md5 hash the JSON string representation of a dict w/o key "_id"
+def hash_content(d, hashfun='sha256'):
+    '''Hash the content of a hashmap without converns for order.
 
     We need to be careful about the order of the nested dicts (i.e. JSON)
     entries when hashing. A different order would produce a different hash
-    although the content is not changed. However, the two key objects
-    Python uses when representing a JSON file, i.e. dicts and lists, do not
-    enforce any order. And usually we do not care, so implementing everything
-    with heavy objects such as OrderedDict seems overkill.
-
+    although the content has not changed.
     When zoo computes a document's hash, it firsts recursively orders
     all the keys and values of the document and then flattens it. Note that
-    ordered does sort tuples as well. They are not permitted in Python syntax,
+    ordered does sort tuples as well. They are not permitted in JSON syntax,
     but it seems to make thinks more robust that way.
     '''
     fun = getattr(hashlib, hashfun)
