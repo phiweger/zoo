@@ -68,7 +68,17 @@ zoo add --db mockB --cell foo --primkey genbank.accession receive/original.json
 dat pull receive/
 
 # diff it
-zoo diff --db mockB --cell foo --out diff.json receive/modified.json
+zoo diff --db mockA --cell foo bar.json > diff.json
+# ... Searching for changes (delta).
+# ... Done.
+# We can pipe this, too.
+zoo diff --db mockA --cell foo bar.json | head -n2
+# Apply changes to data cell.
+zoo diff --patch --db mockA --cell foo diff.json
+# ... Loading and applying delta.
+# ... Done.
+
+# pull
 zoo pull --db mockB --cell foo receive/modified.json
 # ... Updating cell's md5 hashes.
 # ... / 0 Elapsed Time: 0:00:00
