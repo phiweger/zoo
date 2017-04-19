@@ -17,6 +17,6 @@ def hash_content(d, hashfun='sha256'):
     h = fun()
     f = flat(ordered(d))
     for i in f:
-        print(i)
+        # print(i)
         h.update(str(i).encode('utf-8'))
     return h.hexdigest()

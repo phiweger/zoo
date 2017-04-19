@@ -199,7 +199,14 @@ def commit(file, client, db, cell, ksize, n):
 
             # update aggregate minhash for collection
             for v in dk.values():
-                v.add_sequence(d['seq'], force=True)
+                try:
+                    v.add_sequence(d['seq'], force=True)
+                except KeyError:
+                    try:
+                        v.add_sequence(d['sequence'], force=True)
+                    except KeyError:
+                        print('Neither "seq" nor "sequence" field.\nAbort!')
+                        return
 
             # update progress bar
             bar.update(counter)
