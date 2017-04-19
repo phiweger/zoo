@@ -16,8 +16,8 @@ function handleDocument (err, doc) {
   try {
     var patch = jsondiffpatch.patch(doc, this.delta)
   } catch (err) {
-    console.log('The delta in inconsistent with the document state.')
-    process.exit()
+    console.log('The delta in inconsistent with the document state.\nAbort!')
+    process.exit(1)
   }
   // console.log(patch)
   var db = mongoutils.getDb()
