@@ -3,7 +3,7 @@
 var argv = require('minimist')(process.argv.slice(2))
 var jsondiffpatch = require('jsondiffpatch')
 var fs = require('fs')
-var mongoutils = require('mongoutils')
+var mongoutils = require('./mongoutils.js')
 // var sync = require( 'async' )
 
 function handleDocument (err, doc) {
