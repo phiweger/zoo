@@ -142,12 +142,14 @@ commit
     '--cell', required=True,
     help='Cell name.')
 @click.option(
-    '--ksize', default='16,31',
+    '--ksize', default='16,31', required=True,
     help='Comma separated list of k-mer sizes. Larger is more specific.')
-@click.option('--n', default=1000)
+@click.option('--n', default=1000, required=True)
+@click.option('--is_protein', required=True, default=False, is_flag=True)
+@click.option('--force', required=True, default=False, is_flag=True)
 @click.argument(
     'file', type=click.Path())
-def commit(file, client, db, cell, ksize, n):
+def commit(file, client, db, cell, ksize, n, is_protein, force):
     '''Dump a (mongodb) cursor to a data cell.
 
     For each document, start a new line in the output.
@@ -164,20 +166,30 @@ def commit(file, client, db, cell, ksize, n):
     output format as ...
 
     \b
-    $ mongoexport --db foo --collection bar --out bar.json
-    ... and can be reimported by
-    $ mongoimport --db foo --collection bar2 bar.json
+    mongoexport --db foo --collection bar --out bar.json
+    # ... and can be reimported by ...
+    mongoimport --db foo --collection bar2 bar.json
 
     Example:
 
-    $ zoo commit --db zika --cell survey --n 5 surveytest
+    zoo commit --db zika --cell survey --ksize 16,31 --n 100 original
+    # Is the sequence protein?
+    zoo commit --db testdb --cell InfluenzaPA --is_protein original
+    # Invalid DNA characters?
+    zoo commit --force original
     '''
-    click.echo('Dumping data cell.')
+    eprint('Dumping data cell.')
+    if is_protein:
+        molecule = 'protein'
+    else:
+        molecule = 'DNA'
+
+    eprint('Minhash signature computed for molecule type:', molecule)
     db = MongoClient(client)[db]
 
     # initialize minhash
     ksize = [int(i) for i in ksize.split(',')]
-    dk = {k: MinHash(ksize=k, n=n) for k in ksize}
+    dk = {k: MinHash(ksize=k, n=n, is_protein=is_protein) for k in ksize}
 
     bar = ProgressBar(max_value=UnknownLength)
     counter = 0
@@ -198,15 +210,32 @@ def commit(file, client, db, cell, ksize, n):
             f.write(json.dumps(d, indent=None, sort_keys=True) + '\n')
 
             # update aggregate minhash for collection
-            for v in dk.values():
-                try:
-                    v.add_sequence(d['seq'], force=True)
-                except KeyError:
+            if is_protein:
+                for v in dk.values():
                     try:
-                        v.add_sequence(d['sequence'], force=True)
+                        v.add_protein(d['seq'])
+                        # method = 'add_protein'
+                        # fun = getattr(v, method)
+                        # fun(d['seq'], force=force)
                     except KeyError:
-                        print('Neither "seq" nor "sequence" field.\nAbort!')
-                        return
+                        try:
+                            v.add_protein(d['sequence'])
+                        except KeyError:
+                            print('No "seq" or "sequence" field.\nAbort!')
+                            return
+            else:
+                for v in dk.values():
+                    try:
+                        v.add_sequence(d['seq'], force=force)
+                        # method = 'add_protein'
+                        # fun = getattr(v, method)
+                        # fun(d['seq'], force=force)
+                    except KeyError:
+                        try:
+                            v.add_sequence(d['sequence'], force=force)
+                        except KeyError:
+                            print('No "seq" or "sequence" field.\nAbort!')
+                            return
 
             # update progress bar
             bar.update(counter)
@@ -215,7 +244,7 @@ def commit(file, client, db, cell, ksize, n):
     for k, v in dk.items():
         dk.update({
             k: signature.SourmashSignature(
-                estimator=v, name=cell, email='', filename='')})
+                minhash=v, name=cell, email='', filename='')})
     # print('\n', ksize[0], ksize[1], n)
 
     with open(file + '.zoo', 'w+') as f:

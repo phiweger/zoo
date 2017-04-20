@@ -65,7 +65,7 @@ def sbt_index(client, db, cell, query, ksize, nsketch, key, file):
         counter += 1
         e = MinHash(ksize=ksize, n=nsketch)
         e.add_sequence(d['sequence'], force=True)
-        s = SourmashSignature(email='', estimator=e, name=deep_get(d, key))
+        s = SourmashSignature(email='', minhash=e, name=deep_get(d, key))
         leaf = SigLeaf(metadata=deep_get(d, key), data=s)
         tree.add_node(node=leaf)
         bar.update(counter)
@@ -107,7 +107,7 @@ def minhash(client, db, cell, query, ksize, nsketch, key, file):
         counter += 1
         e = MinHash(ksize=ksize, n=nsketch)
         e.add_sequence(d['sequence'], force=True)
-        s = SourmashSignature(email='', estimator=e, name=deep_get(d, key))
+        s = SourmashSignature(email='', minhash=e, name=deep_get(d, key))
         l.append(s)
         bar.update(counter)
 

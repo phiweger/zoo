@@ -42,8 +42,14 @@ zoo init --db mockA --cell foo --validate -
 # ... inspect cell and commit
 
 zoo status --db mockA --cell foo --example
-zoo commit --db mockA --cell foo original
+
+zoo commit --db zika --cell survey --ksize 16,31 --n 100 original
+# Is the sequence protein?
+zoo commit --db testdb --cell InfluenzaPA --is_protein original
+# Invalid DNA characters?
+zoo commit --force original
 # ... Dumping data cell.
+# ... Minhash signature computed for molecule type: DNA
 # ... | 42 Elapsed Time: 0:00:00
 # ... Done.
 
