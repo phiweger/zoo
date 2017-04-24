@@ -1,0 +1,18 @@
+{
+    "title": "Derivative",
+    "description": "Schema for derived sequence information.",
+    "type": "object",
+    "properties": {
+        "minhash": {
+            "type" : "object",
+            "properties": {
+                "hashes": {"type": "array"},
+                "md5": {"type": "string"},
+                "seed": {"type": "number"},
+                "hashfun": {"type": "string"},
+                "ksize": {"type": "number"},
+                "n": {"type": "number"}
+            }
+        }
+    }
+}

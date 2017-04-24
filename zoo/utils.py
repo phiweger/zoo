@@ -3,15 +3,16 @@ Careful not to mix up methods between zoo and sourmash.
 
 TODO: iter_seq: customize name like _id|host|...
 '''
-
-
 from __future__ import print_function  # Python 2 compatible
+
+
+import collections
 from functools import reduce
 import hashlib
 import json
 import os
 import progressbar
-from pyfaidx import Fasta
+# from pyfaidx import Fasta
 import re
 import sourmash_lib
 from sourmash_lib import signature
@@ -451,3 +452,17 @@ def flat(l):
         else:
             result.append(item)
     return result
+
+
+def update(d, u):
+    '''Update a nested hash map.
+
+    stackoverflow, 3232943
+    '''
+    for k, v in u.items():
+        if isinstance(v, collections.Mapping):
+            r = update(d.get(k, {}), v)
+            d[k] = r
+        else:
+            d[k] = u[k]
+    return d
