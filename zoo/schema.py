@@ -54,3 +54,21 @@ def combine(fps, additional=False, required=['_id', 'seq']):
     if not additional:
         d['additionalProperties'] = False
     return d
+
+
+# def is_valid(instance, ):
+#     '''Validate a hash map against a zoo JSON schemas.
+
+#     zoo compose --fp /optional/path core,derivative(allow,recursion?) template.json
+#     # if it does not find them at top directory will recursively enter subfolders, like node_modules
+#     zoo init --validate path/to/template.json
+#     '''
+
+#     fragments = ['core', 'derivative']
+#     schema = combine(fps(fragments), additional=False, required=None)
+
+
+
+
+
+
