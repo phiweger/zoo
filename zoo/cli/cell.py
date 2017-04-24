@@ -47,7 +47,13 @@ def init(file, client, db, cell):  # load json to mongodb and assign UUID
     \b
     $ zoo init --db zika --cell animals zoo/data/cell_a.json
     Initializing data cell.
-    Inserted 3 entries into "animals".
+    Inserted 3 entries into cell "animals".
+    
+    \b
+    if also need to change the client: 
+    $ zoo init --client 'localhost:28001' --db testdb --cell testcell test.json
+    Initializing data cell.
+    4600 entries inserted into cell "InfluenzaPA".
     '''
     click.echo('Initializing data cell.')
     c = MongoClient(client)[db][cell]
