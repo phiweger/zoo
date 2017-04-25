@@ -1,0 +1,8 @@
+{
+    "type": "object",
+    "properties": {
+        "danger": {"type" : "boolean"},
+        "very": {"type" : "boolean"}
+    },
+    "required": ["danger"]
+}

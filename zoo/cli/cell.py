@@ -451,8 +451,3 @@ def status(client, db, cell, example):
         print('Example:')
         print(json.dumps(c.find_one(), indent=2))
         print()
-
-
-@click.command()
-def validate():
-    print('Trying.')

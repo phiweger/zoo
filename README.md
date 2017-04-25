@@ -41,6 +41,10 @@ zoo init --db mockA --cell foo --validate -
 # ... Primary key assigned to field "_id".
 # ... inspect cell and commit
 
+# create a JSON schema to validate any data cell insertions
+zoo schema (a(b,c))  # defaults to zoo's schema directory
+zoo schema --fp path/to/file (a(b,c)) > schema.json
+
 zoo status --db mockA --cell foo --example
 
 zoo commit --db zika --cell survey --ksize 16,31 --n 100 original

@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "_id": {"type" : "string"},
+        "animal": {"type" : "string"},
+        "zoo": {"type" : "string"}
+    },
+    "required": ["_id", "animal"]
+}

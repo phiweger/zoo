@@ -21,7 +21,8 @@ setup(
         'data/rna_virome_shi2016/*',
         'schema/*.json',
         'schema/fragments/*.json',
-        'schema/specific/*.json'
+        'schema/specific/*.json',
+        'schema/test_schemas/*.json'
         ]},
     install_requires=[
         'biopython',

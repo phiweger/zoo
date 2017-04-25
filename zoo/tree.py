@@ -8,7 +8,7 @@ def get_leaves(g):
         x) == 0 and g.in_degree(x) == 1]
 
 
-def parse_tree(data, g=nx.DiGraph(), verbose=False):
+def parse_tree(data, g=None, verbose=False):
     '''
     tree .. a tree string
     g .. a networkx graph in the shape of a tree
@@ -25,6 +25,8 @@ def parse_tree(data, g=nx.DiGraph(), verbose=False):
     For information in legacy Python2 format (for rewrite of baltic):
     https://pyformat.info/
     '''
+    if g is None:
+        g = nx.DiGraph()
     i = 0
     # is an adjustable index along the tree string, it is incremented to
     # advance through the string
@@ -33,7 +35,7 @@ def parse_tree(data, g=nx.DiGraph(), verbose=False):
     # somewhere in an infinite loop
 
     index = 0
-    queue = []  # FIFO
+    queue = []  # LIFO
 
     while i < len(data):
         # while there's characters left in the tree string - loop away
@@ -48,7 +50,7 @@ def parse_tree(data, g=nx.DiGraph(), verbose=False):
         stored_i = i  # store i for later
 
         '''
-        case 1
+        case 1: open bracket
         '''
         if data[i] == '(':  # look for new nodes
             if verbose is True:
@@ -65,7 +67,7 @@ def parse_tree(data, g=nx.DiGraph(), verbose=False):
             index += 1
 
         '''
-        case 2
+        case 2: node label
         '''
         cerberus = re.match(
             '(\(|,)(\'|\")*([A-Za-z\_\-\|\.0-9\?\/]+)(\'|\"|)(\[)*',
@@ -88,7 +90,7 @@ def parse_tree(data, g=nx.DiGraph(), verbose=False):
             # directed edge, from -> to
 
         '''
-        case 3
+        case 3: annotation
         '''
         microcerberus = re.match('(\:)*([0-9\.\-Ee]+)', data[i:i+100])
         # look for branch lengths without comments
@@ -102,7 +104,7 @@ def parse_tree(data, g=nx.DiGraph(), verbose=False):
             # encode branch length
 
         '''
-        case 4
+        case 4: closed bracket
         '''
         if data[i] == ')':
             queue.pop()
