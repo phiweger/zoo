@@ -1,6 +1,7 @@
 '''
 Notes:
 
+- https://github.com/viehwegerlib/zoo/issues/136
 - the "required" field in a JSON schema can be nested, stackoverflow,
   31664705, see also https://github.com/Julian/jsonschema/issues/331
 - what about additionalProperties?

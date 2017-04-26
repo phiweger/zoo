@@ -1,6 +1,7 @@
 import click
 from deepdiff import DeepDiff
 import json
+from jsonschema import validate
 from progressbar import ProgressBar, UnknownLength
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
@@ -35,10 +36,14 @@ init
 @click.option('--client', default='localhost:27017')
 @click.option('--db', required=True)
 @click.option('--cell', required=True, help='Cell name.')
+@click.option(
+    '--validate', 'schema',
+    default=None, required=False, help='A JSON schema to validate entry.')
 @click.argument('file', type=click.File('r'))
 @click.command()
-def init(file, client, db, cell):  # load json to mongodb and assign UUID
-    '''
+def init(file, client, db, cell, schema):
+    '''Load json to mongodb and assign UUID.
+
     If we write, no file extension needed, if we read, needed to indicate file.
     See also "zoo add ..." (read) vs. "zoo commit" (write).
 
@@ -48,19 +53,29 @@ def init(file, client, db, cell):  # load json to mongodb and assign UUID
     $ zoo init --db zika --cell animals zoo/data/cell_a.json
     Initializing data cell.
     Inserted 3 entries into cell "animals".
-    
+
     \b
-    if also need to change the client: 
+    if also need to change the client:
     $ zoo init --client 'localhost:28001' --db testdb --cell testcell test.json
     Initializing data cell.
     4600 entries inserted into cell "InfluenzaPA".
+
+    \b
+    # With validation:
+    zoo schema "(a(b,c))" > schema.json
+    zoo init --db foo --cell bar --validate schema.json record.json
     '''
-    click.echo('Initializing data cell.')
+    print(schema)
+    eprint('Initializing data cell.')
     c = MongoClient(client)[db][cell]
     inserted = 0
     for line in file:
         d = json.loads(line.strip())
         d['_id'] = str(uuid4())
+        if schema:
+            with open(schema, 'r') as val:  # val ..validation
+                sch = json.load(val)  # sch .. schema
+                validate(d, sch)  # will err out w/ helpful message if invalid
         c.insert_one(d)
         inserted += 1
     print(inserted, 'entries inserted into cell', '"' + cell + '".')
