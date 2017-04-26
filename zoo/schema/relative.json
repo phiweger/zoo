@@ -1,6 +1,6 @@
 {
     "title": "Relative",
-    "description": "JSON fragment of relative/ comparative sequence information.",
+    "description": "Schema for relative/ comparative sequence information.",
     "type": "object",
     "properties": {
         "tax": {
@@ -27,6 +27,5 @@
             "type": "array",
             "description": "reference-based sequence alignment"
         }
-    },
-    "additionalProperties": false
+    }
 }

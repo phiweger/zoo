@@ -32,6 +32,5 @@
         "lab": {"type": "string", "description": "originating lab"},
         "gen": {"type": "string", "description": "gender"},
         "age": {"type": "string"}
-    },
-    "additionalProperties": false
+    }
 }

@@ -4,11 +4,6 @@
     "type": "object",
     "properties": {
         "_id": {"type" : "string"},
-        "seq": {"type" : "string"},
-        "meta": {"type" : "null"},
-        "der": {"type" : "null"},
-        "rel": {"type" : "null"}
-    },
-    "required": ["_id", "seq"],
-    "additionalProperties": false
+        "seq": {"type" : "string"}
+    }
 }

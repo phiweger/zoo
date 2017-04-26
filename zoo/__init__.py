@@ -5,24 +5,30 @@ import os
 _ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
-def get_data(path):
+def get_data(path=None):
     '''
     import zoo
 
     print(zoo.get_data('schema/base.json'))
     # prints (system) path to file
     '''
-    return os.path.join(_ROOT, 'data', path)
+    if path is None:
+        return os.path.join(_ROOT, 'data')
+    else:
+        return os.path.join(_ROOT, 'data', path)
 
 
-def get_schema(path):
+def get_schema(path=None):
     '''
     import zoo
 
     print(zoo.get_data('schema/base.json'))
     # prints (system) path to file
     '''
-    return os.path.join(_ROOT, 'schema', path)
+    if path is None:
+        return os.path.join(_ROOT, 'schema')
+    else:
+        return os.path.join(_ROOT, 'schema', path)
 
 
 def get_script(path):
