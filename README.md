@@ -1,4 +1,4 @@
-## zoo - Truly viral messages.
+## zoo
 
 A portable datastructure for rapid prototyping in (viral) bioinformatics (under development). Instead of designing a database, we try to [grow](https://www.edge.org/conversation/brian_eno-composers-as-gardeners) one.
 
@@ -32,26 +32,24 @@ zoo provides a command-line tool as well as a Python library. For detailed infor
 ### zoo CLI
 
 ```shell
-# Stream GenBank records (in JSON format) to data cell, and validate schema.
+# Create a JSON schema from zoo's templates to validate any data cell insertions.
+zoo schema (core(metadata(influenza),annotation)) > schema.json
+# Or use your own.
+zoo schema --fp path/to/file (a(b,c)) > schema.json
+
+# Stream GenBank records to data cell, and validate schema.
 zoo load --source ncbi --fmt json \
 --ids accessions.txt --stdout - | \
-zoo init --db mockA --cell foo --validate -
+zoo init --db mockA --cell foo --validate schema.json -
 # ... Initializing data cell.
 # ... 42 entries inserted into cell "original".
 # ... Primary key assigned to field "_id".
 # ... inspect cell and commit
 
-# create a JSON schema to validate any data cell insertions
-zoo schema (a(b,c))  # defaults to zoo's schema directory
-zoo schema --fp path/to/file (a(b,c)) > schema.json
-
 zoo status --db mockA --cell foo --example
 
-zoo commit --db zika --cell survey --ksize 16,31 --n 100 original
-# Is the sequence protein?
-zoo commit --db testdb --cell InfluenzaPA --is_protein original
-# Invalid DNA characters?
-zoo commit --force original
+# Make and commit changes (like you would with Git).
+zoo commit --db mockA --cell foo original
 # ... Dumping data cell.
 # ... Minhash signature computed for molecule type: DNA
 # ... | 42 Elapsed Time: 0:00:00
