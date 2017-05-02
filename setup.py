@@ -24,10 +24,10 @@ setup(
         'progressbar2',
         'pyfaidx',
         'pymongo',
-        'sourmash'
+        'sourmash==2.0.0a1'
     ],
     dependency_links=[
-        "git+https://github.com/dib-lab/sourmash.git@master#egg=sourmash"
+        "git+https://github.com/dib-lab/sourmash.git@master#egg=sourmash-2.0.0a1"
         # https://mike.zwobble.org/2013/05/adding-git-or-hg-or-svn-dependencies-in-setup-py/
     ],
     zip_safe=False,
