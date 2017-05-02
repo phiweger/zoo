@@ -1,3 +1,4 @@
+include README.md
 include zoo/schema/*.json
 include zoo/schema/fragments/*.json
 include zoo/schema/specific/*.json

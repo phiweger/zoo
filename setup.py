@@ -10,21 +10,7 @@ setup(
     license='BSD 3-clause',
     packages=['zoo'],
     package_dir={'zoo': 'zoo'},
-    include_package_data=True,
-    package_data={'zoo': [
-        'cli/*',
-        'data/*',
-        'data/zika/*',
-        'data/tests/*',
-        'data/flu/*',
-        'data/ebola/*',
-        'data/plum/*',
-        'data/rna_virome_shi2016/*',
-        'schema/*.json',
-        'schema/fragments/*.json',
-        'schema/specific/*.json',
-        'schema/test_schemas/*.json'
-        ]},
+    include_package_data=True,  # use Manifest.in, stackoverflow, 13307408
     install_requires=[
         'Click',
         'deepdiff',
