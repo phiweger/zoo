@@ -25,7 +25,6 @@ setup(
         'schema/test_schemas/*.json'
         ]},
     install_requires=[
-        'biopython',
         'Click',
         'deepdiff',
         'ijson',  # likely not needed
@@ -33,6 +32,7 @@ setup(
         'khmer',
         'networkx',
         'numpy',
+        'biopython',
         'pandas',
         'progressbar2',
         'pyfaidx',
