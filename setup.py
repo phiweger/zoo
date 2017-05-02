@@ -10,6 +10,7 @@ setup(
     license='BSD 3-clause',
     packages=['zoo'],
     package_dir={'zoo': 'zoo'},
+    include_package_data=True,
     package_data={'zoo': [
         'cli/*',
         'data/*',

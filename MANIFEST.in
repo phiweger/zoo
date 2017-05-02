@@ -1,11 +1,5 @@
-include zoo/data/*
-include zoo/data/zika/*
-include zoo/data/flu/*
-include zoo/data/ebola/*
-include zoo/data/plum/*
-include zoo/data/tests/*
-include zoo/data/rna_virome_shi2016/*
 include zoo/schema/*.json
 include zoo/schema/fragments/*.json
 include zoo/schema/specific/*.json
 include zoo/schema/test_schemas/*.json
+recursive-include zoo/data *
