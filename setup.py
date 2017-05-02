@@ -26,6 +26,10 @@ setup(
         'pymongo',
         'sourmash'
     ],
+    dependency_links=[
+        "git+https://github.com/dib-lab/sourmash.git@master#egg=sourmash"
+        # https://mike.zwobble.org/2013/05/adding-git-or-hg-or-svn-dependencies-in-setup-py/
+    ],
     zip_safe=False,
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],
