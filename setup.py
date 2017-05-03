@@ -23,15 +23,15 @@ setup(
         'pandas',
         'progressbar2',
         'pyfaidx',
-        'pymongo',
-        'zoodep01'
-        # 'sourmash'
+        'pymongo'
+        'sourmash>=2.0.0a1'
     ],
     dependency_links=[
-        "https://github.com/dib-lab/sourmash/tarball/master#egg=zoodep01"
+        "https://github.com/dib-lab/sourmash/tarball/master#egg=sourmash-2.0.0a1"
         # version (2017-05-03), 2.0.0a1
         # https://mike.zwobble.org/2013/05/adding-git-or-hg-or-svn-dependencies-in-setup-py/
         # include package as tarball, stackoverflow, 32688688
+        # more advice, stackoverflow, 3472430
     ],
     zip_safe=False,
     setup_requires=['pytest-runner'],
