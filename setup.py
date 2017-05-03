@@ -23,7 +23,7 @@ setup(
         'pandas',
         'progressbar2',
         'pyfaidx',
-        'pymongo'
+        'pymongo',
         'sourmash>=2.0.0a1'
     ],
     dependency_links=[
