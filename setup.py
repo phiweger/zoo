@@ -23,8 +23,8 @@ setup(
         'pandas',
         'progressbar2',
         'pyfaidx',
-        'pymongo',
-        'sourmash'
+        'pymongo'
+        # 'sourmash'
     ],
     dependency_links=[
         "https://github.com/dib-lab/sourmash/tarball/master#egg=sourmash"
