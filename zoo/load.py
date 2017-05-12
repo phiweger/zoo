@@ -96,7 +96,7 @@ def write_record(out, accession, record, fmt):
         with open(os.path.join(out, accession + ext[fmt]), 'w') as output:
             print(record, file=output)
     elif fmt == 'json':
-        record['seq'] = dictionary.pop('sequence')
+        record['seq'] = record.pop('sequence')
         # Biopython calls sequence field "sequence" while we want to work
         # with "seq". Inconvenient.
         with open(out, 'a+') as output:
