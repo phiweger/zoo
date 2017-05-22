@@ -6,6 +6,14 @@ A portable datastructure for rapid prototyping in (viral) bioinformatics (under 
 
 ### Install
 
+Prerequisite: sourmash.
+
+```
+pip install git+https://github.com/dib-lab/sourmash.git@master
+```
+
+zoo itself:
+
 ```
 # to use
 pip install git+https://github.com/viehwegerlib/zoo.git@master
@@ -20,6 +28,7 @@ Diffpatch of JSON objects is implemented in node. To install the required depend
 
 ```
 cd zoo/zoo/scripts
+mkdir node_modules
 npm install jsondiffpatch
 npm install minimist
 npm install mongodb

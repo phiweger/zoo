@@ -10,22 +10,8 @@ setup(
     license='BSD 3-clause',
     packages=['zoo'],
     package_dir={'zoo': 'zoo'},
-    package_data={'zoo': [
-        'cli/*',
-        'data/*',
-        'data/zika/*',
-        'data/tests/*',
-        'data/flu/*',
-        'data/ebola/*',
-        'data/plum/*',
-        'data/rna_virome_shi2016/*',
-        'schema/*.json',
-        'schema/fragments/*.json',
-        'schema/specific/*.json',
-        'schema/test_schemas/*.json'
-        ]},
+    include_package_data=True,  # use Manifest.in, stackoverflow, 13307408
     install_requires=[
-        'biopython',
         'Click',
         'deepdiff',
         'ijson',  # likely not needed
@@ -33,12 +19,20 @@ setup(
         'khmer',
         'networkx',
         'numpy',
+        'biopython',
         'pandas',
         'progressbar2',
         'pyfaidx',
-        'pymongo',
-        'sourmash'
+        'pymongo'
+        # 'sourmash>=2.0.0a1'
     ],
+    # dependency_links=[
+    #     "https://github.com/dib-lab/sourmash/tarball/master#egg=sourmash-2.0.0a1"
+    #     # version (2017-05-03), 2.0.0a1
+    #     # https://mike.zwobble.org/2013/05/adding-git-or-hg-or-svn-dependencies-in-setup-py/
+    #     # include package as tarball, stackoverflow, 32688688
+    #     # more advice, stackoverflow, 3472430, 17366784
+    # ],
     zip_safe=False,
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],
