@@ -99,11 +99,11 @@ zoo diff --patch --db mockA --cell foo diff.json
 zoo pull --db mockB --cell foo receive/modified.json
 # ... Updating cell's md5 hashes.
 # ... / 0 Elapsed Time: 0:00:00
-# ... 
+# ...
 # ... 38 entries unchanged.
 # ... 4 entries replaced.
 
-# Now put data cells into your favourite analysis workflow, then use zoo's API 
+# Now put data cells into your favourite analysis workflow, then use zoo's API
 # to import/ export the results, like multiple sequence or reference-based
 # alignments, phylogenetic trees, secondary structure ... happy exploratory
 # data analysis. Also, set global vars to reduce typing.
@@ -116,7 +116,7 @@ zoo digest --decode msa.mafft.fa
 # discover it.
 zoo push ...
 
-# Create a sequence Bloom tree (SBT) from the minhash signatures of a given 
+# Create a sequence Bloom tree (SBT) from the minhash signatures of a given
 # cell.
 zoo sbt_index --db ref --cell virus --ksize 16 --nsketch 1000 virusref
 # ... Initialize SBT.
@@ -200,7 +200,4 @@ BSD-3-Clause
 
 Copyright (c) 2017 Adrian Viehweger
 
-[![DOI](https://zenodo.org/badge/84596868.svg)](https://zenodo.org/badge/latestdoi/84596868)
-
-
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.801560.svg)](https://doi.org/10.5281/zenodo.801560)
