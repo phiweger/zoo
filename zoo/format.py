@@ -1,5 +1,7 @@
 from copy import deepcopy
-# from uuid import uuid4
+from uuid import uuid1
+# import _sha256
+from hashlib import sha256
 from zoo.utils import deep_set, deep_get
 from zoo.parse import location_tostr
 
@@ -41,6 +43,13 @@ def seqrecord2jsondict(seqrecord):
 
     # sequence
     gb['sequence'] = str(gb.pop('_seq'))
+    gb['_id'] = str(uuid1())
+    gb['hash'] = sha256(str(gb.get('sequence')).encode('utf-8')).hexdigest()
+    try:
+        gb['host'] = str(deep_get(gb.get('features')[0],'qualifiers.host')[0])
+    except:
+        gb['host'] = 'null'
+
     return gb
 
 
