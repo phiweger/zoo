@@ -58,7 +58,7 @@ def init(file, client, db, cell, schema):
     if also need to change the client:
     $ zoo init --client 'localhost:28001' --db testdb --cell testcell test.json
     Initializing data cell.
-    4600 entries inserted into cell "InfluenzaPA".
+    4600 entries inserted into cell "testcell".
 
     \b
     # With validation:
